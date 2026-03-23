@@ -1,0 +1,16 @@
+/* 打赏二维码：去掉边框，保持原图比例 */
+.reward-img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 9rem;
+    max-height: 12rem;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.post-qr-code-img {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}

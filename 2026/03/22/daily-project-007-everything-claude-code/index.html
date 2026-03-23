@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GitHub: affaan-m&#x2F;everything-claude-code · Stars: 96k+ · TypeScript  项目概览everything-claude-code 是一个围绕 Anthropic Claude Code 打造的性能优化与功能扩展工具集，由多个协同工作的 npm 包组成。其核心理念是：为 AI Agent 开发者提供从开发、调试到安全防护的全流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/22/daily-project-007-everything-claude-code/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="GitHub: affaan-m&#x2F;everything-claude-code · Stars: 96k+ · TypeScript  项目概览everything-claude-code 是一个围绕 Anthropic Claude Code 打造的性能优化与功能扩展工具集，由多个协同工作的 npm 包组成。其核心理念是：为 AI Agent 开发者提供从开发、调试到安全防护的全流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-22T09:15:00.000Z">
+<meta property="article:modified_time" content="2026-03-22T10:05:00.000Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="Agent优化">
+<meta property="article:tag" content="Claude Code">
+<meta property="article:tag" content="开发效率">
+<meta property="article:tag" content="性能调优">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶",
+  "url": "https://jollyfly.github.io/2026/03/22/daily-project-007-everything-claude-code/",
+  "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80",
+  "datePublished": "2026-03-22T09:15:00.000Z",
+  "dateModified": "2026-03-22T10:05:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/22/daily-project-007-everything-claude-code/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-22T10:05:00.000Z" title="更新于 2026-03-22 18:05:00">2026-03-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">AI开发工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>GitHub: <a target="_blank" rel="noopener" href="https://github.com/affaan-m/everything-claude-code">affaan-m&#x2F;everything-claude-code</a> · Stars: 96k+ · TypeScript</p>
+</blockquote>
+<h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><p><code>everything-claude-code</code> 是一个围绕 Anthropic Claude Code 打造的<strong>性能优化与功能扩展工具集</strong>，由多个协同工作的 npm 包组成。其核心理念是：为 AI Agent 开发者提供从开发、调试到安全防护的全流程基础设施。当前 GitHub _star 数已突破 <strong>96k</strong>，成为 Claude Code 生态中最受欢迎的工具集合之一。</p>
+<p>该项目的作者 <code>affaan-m</code> 采用<strong>模块化多包架构</strong>，将功能拆分为独立 npm 包（<code>ecc-universal</code>、<code>ecc-agentshield</code> 等），开发者可以按需引入，避免引入不必要的依赖。</p>
+<hr>
+<h2 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h2><h3 id="1-Skills-模块-—-可复用的-Agent-技能库"><a href="#1-Skills-模块-—-可复用的-Agent-技能库" class="headerlink" title="1. Skills 模块 — 可复用的 Agent 技能库"></a>1. Skills 模块 — 可复用的 Agent 技能库</h3><p>Skills 是 <code>everything-claude-code</code> 提供的<strong>可组合技能单元</strong>，每个 Skill 代表一个特定能力（如文件搜索、代码重构、API 调用）。Skills 的设计借鉴了 LLM Agent 中的 “Tool Use” 范式，但更进一步：</p>
+<ul>
+<li><strong>声明式定义</strong>：通过配置文件定义 Skill 的输入&#x2F;输出契约</li>
+<li><strong>链式调用</strong>：多个 Skills 可按依赖关系组成执行链</li>
+<li><strong>跨会话记忆</strong>：Skills 的执行结果可持久化到 Memory 模块，供后续调用</li>
+</ul>
+<p>典型使用场景：让 Claude Code 在处理 PR 时自动触发 <code>review-skill</code> → <code>test-skill</code> → <code>merge-skill</code> 的完整流水线。</p>
+<h3 id="2-Instincts-模块-—-行为模式引擎"><a href="#2-Instincts-模块-—-行为模式引擎" class="headerlink" title="2. Instincts 模块 — 行为模式引擎"></a>2. Instincts 模块 — 行为模式引擎</h3><p>Instincts 是项目的<strong>自适应决策引擎</strong>，它在 Agent 运行时不干预主流程，而是在后台监听关键事件并触发预设反应。可以理解为 “Agent 的条件反射”：</p>
+<ul>
+<li><strong>阈值触发</strong>：当某指标（Token 消耗、错误率）超过设定值时自动执行补救动作</li>
+<li><strong>Fallback 策略</strong>：主路径失败时自动切换到备用方案</li>
+<li><strong>自我调优</strong>：根据历史执行数据动态调整触发阈值</li>
+</ul>
+<h3 id="3-Memory-模块-—-持久化上下文管理"><a href="#3-Memory-模块-—-持久化上下文管理" class="headerlink" title="3. Memory 模块 — 持久化上下文管理"></a>3. Memory 模块 — 持久化上下文管理</h3><p>Agent 的上下文窗口是稀缺资源。Memory 模块通过<strong>增量式记忆系统</strong>解决这一问题：</p>
+<ul>
+<li><strong>层次化存储</strong>：热数据（当前任务）放内存，温数据（最近任务）放 Redis，冷数据（历史经验）放 PostgreSQL</li>
+<li><strong>主动遗忘</strong>：基于重要性评分自动淘汰低价值记忆</li>
+<li><strong>上下文压缩</strong>：将长对话历史压缩为语义摘要，减少 Token 消耗</li>
+</ul>
+<h3 id="4-Security-模块（ecc-agentshield）—-Agent-安全护盾"><a href="#4-Security-模块（ecc-agentshield）—-Agent-安全护盾" class="headerlink" title="4. Security 模块（ecc-agentshield）— Agent 安全护盾"></a>4. Security 模块（<code>ecc-agentshield</code>）— Agent 安全护盾</h3><p><code>ecc-agentshield</code> 是专门针对 Agent 安全威胁的防护包，核心能力包括：</p>
+<table>
+<thead>
+<tr>
+<th>威胁类型</th>
+<th>防护机制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prompt 注入</td>
+<td>输入净化 + 恶意模式检测</td>
+</tr>
+<tr>
+<td>数据泄露</td>
+<td>敏感信息自动遮蔽（API Key、Token 等）</td>
+</tr>
+<tr>
+<td>权限提升</td>
+<td>操作权限边界校验</td>
+</tr>
+<tr>
+<td>资源耗尽</td>
+<td>执行时间&#x2F;循环次数硬限制</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    everything-claude-code                    │</span><br><span class="line">├──────────────┬──────────────┬──────────────┬────────────────┤</span><br><span class="line">│   Skills     │  Instincts   │   Memory     │  Security      │</span><br><span class="line">│  (ecc-skill) │(ecc-instinct)│ (ecc-memory) │(ecc-agentshield)│</span><br><span class="line">├──────────────┴──────────────┴──────────────┴────────────────┤</span><br><span class="line">│                      ecc-universal (核心运行时)               │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│                  Claude Code Plugin Interface               │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键设计哲学</strong>：</p>
+<ol>
+<li><strong>插件化而非框架化</strong>：<code>everything-claude-code</code> 不绑架用户架构，每个包独立运作，通过标准接口通信</li>
+<li><strong>TypeScript First</strong>：全链路 TypeScript 编写，提供完整的类型提示和泛型支持</li>
+<li><strong>零外部依赖核心</strong>：核心包不依赖任何运行时，只有边界适配层引入必要依赖</li>
+<li><strong>事件驱动</strong>：模块间通过统一事件总线通信（类似 Node.js 的 <code>EventEmitter</code>），避免直接耦合</li>
+</ol>
+<hr>
+<h2 id="源码解析：核心机制"><a href="#源码解析：核心机制" class="headerlink" title="源码解析：核心机制"></a>源码解析：核心机制</h2><h3 id="ECC-Universal-核心运行时"><a href="#ECC-Universal-核心运行时" class="headerlink" title="ECC Universal 核心运行时"></a>ECC Universal 核心运行时</h3><p><code>ecc-universal</code> 的核心是一个<strong>任务调度器</strong>，负责解析 Skills 定义并管理执行生命周期：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码：调度器核心逻辑</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TaskScheduler</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">skills</span>: <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="title class_">Skill</span>&gt;;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">instinctEngine</span>: <span class="title class_">InstinctEngine</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">execute</span>(<span class="attr">task</span>: <span class="title class_">Task</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Result</span>&gt; &#123;</span><br><span class="line">    <span class="comment">// 1. 解析任务依赖图</span></span><br><span class="line">    <span class="keyword">const</span> dag = <span class="variable language_">this</span>.<span class="title function_">buildDAG</span>(task);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. Instincts 前置检查</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> instinct <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">instinctEngine</span>.<span class="title function_">getPreconditions</span>(task)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!(<span class="keyword">await</span> instinct.<span class="title function_">validate</span>())) &#123;</span><br><span class="line">        <span class="keyword">await</span> instinct.<span class="title function_">executeFallback</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 拓扑排序执行</span></span><br><span class="line">    <span class="keyword">const</span> sorted = <span class="title function_">topologicalSort</span>(dag);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> node <span class="keyword">of</span> sorted) &#123;</span><br><span class="line">      <span class="keyword">const</span> skill = <span class="variable language_">this</span>.<span class="property">skills</span>.<span class="title function_">get</span>(node.<span class="property">name</span>);</span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> skill.<span class="title function_">execute</span>(node.<span class="property">input</span>);</span><br><span class="line">      <span class="comment">// 4. 结果写入 Memory</span></span><br><span class="line">      <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">memory</span>.<span class="title function_">store</span>(node.<span class="property">name</span>, result);</span><br><span class="line">      <span class="comment">// 5. Instincts 后置检查</span></span><br><span class="line">      <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">instinctEngine</span>.<span class="title function_">evaluate</span>(node, result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">aggregateResults</span>(sorted);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ecc-agentshield-安全检查链"><a href="#ecc-agentshield-安全检查链" class="headerlink" title="ecc-agentshield 安全检查链"></a>ecc-agentshield 安全检查链</h3><p><code>ecc-agentshield</code> 使用<strong>责任链模式</strong>串联多个安全检查器：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查器链</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SecurityChain</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">handlers</span>: <span class="title class_">SecurityHandler</span>[] = [</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">PromptInjectionHandler</span>(),    <span class="comment">// Prompt 注入检测</span></span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">SensitiveDataMasker</span>(),        <span class="comment">// 敏感信息遮蔽</span></span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">PermissionValidator</span>(),       <span class="comment">// 权限校验</span></span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">ResourceLimiter</span>(),           <span class="comment">// 资源限制</span></span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">check</span>(<span class="attr">context</span>: <span class="title class_">AgentContext</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">CheckResult</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> handler <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">handlers</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> handler.<span class="title function_">handle</span>(context);</span><br><span class="line">      <span class="keyword">if</span> (result.<span class="property">blocked</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">logSecurityEvent</span>(result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">allowed</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种链式设计使得<strong>新增检查项完全不影响现有逻辑</strong>，只需在链尾追加新的 Handler。</p>
+<hr>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>为什么适合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>复杂多步骤 Agent 开发</strong></td>
+<td>Skills 链式调用覆盖完整业务流程</td>
+</tr>
+<tr>
+<td><strong>生产环境 AI 应用</strong></td>
+<td>Security 模块防止 Prompt 注入和数据泄露</td>
+</tr>
+<tr>
+<td><strong>长期运行 Agent</strong></td>
+<td>Memory 模块解决上下文窗口不足问题</td>
+</tr>
+<tr>
+<td><strong>高可靠性要求的自动化</strong></td>
+<td>Instincts 提供自动故障恢复能力</td>
+</tr>
+<tr>
+<td><strong>Claude Code 深度定制</strong></td>
+<td>与 Claude Code Plugin API 无缝集成</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h2><ol>
+<li><strong>学习曲线较陡</strong>：四个模块各有一套概念体系，初次上手需要理解 Skill&#x2F;Instinct&#x2F;Memory 的协作关系</li>
+<li><strong>过度工程化风险</strong>：对于简单场景（如单次脚本执行），引入整套工具集是杀鸡用牛刀</li>
+<li><strong>Claude Code 版本强耦合</strong>：依赖 Claude Code Plugin API，当 Claude Code 升级时可能需要同步更新</li>
+<li><strong>文档碎片化</strong>：目前文档分散在各个包的 README 中，缺乏统一的架构说明文档</li>
+<li><strong>生产案例较少</strong>：虽然 Star 数很高，但公开的生产级案例和最佳实践相对匮乏</li>
+</ol>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，内容基于 GitHub 热门项目技术分析。</em></p>
+<p><code>everything-claude-code</code> 是当前 Claude Code 生态中<strong>功能最全面</strong>的工具集，96k+ 的 Star 数量印证了其社区认可度。其模块化设计使得开发者可以按需引入——从单独使用 <code>ecc-agentshield</code> 做安全防护，到全套Skills&#x2F;Instincts&#x2F;Memory 构建完整 Agent 平台。</p>
+<p>如果你正在基于 Claude Code 构建生产级 Agent 应用，这是一个值得投入时间研究的工具集。建议从 <code>ecc-universal</code> 的核心示例入手，理解其任务调度模型后再逐步引入其他模块。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/22/daily-project-007-everything-claude-code/">https://jollyfly.github.io/2026/03/22/daily-project-007-everything-claude-code/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Claude-Code/">Claude Code</a><a class="post-meta__tags" href="/tags/Agent%E4%BC%98%E5%8C%96/">Agent优化</a><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">性能调优</a><a class="post-meta__tags" href="/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/">开发效率</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"><img class="cover" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然</div></div><div class="info-2"><div class="info-item-1"> GitHub: jarrodwatts&#x2F;claude-hud · Stars: 11k+ · TypeScript  项目概览claude-hud 是由开发者 jarrodwatts 打造的 Claude Code 实时状态插件，通过 Claude Code Plugin API 将一个信息丰富的 HUD（抬头显示） 直接集成到 Claude Code 的工作界面中。11k+ Star 的关注度证明了社区对 “可观测性” 的强烈需求——当 Agent 在后台默默执行任务时，开发者需要一双眼睛看清它在做什么。 该插件的核心理念是：让 Agent 的思考过程可见。传统调试模式下，开发者只能等待 Agent 完成后再从输出日志中回溯问题；而 claude-hud 让你在 Agent 运行过程中实时掌握 Context 使用量、工具调用频率、Agent 思维链状态等关键指标。  核心特性1. Context 使用量实时监控Claude Code 的上下文窗口是有限资源，claude-hud 在 statusLine 区域每秒刷新一次 Context 使用统计： 1[Conte...</div></div></div></a><a class="pagination-related" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器"><img class="cover" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">browser-use: 让 AI Agent 操控浏览器的开源利器</div></div><div class="info-2"><div class="info-item-1"> 当 AI Agent 能像人一样操作浏览器，自动化测试、网页数据采集、智能填表将彻底改写游戏规则。  项目概览browser-use&#x2F;browser-use 是一款将大语言模型（LLM）与浏览器自动化深度融合的开源框架，GitHub 斩获 36k+ stars。它的核心理念是：让 AI  agent 通过自然语言指令直接操控浏览器，无需人类干预即可完成复杂的多步骤网页任务。 从数据抓取、自动化测试，到 AI 驱动的在线操作，browser-use 正在重新定义”浏览器自动化”的边界。 核心特性1. 自然语言驱动的浏览器控制传统的 Selenium&#x2F;Playwright 需要工程师手写精确的 DOM 定位器（CSS Selector、XPath），browser-use 则将这一步交给 LLM。开发者只需描述目标： 1&quot;帮我登录 GitHub，搜索 browser-use 仓库，然后 star 它&quot;  Agent 会自动完成：打开浏览器 → 导航到 GitHub → 输入凭据 → 执行搜索 → 点击 star。LLM 理解页面结构，自主决策...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"><img class="cover" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-22</div><div class="info-item-2">claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然</div></div><div class="info-2"><div class="info-item-1"> GitHub: jarrodwatts&#x2F;claude-hud · Stars: 11k+ · TypeScript  项目概览claude-hud 是由开发者 jarrodwatts 打造的 Claude Code 实时状态插件，通过 Claude Code Plugin API 将一个信息丰富的 HUD（抬头显示） 直接集成到 Claude Code 的工作界面中。11k+ Star 的关注度证明了社区对 “可观测性” 的强烈需求——当 Agent 在后台默默执行任务时，开发者需要一双眼睛看清它在做什么。 该插件的核心理念是：让 Agent 的思考过程可见。传统调试模式下，开发者只能等待 Agent 完成后再从输出日志中回溯问题；而 claude-hud 让你在 Agent 运行过程中实时掌握 Context 使用量、工具调用频率、Agent 思维链状态等关键指标。  核心特性1. Context 使用量实时监控Claude Code 的上下文窗口是有限资源，claude-hud 在 statusLine 区域每秒刷新一次 Context 使用统计： 1[Conte...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">核心特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Skills-%E6%A8%A1%E5%9D%97-%E2%80%94-%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84-Agent-%E6%8A%80%E8%83%BD%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">1. Skills 模块 — 可复用的 Agent 技能库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Instincts-%E6%A8%A1%E5%9D%97-%E2%80%94-%E8%A1%8C%E4%B8%BA%E6%A8%A1%E5%BC%8F%E5%BC%95%E6%93%8E"><span class="toc-number">2.2.</span> <span class="toc-text">2. Instincts 模块 — 行为模式引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Memory-%E6%A8%A1%E5%9D%97-%E2%80%94-%E6%8C%81%E4%B9%85%E5%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86"><span class="toc-number">2.3.</span> <span class="toc-text">3. Memory 模块 — 持久化上下文管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Security-%E6%A8%A1%E5%9D%97%EF%BC%88ecc-agentshield%EF%BC%89%E2%80%94-Agent-%E5%AE%89%E5%85%A8%E6%8A%A4%E7%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">4. Security 模块（ecc-agentshield）— Agent 安全护盾</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">技术架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%9A%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="toc-number">4.</span> <span class="toc-text">源码解析：核心机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ECC-Universal-%E6%A0%B8%E5%BF%83%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="toc-number">4.1.</span> <span class="toc-text">ECC Universal 核心运行时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ecc-agentshield-%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E9%93%BE"><span class="toc-number">4.2.</span> <span class="toc-text">ecc-agentshield 安全检查链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">适用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">6.</span> <span class="toc-text">局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="browser-use: 让 AI Agent 操控浏览器的开源利器"/></a><div class="content"><a class="title" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器">browser-use: 让 AI Agent 操控浏览器的开源利器</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/daily-project-007-everything-claude-code/" title="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶"/></a><div class="content"><a class="title" href="/2026/03/22/daily-project-007-everything-claude-code/" title="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶">everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"/></a><div class="content"><a class="title" href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然">claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/daily-project-009-lightrag/" title="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎"/></a><div class="content"><a class="title" href="/2026/03/22/daily-project-009-lightrag/" title="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎">LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/daily-project-04-project-nomad/" title="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器"/></a><div class="content"><a class="title" href="/2026/03/22/daily-project-04-project-nomad/" title="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器">Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '5d4a80fc40850f6b9bfb18dabf179e70'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
