@@ -150,15 +150,14 @@
   isHighlightShrink: false,
   isToc: false,
   pageType: 'home'
-}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">jolly的博客</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img class="post-bg" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列以「题目描述 → 分类标签 → 初步思路（暴力） → 画图演示（mermaid） → 优化过程 → 最优解 → Java 实现代码 → 复杂度分析」八段式结构，深入剖析 LeetCode 高频面试算法题。本文为第四篇，涵盖第 16-20 题，主题聚焦于堆、图论与高级数据结构的综合运用。   题目十六：合并 K 个有序链表（LeetCode 23）题目描述 给定 K 个有序链表，将其合并为一个有序链表，返回头结点。  示例： 12输入：lists = [[1,4,5],[1,3,4],[2,6]]输出：1 → 1 → 2 → 3 → 4 → 4 → 5 → 6  分类标签堆 优先队列 链表 分治 归并 初步思路（暴力）依次遍历 K 条链表的所有节点，将值全部存入数组，排序后重新构建链表。 123456789101112131415161718// 暴力法：O(N log N)，N 为总节点数public ListNode mergeKLists暴力(ListNode[] lists) &#123;    List&lt;Integer&gt; vals = new Arra...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img class="post-bg" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列文章聚焦 LeetCode 高频面试题，以「题目描述 → 分类标签 → 初步思路 → 画图演示 → 优化过程 → 最优解 → Java 实现 → 复杂度分析」的闭环结构，透彻剖析每类题型的解题套路。第 11-15 题涵盖回溯、动态规划与经典经典技巧。   题目十一：最长回文子串（LeetCode 5）题目描述 给你一个字符串 s，找到 s 中最长的回文子串。 示例： 12345输入：s = &quot;babad&quot;输出：&quot;bab&quot; 或 &quot;aba&quot;（两者皆可）输入：s = &quot;cbbd&quot;输出：&quot;bb&quot; 分类标签   维度 标签    算法 中心扩展、动态规划   难度 中等   数据结构 字符串   关联 Manacher 算法（线性最优）   初步思路（暴力枚举）思路： 枚举所有子串，判断是否回文，取最长。 123456789101112131415161718192021// 暴力解法 O(n³)public String longestPalindrome(String s) &#...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找"><img class="post-bg" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析② | 链表、栈、二分查找"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找">算法剖析② | 链表、栈、二分查找</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T02:00:00.000Z" title="发表于 2026-03-23 10:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列聚焦 LeetCode 高频题目，从分类标签 → 初步思路 → 画图演示 → 优化过程 → 最优解 → Java 实现 → 复杂度分析七个维度庖丁解牛。六到十题涵盖链表模拟、快慢指针、二分查找变形三大核心主题。   题目六：两数相加（LeetCode 2）题目描述 给你两个非空链表，表示两个非负整数。数字按逆序存储，每个节点一位。将其相加并返回一个新的链表。 示例：l1 = [2,4,3]，l2 = [5,6,4] → 返回 [7,0,8]（即 342 + 465 &#x3D; 807）  分类标签   维度 标签    数据结构 链表   算法思想 模拟、数学   难度 中等   初步思路（暴力）思路 1：转整数再相加（会溢出） 12341. 遍历 l1 → 转成整数 3422. 遍历 l2 → 转成整数 4653. sum = 342 + 465 = 8074. 807 转成逆序链表 [7,0,8]  ⚠️ 问题：整数可能超出 long 范围（如链表长度 50+），直接崩溃。 思路 2：按位模拟（正确思路的雏形） 逐节点相加，记录进位，生成新节点。 画图演示：进位传播...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"><img class="post-bg" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针">算法剖析① | 哈希、滑动窗口、LRU、排序及双指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T01:00:00.000Z" title="发表于 2026-03-23 09:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列聚焦 LeetCode 高频面试题，从暴力解出发，逐步推导最优解，配合算法执行图解与 Java 实现，帮你彻底吃透每道题的思路。   题目一：两数之和（LeetCode 1）题目描述 给定一个整数数组 nums 和一个整数 target，请你在该数组中找出和为目标值 target 的两个整数的下标，并返回它们的数组下标。你可以假设每种输入只会对应一个答案，且同样的元素不能被重复利用。  示例： 123输入：nums = [2, 7, 11, 15]，target = 9输出：[0, 1]解释：nums[0] + nums[1] = 2 + 7 = 9  分类标签数组 哈希表 初步思路（暴力解）两层 for 循环，枚举所有 (i, j) 配对，检查 nums[i] + nums[j] == target。 代码实现： 1234567891011// 暴力解：O(n²) 时间复杂度public int[] twoSum_brute(int[] nums, int target) &#123;    for (int i = 0; i &lt; nums.length; i++...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器"><img class="post-bg" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="browser-use: 让 AI Agent 操控浏览器的开源利器"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器">browser-use: 让 AI Agent 操控浏览器的开源利器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI-Agent/">AI Agent</a></span></div><div class="content"> 当 AI Agent 能像人一样操作浏览器，自动化测试、网页数据采集、智能填表将彻底改写游戏规则。  项目概览browser-use&#x2F;browser-use 是一款将大语言模型（LLM）与浏览器自动化深度融合的开源框架，GitHub 斩获 36k+ stars。它的核心理念是：让 AI  agent 通过自然语言指令直接操控浏览器，无需人类干预即可完成复杂的多步骤网页任务。 从数据抓取、自动化测试，到 AI 驱动的在线操作，browser-use 正在重新定义”浏览器自动化”的边界。 核心特性1. 自然语言驱动的浏览器控制传统的 Selenium&#x2F;Playwright 需要工程师手写精确的 DOM 定位器（CSS Selector、XPath），browser-use 则将这一步交给 LLM。开发者只需描述目标： 1&quot;帮我登录 GitHub，搜索 browser-use 仓库，然后 star 它&quot;  Agent 会自动完成：打开浏览器 → 导航到 GitHub → 输入凭据 → 执行搜索 → 点击 star。LLM 理解页面结构，自主决策...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/22/daily-project-007-everything-claude-code/" title="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶"><img class="post-bg" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/daily-project-007-everything-claude-code/" title="everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶">everything-claude-code: 96k+ Star 的 Claude Code 性能优化全家桶</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">AI开发工具</a></span></div><div class="content"> GitHub: affaan-m&#x2F;everything-claude-code · Stars: 96k+ · TypeScript  项目概览everything-claude-code 是一个围绕 Anthropic Claude Code 打造的性能优化与功能扩展工具集，由多个协同工作的 npm 包组成。其核心理念是：为 AI Agent 开发者提供从开发、调试到安全防护的全流程基础设施。当前 GitHub _star 数已突破 96k，成为 Claude Code 生态中最受欢迎的工具集合之一。 该项目的作者 affaan-m 采用模块化多包架构，将功能拆分为独立 npm 包（ecc-universal、ecc-agentshield 等），开发者可以按需引入，避免引入不必要的依赖。  核心特性1. Skills 模块 — 可复用的 Agent 技能库Skills 是 everything-claude-code 提供的可组合技能单元，每个 Skill 代表一个特定能力（如文件搜索、代码重构、API 调用）。Skills 的设计借鉴了 LLM Agent 中的...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"><img class="post-bg" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/daily-project-008-claude-hud/" title="claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然">claude-hud: Claude Code 实时仪表盘，Agent 运行状态一目了然</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">AI开发工具</a></span></div><div class="content"> GitHub: jarrodwatts&#x2F;claude-hud · Stars: 11k+ · TypeScript  项目概览claude-hud 是由开发者 jarrodwatts 打造的 Claude Code 实时状态插件，通过 Claude Code Plugin API 将一个信息丰富的 HUD（抬头显示） 直接集成到 Claude Code 的工作界面中。11k+ Star 的关注度证明了社区对 “可观测性” 的强烈需求——当 Agent 在后台默默执行任务时，开发者需要一双眼睛看清它在做什么。 该插件的核心理念是：让 Agent 的思考过程可见。传统调试模式下，开发者只能等待 Agent 完成后再从输出日志中回溯问题；而 claude-hud 让你在 Agent 运行过程中实时掌握 Context 使用量、工具调用频率、Agent 思维链状态等关键指标。  核心特性1. Context 使用量实时监控Claude Code 的上下文窗口是有限资源，claude-hud 在 statusLine 区域每秒刷新一次 Context 使用统计： 1[Conte...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/22/daily-project-009-lightrag/" title="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎"><img class="post-bg" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/daily-project-009-lightrag/" title="LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎">LightRAG: 香港大学 EMNLP 2025 论文开源，轻量级图索引 RAG 推理引擎</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%8A%80%E6%9C%AF/">AI技术</a></span></div><div class="content"> GitHub: HKUDS&#x2F;LightRAG · EMNLP 2025 论文 · Python 3.10+  项目概览LightRAG 是香港大学（HKU）数据科学团队开源的轻量级检索增强生成（Retrieval-Augmented Generation）框架，对应论文已被 EMNLP 2025 主会接收。与传统 RAG 系统不同，LightRAG 创新性地引入轻量级图索引（Lightweight Graph Indexing） 作为检索核心，在保持高效性的同时大幅提升了检索的上下文关联性和答案完整性。 当前主流 RAG 系统（如 naive RAG）在处理跨文档关系、多跳推理时表现不佳——这是因为它们本质上还是”段落匹配”而非”知识理解”。LightRAG 的图索引机制让系统能够理解实体之间的关联关系，从而在复杂问题（如”谁在 X 公司工作同时参与过 Y 项目？”）上表现出色。  核心特性1. 轻量级图索引LightRAG 的核心创新是将文档内容建模为异构图（Heterogeneous Graph），节点代表实体（人物、机构、概念），边代表关系（工作、参与、竞争等）...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/22/daily-project-04-project-nomad/" title="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器"><img class="post-bg" src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/daily-project-04-project-nomad/" title="Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器">Project Nomad: 离线生存知识服务器，无网环境下的 AI 利器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="content">项目概览Project Nomad（Crosstalk-Solutions&#x2F;project-nomad）是一款开源的离线生存知识服务器，目前 GitHub Stars 突破 8k。它的核心目标是：在完全没有互联网连接的环境下，依然能够运行 AI 辅助的生存知识问答系统。  想象一下：你身处荒野、地下室、或者任何网络隔离的环境，需要查询急救知识、野外取水、导航定位——Project Nomad 就是为这种极端场景设计的。   核心特性1. 完全离线化 不依赖任何外部 API 或云服务 所有 AI 模型、知识库均运行在本地 Docker 容器化，一键部署，开箱即用  2. Web 管理界面 友好的浏览器操作界面 知识库浏览、搜索、管理一体化 无需命令行即可完成日常操作  3. 生存知识整合 内置多种生存场景知识库（医疗、导航、食物、水源、 shelter 等） 支持自定义知识库导入 结构化查询，快速定位关键信息  4. AI 能力集成 接入本地运行的 LLM（大语言模型） 智能问答、推理、分析 完全私有，不外传任何数据   技术架构123456789101112┌─────...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/22/daily-project-05-money-printer-turbo/" title="MoneyPrinterTurbo: 输入主题全自动生成高清短视频"><img class="post-bg" src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo: 输入主题全自动生成高清短视频"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/22/daily-project-05-money-printer-turbo/" title="MoneyPrinterTurbo: 输入主题全自动生成高清短视频">MoneyPrinterTurbo: 输入主题全自动生成高清短视频</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E5%B7%A5%E5%85%B7/">AI工具</a></span></div><div class="content">项目概览MoneyPrinterTurbo（harry0703&#x2F;MoneyPrinterTurbo）是一款 Python 编写的全自动短视频生成工具，只需输入一个主题，就能自动完成：文案撰写 → 素材搜集 → 字幕生成 → 背景音乐合成 → 最终视频输出。  它的目标是：让一个人也能轻松批量生产短视频内容，一个人就是一支内容团队。   核心特性1. 极简输入，极速输出 输入：一个主题词或简短描述 输出：完整的高清短视频（通常 30s~3min） 全程无需人工干预  2. 完整视频管线   环节 说明    📝 文案生成 AI 自动撰写脚本&#x2F;口播稿   🎬 素材匹配 自动从图库&#x2F;视频库匹配素材   💬 字幕生成 语音转字幕，时间轴自动对齐   🎵 背景音乐 自动配乐，音量智能调节   🖥 视频合成 多轨道合成，输出 MP4   3. 多格式支持 竖屏（9:16）：适合 TikTok、抖音、快手 横屏（16:9）：适合 YouTube、B站 支持自定义分辨率和帧率  4. 批量生成 一次输入多个主题，批量排队生成 适合内容农场式运营  5. 双...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">51</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析② | 链表、栈、二分查找"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找">算法剖析② | 链表、栈、二分查找</a><time datetime="2026-03-23T02:00:00.000Z" title="发表于 2026-03-23 10:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针">算法剖析① | 哈希、滑动窗口、LRU、排序及双指针</a><time datetime="2026-03-23T01:00:00.000Z" title="发表于 2026-03-23 09:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="browser-use: 让 AI Agent 操控浏览器的开源利器"/></a><div class="content"><a class="title" href="/2026/03/22/browser-use-ai-agent-browser/" title="browser-use: 让 AI Agent 操控浏览器的开源利器">browser-use: 让 AI Agent 操控浏览器的开源利器</a><time datetime="2026-03-22T09:15:00.000Z" title="发表于 2026-03-22 17:15:00">2026-03-22</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">jolly的博客</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img class="post-bg" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/">每日一项目</a></span></div><div class="content">项目概览MoneyPrinterV2 是由开发者 FujiwaraChoki 开源的 Python 项目，GitHub Stars 超过 20,900，定位是「Automate the process of making money online」——将在线盈利的全链路流程进行自动化编排。  ⚠️ 声明：本项目仅作技术研究分析，请勿用于任何违规违法用途。  基础信息一览：    项目 信息    仓库 FujiwaraChoki&#x2F;MoneyPrinterV2   语言 Python   Stars 20,902   定位 在线盈利流程自动化    与 MoneyPrinterTurbo 对比MoneyPrinterV2 并非横空出世，其前代版本 MoneyPrinterTurbo（由 user一样 的同名仓库）在社区中已有相当热度。以下是两代项目的主要差异：    特性 MoneyPrinterTurbo MoneyPrinterV2    架构模式 单体脚本式 模块化分层设计   AI 模型支持 仅 WebUI WebUI + API 双模式   视频生成 基础字幕 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img class="post-bg" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列以「题目描述 → 分类标签 → 初步思路（暴力） → 画图演示（mermaid） → 优化过程 → 最优解 → Java 实现代码 → 复杂度分析」八段式结构，深入剖析 LeetCode 高频面试算法题。本文为第四篇，涵盖第 16-20 题，主题聚焦于堆、图论与高级数据结构的综合运用。   题目十六：合并 K 个有序链表（LeetCode 23）题目描述 给定 K 个有序链表，将其合并为一个有序链表，返回头结点。  示例： 12输入：lists = [[1,4,5],[1,3,4],[2,6]]输出：1 → 1 → 2 → 3 → 4 → 4 → 5 → 6  分类标签堆 优先队列 链表 分治 归并 初步思路（暴力）依次遍历 K 条链表的所有节点，将值全部存入数组，排序后重新构建链表。 123456789101112131415161718// 暴力法：O(N log N)，N 为总节点数public ListNode mergeKLists暴力(ListNode[] lists) &#123;    List&lt;Integer&gt; vals = new Arra...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img class="post-bg" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/">每日一项目</a></span></div><div class="content">项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取 → 语音合成 → 字幕渲染 → 视频合成，一键输出高清短视频（竖屏 9:16 &#x2F; 横屏 16:9）。 核心架构12345678910111213141516171819关键词/主题    │    ▼┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  LLM 文案生成 │ ──▶ │ Pexels 素材 │ ──▶ │  语音合成   ││  (DeepSeek/  │     │  (无版权)   │     │  (GPT-SoVITS││   Moonshot)  │     │             │...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img class="post-bg" src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="content">项目概览   项目 信息    名称 Project N.O.M.A.D   全称 Novel Offline Machine for Autonomous Decision   地址 Crosstalk-Solutions&#x2F;project-nomad   语言 TypeScript + Docker   Stars 11,309   定位 离线生存计算机    核心理念：一台自包含的离线生存计算机，集成关键工具、知识库和 AI，无网络也能保持运转——随时随地为你提供信息支持和决策辅助。  离线生存计算机概念传统应用依赖云端，一旦没有网络就成了废铁。N.O.M.A.D 反其道而行：把一切你需要的信息和工具，全部打包进一个可离线运行的 Docker 容器里。 123456789101112131415┌─────────────────────────────────────────────┐│           N.O.M.A.D 离线生存计算机              ││                                             │...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img class="post-bg" src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列文章聚焦 LeetCode 高频面试题，以「题目描述 → 分类标签 → 初步思路 → 画图演示 → 优化过程 → 最优解 → Java 实现 → 复杂度分析」的闭环结构，透彻剖析每类题型的解题套路。第 11-15 题涵盖回溯、动态规划与经典经典技巧。   题目十一：最长回文子串（LeetCode 5）题目描述 给你一个字符串 s，找到 s 中最长的回文子串。 示例： 12345输入：s = &quot;babad&quot;输出：&quot;bab&quot; 或 &quot;aba&quot;（两者皆可）输入：s = &quot;cbbd&quot;输出：&quot;bb&quot; 分类标签   维度 标签    算法 中心扩展、动态规划   难度 中等   数据结构 字符串   关联 Manacher 算法（线性最优）   初步思路（暴力枚举）思路： 枚举所有子串，判断是否回文，取最长。 123456789101112131415161718192021// 暴力解法 O(n³)public String longestPalindrome(String s) &#...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/daily-project-015-lightrag/" title="LightRAG：简单高效的检索增强生成系统"><img class="post-bg" src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LightRAG：简单高效的检索增强生成系统"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-015-lightrag/" title="LightRAG：简单高效的检索增强生成系统">LightRAG：简单高效的检索增强生成系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T02:30:00.000Z" title="发表于 2026-03-23 10:30:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/">每日一项目</a></span></div><div class="content">LightRAG：简单高效的检索增强生成系统📌 项目概览   属性 信息    项目名称 LightRAG   仓库地址 HKUDS&#x2F;LightRAG   论文 EMNLP2025   语言 Python   Stars 趋势上升中   机构 香港大学 (HKU)   LightRAG 是香港大学研究团队在 EMNLP 2025 发表的一种轻量级检索增强生成（Retrieval-Augmented Generation）框架。其核心主张：简单 + 快速——通过简化传统 RAG  pipeline 的多个环节，在保证答案质量的同时显著提升推理效率。 传统 RAG 系统往往需要复杂的向量数据库、多次检索轮次、冗长的上下文窗口管理。LightRAG 另辟蹊径，用更少的计算资源交出更好的答卷。  🔄 RAG vs LightRAG：核心差异传统 RAG 的痛点12345用户问题 → 向量检索 → Top-K 文档 → 拼接上下文 → LLM 生成                                      ↑                          ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找"><img class="post-bg" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析② | 链表、栈、二分查找"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-002-linkedlist-binarysearch/" title="算法剖析② | 链表、栈、二分查找">算法剖析② | 链表、栈、二分查找</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T02:00:00.000Z" title="发表于 2026-03-23 10:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列聚焦 LeetCode 高频题目，从分类标签 → 初步思路 → 画图演示 → 优化过程 → 最优解 → Java 实现 → 复杂度分析七个维度庖丁解牛。六到十题涵盖链表模拟、快慢指针、二分查找变形三大核心主题。   题目六：两数相加（LeetCode 2）题目描述 给你两个非空链表，表示两个非负整数。数字按逆序存储，每个节点一位。将其相加并返回一个新的链表。 示例：l1 = [2,4,3]，l2 = [5,6,4] → 返回 [7,0,8]（即 342 + 465 &#x3D; 807）  分类标签   维度 标签    数据结构 链表   算法思想 模拟、数学   难度 中等   初步思路（暴力）思路 1：转整数再相加（会溢出） 12341. 遍历 l1 → 转成整数 3422. 遍历 l2 → 转成整数 4653. sum = 342 + 465 = 8074. 807 转成逆序链表 [7,0,8]  ⚠️ 问题：整数可能超出 long 范围（如链表长度 50+），直接崩溃。 思路 2：按位模拟（正确思路的雏形） 逐节点相加，记录进位，生成新节点。 画图演示：进位传播...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"><img class="post-bg" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/algorithm-001-hash-two-sum/" title="算法剖析① | 哈希、滑动窗口、LRU、排序及双指针">算法剖析① | 哈希、滑动窗口、LRU、排序及双指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T01:00:00.000Z" title="发表于 2026-03-23 09:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/">算法剖析</a></span></div><div class="content"> 本系列聚焦 LeetCode 高频面试题，从暴力解出发，逐步推导最优解，配合算法执行图解与 Java 实现，帮你彻底吃透每道题的思路。   题目一：两数之和（LeetCode 1）题目描述 给定一个整数数组 nums 和一个整数 target，请你在该数组中找出和为目标值 target 的两个整数的下标，并返回它们的数组下标。你可以假设每种输入只会对应一个答案，且同样的元素不能被重复利用。  示例： 123输入：nums = [2, 7, 11, 15]，target = 9输出：[0, 1]解释：nums[0] + nums[1] = 2 + 7 = 9  分类标签数组 哈希表 初步思路（暴力解）两层 for 循环，枚举所有 (i, j) 配对，检查 nums[i] + nums[j] == target。 代码实现： 1234567891011// 暴力解：O(n²) 时间复杂度public int[] twoSum_brute(int[] nums, int target) &#123;    for (int i = 0; i &lt; nums.length; i++...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2026/03/23/daily-project-017-arnis/" title="arnis：将真实世界带入 Minecraft 的开源神器"><img class="post-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="arnis：将真实世界带入 Minecraft 的开源神器"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-017-arnis/" title="arnis：将真实世界带入 Minecraft 的开源神器">arnis：将真实世界带入 Minecraft 的开源神器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T00:00:00.000Z" title="发表于 2026-03-23 08:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/">每日一项目</a></span></div><div class="content">项目概览arnis（louis-e&#x2F;arnis）是一款将真实世界地理位置高保真映射到 Minecraft 的开源工具。无论你想重建巴黎街头、珠峰山体，还是自家小区，arnis 都能将真实地图数据转化为 Minecraft 中的方块世界，支持极高的地形细节还原。  GitHub：https://github.com/louis-e/arnis   技术原理arnis 的核心流程是 真实地图数据 → 地形解析 → Minecraft 方块映射： 1234567真实地图数据（卫星/高程）    ↓地形解析引擎（高度、坡度、地貌分类）    ↓Minecraft 方块材质映射    ↓生成 .schematic / .nbt 或直接写入世界文件  简单来说，它把真实世界的经纬度坐标对应到 Minecraft 的 X&#x2F;Z 坐标，用高程数据（DEM）还原三维地形，再基于地表类型（植被、水体、建筑区）将不同的真实地物分类映射为对应的 Minecraft 方块——比如草地、石头、水、树木等。  支持的真实地图数据源arnis 之所以能实现高保真还原，离不开丰富的真实地图数据源...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架"><img class="post-bg" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TradingAgents：多智能体 LLM 金融交易框架"></a></div><div class="recent-post-info"><a class="article-title" href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架">TradingAgents：多智能体 LLM 金融交易框架</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-03-23T00:00:00.000Z" title="发表于 2026-03-23 08:00:00">2026-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="content">项目概览TradingAgents 是由 TauricResearch 团队开源的多智能体 LLM 金融交易框架，目前在 GitHub 上已斩获 38,185 Stars，是金融量化与 AI Agent 结合领域最热门的项目之一。 该项目利用大语言模型（LLM）的推理能力，通过多个专业 Agent 的协作，完成从市场分析、策略制定、交易执行到风险控制的完整交易流程。核心使用 Python 开发，架构清晰，扩展性强。  多智能体架构TradingAgents 的核心设计理念是专业分工 + 智能协作。系统由多个各司其职的 Agent 组成，通过消息传递和任务调度形成完整的交易决策链： 12345678910111213141516171819202122┌─────────────────────────────────────────────────────────┐│                    TradingAgents 系统架构                │├────────────────────────────────────────────────────...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
-            <a class="card-more-btn" href="/categories/" title="查看更多">
-      <i class="fas fa-angle-right"></i></a>
+            
           </div>
           <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI-Agent/"><span class="card-category-list-name">AI Agent</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">AI工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">AI开发工具</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">AI技术</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E6%A1%86%E6%9E%B6/"><span class="card-category-list-name">AI框架</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B8%B8%E6%88%8F/"><span class="card-category-list-name">游戏</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/"><span class="card-category-list-name">算法剖析</span><span class="card-category-list-count">4</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/LeetCode/" style="font-size: 1.5em; color: #99a9bf">LeetCode</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.1em; color: #999">动态规划</a> <a href="/tags/%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96/" style="font-size: 1.1em; color: #999">成本优化</a> <a href="/tags/%E8%99%BE%E7%90%83/" style="font-size: 1.1em; color: #999">虾球</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.5em; color: #99a9bf">算法</a> <a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.1em; color: #999">递归</a> <a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.1em; color: #999">链表</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 1.1em; color: #999">回溯</a> <a href="/tags/%E4%B8%96%E7%95%8C%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">世界生成</a> <a href="/tags/%E5%A0%86/" style="font-size: 1.1em; color: #999">堆</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%89%AA%E8%BE%91/" style="font-size: 1.1em; color: #999">自动化剪辑</a> <a href="/tags/LRU/" style="font-size: 1.1em; color: #999">LRU</a> <a href="/tags/Agent%E4%BC%98%E5%8C%96/" style="font-size: 1.1em; color: #999">Agent优化</a> <a href="/tags/%E7%A6%BB%E7%BA%BF%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">离线工具</a> <a href="/tags/LLM%E8%B7%AF%E7%94%B1/" style="font-size: 1.1em; color: #999">LLM路由</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/Python/" style="font-size: 1.1em; color: #999">Python</a> <a href="/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/" style="font-size: 1.1em; color: #999">开发效率</a> <a href="/tags/%E6%B2%99%E7%AE%B1%E6%89%A7%E8%A1%8C/" style="font-size: 1.1em; color: #999">沙箱执行</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.1em; color: #999">哈希表</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.1em; color: #999">滑动窗口</a> <a href="/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">检索增强生成</a> <a href="/tags/SuperAgent/" style="font-size: 1.1em; color: #999">SuperAgent</a> <a href="/tags/%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7/" style="font-size: 1.1em; color: #999">实时监控</a> <a href="/tags/Minecraft/" style="font-size: 1.1em; color: #999">Minecraft</a> <a href="/tags/%E5%9C%B0%E7%90%86%E6%95%B0%E6%8D%AE/" style="font-size: 1.1em; color: #999">地理数据</a> <a href="/tags/Claude-Code/" style="font-size: 1.3em; color: #99a1ac">Claude Code</a> <a href="/tags/LangGraph/" style="font-size: 1.3em; color: #99a1ac">LangGraph</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.1em; color: #999">二分查找</a> <a href="/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">多智能体</a> <a href="/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" style="font-size: 1.1em; color: #999">性能调优</a> <a href="/tags/LLM/" style="font-size: 1.1em; color: #999">LLM</a> <a href="/tags/%E7%94%9F%E5%AD%98%E6%8A%80%E8%83%BD/" style="font-size: 1.1em; color: #999">生存技能</a> <a href="/tags/Graph-RAG/" style="font-size: 1.1em; color: #999">Graph RAG</a> <a href="/tags/AI-Agent/" style="font-size: 1.1em; color: #999">AI Agent</a> <a href="/tags/Docker/" style="font-size: 1.1em; color: #999">Docker</a> <a href="/tags/OpenClaw%E6%8F%92%E4%BB%B6/" style="font-size: 1.1em; color: #999">OpenClaw插件</a> <a href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" style="font-size: 1.1em; color: #999">字节跳动</a> <a href="/tags/AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">AI视频生成</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/" style="font-size: 1.3em; color: #99a1ac">知识库</a></div></div><div class="card-widget card-archives">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">AI技术</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"><span class="card-category-list-name">开源项目</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/"><span class="card-category-list-name">每日一项目</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E5%89%96%E6%9E%90/"><span class="card-category-list-name">算法剖析</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%99%BE%E7%90%83/"><span class="card-category-list-name">虾球</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 1.1em; color: #999">网络安全</a> <a href="/tags/Claude-Code/" style="font-size: 1.2em; color: #999da3">Claude Code</a> <a href="/tags/%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96/" style="font-size: 1.1em; color: #999">成本优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.1em; color: #999">动态规划</a> <a href="/tags/AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">AI视频生成</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/Terminal/" style="font-size: 1.1em; color: #999">Terminal</a> <a href="/tags/Python/" style="font-size: 1.5em; color: #99a9bf">Python</a> <a href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" style="font-size: 1.1em; color: #999">字节跳动</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/" style="font-size: 1.1em; color: #999">知识库</a> <a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.1em; color: #999">链表</a> <a href="/tags/AI-%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">AI 工具</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 1.2em; color: #999da3">自动化</a> <a href="/tags/JavaScript/" style="font-size: 1.1em; color: #999">JavaScript</a> <a href="/tags/Edge-Computing/" style="font-size: 1.1em; color: #999">Edge Computing</a> <a href="/tags/Rust/" style="font-size: 1.2em; color: #999da3">Rust</a> <a href="/tags/%E7%94%9F%E5%AD%98%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">生存工具</a> <a href="/tags/%E8%A3%B8%E8%BE%9E/" style="font-size: 1.1em; color: #999">裸辞</a> <a href="/tags/%E5%AE%B6%E5%BA%AD%E7%AE%A1%E7%90%86/" style="font-size: 1.1em; color: #999">家庭管理</a> <a href="/tags/%E8%99%BE%E7%90%83/" style="font-size: 1.1em; color: #999">虾球</a> <a href="/tags/%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">真实世界生成</a> <a href="/tags/LLM/" style="font-size: 1.4em; color: #99a5b6">LLM</a> <a href="/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">安全工具</a> <a href="/tags/%E7%89%A9%E8%B5%84%E7%AE%A1%E7%90%86/" style="font-size: 1.1em; color: #999">物资管理</a> <a href="/tags/OpenClaw%E6%8F%92%E4%BB%B6/" style="font-size: 1.1em; color: #999">OpenClaw插件</a> <a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.1em; color: #999">递归</a> <a href="/tags/TradingAgents/" style="font-size: 1.1em; color: #999">TradingAgents</a> <a href="/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">多智能体</a> <a href="/tags/%E9%87%91%E8%9E%8D%E4%BA%A4%E6%98%93/" style="font-size: 1.1em; color: #999">金融交易</a> <a href="/tags/Web-Framework/" style="font-size: 1.1em; color: #999">Web Framework</a> <a href="/tags/%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">开发者工具</a> <a href="/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA/" style="font-size: 1.1em; color: #999">检索增强</a> <a href="/tags/%E7%A6%BB%E7%BA%BF%E8%AE%A1%E7%AE%97/" style="font-size: 1.1em; color: #999">离线计算</a> <a href="/tags/%E6%A0%88/" style="font-size: 1.2em; color: #999da3">栈</a> <a href="/tags/EMNLP2025/" style="font-size: 1.1em; color: #999">EMNLP2025</a> <a href="/tags/MoneyPrinterTurbo/" style="font-size: 1.1em; color: #999">MoneyPrinterTurbo</a> <a href="/tags/Mac/" style="font-size: 1.1em; color: #999">Mac</a> <a href="/tags/LeetCode/" style="font-size: 1.3em; color: #99a1ac">LeetCode</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.1em; color: #999">哈希表</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.1em; color: #999">二分查找</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -172,7 +171,7 @@
             <span class="card-archive-list-date">
               三月 2026
             </span>
-            <span class="card-archive-list-count">15</span>
+            <span class="card-archive-list-count">26</span>
           </a>
         </li>
       
@@ -186,7 +185,7 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">16</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-23T03:20:46.719Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>window.typedJSFn = {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-24T01:32:20.017Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: str => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
@@ -242,4 +241,325 @@ btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
     })
 }
 typedJSFn.run(subtitleType)
-</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

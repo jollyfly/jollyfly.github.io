@@ -1,0 +1,658 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Pentagi：AI 驱动的全自动渗透测试智能体系统 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="⚠️ 本文仅作技术分享，所有渗透测试行为应在获得授权的范围内进行。  项目概览   属性 详情    项目名称 Pentagi   GitHub vxcontrol&#x2F;pentagi   描述 Fully autonomous AI Agents system capable of performing complex penetration testing tasks   语言 Pyt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pentagi：AI 驱动的全自动渗透测试智能体系统">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/23/daily-project-011-pentagi/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="⚠️ 本文仅作技术分享，所有渗透测试行为应在获得授权的范围内进行。  项目概览   属性 详情    项目名称 Pentagi   GitHub vxcontrol&#x2F;pentagi   描述 Fully autonomous AI Agents system capable of performing complex penetration testing tasks   语言 Pyt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-23T10:22:15.360Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="安全工具">
+<meta property="article:tag" content="开源">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pentagi：AI 驱动的全自动渗透测试智能体系统",
+  "url": "https://jollyfly.github.io/2026/03/23/daily-project-011-pentagi/",
+  "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80",
+  "datePublished": "2026-03-22T16:00:00.000Z",
+  "dateModified": "2026-03-23T10:22:15.360Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/23/daily-project-011-pentagi/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Pentagi：AI 驱动的全自动渗透测试智能体系统',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Pentagi：AI 驱动的全自动渗透测试智能体系统</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Pentagi：AI 驱动的全自动渗透测试智能体系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-22T16:00:00.000Z" title="发表于 2026-03-23 00:00:00">2026-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-23T10:22:15.360Z" title="更新于 2026-03-23 18:22:15">2026-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>⚠️ 本文仅作技术分享，所有渗透测试行为应在获得授权的范围内进行。</p>
+</blockquote>
+<h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>项目名称</strong></td>
+<td>Pentagi</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/vxcontrol/pentagi">vxcontrol&#x2F;pentagi</a></td>
+</tr>
+<tr>
+<td><strong>描述</strong></td>
+<td>Fully autonomous AI Agents system capable of performing complex penetration testing tasks</td>
+</tr>
+<tr>
+<td><strong>语言</strong></td>
+<td>Python（主导）&#x2F; Go &#x2F; Shell</td>
+</tr>
+<tr>
+<td><strong>Stars</strong></td>
+<td>趋势增长中</td>
+</tr>
+<tr>
+<td><strong>License</strong></td>
+<td>详见仓库 LICENSE</td>
+</tr>
+<tr>
+<td><strong>标签</strong></td>
+<td><code>#pentest</code> <code>#ai-agent</code> <code>#automation</code> <code>#security</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="背景与动机"><a href="#背景与动机" class="headerlink" title="背景与动机"></a>背景与动机</h2><p>传统的渗透测试高度依赖人工经验，从信息收集、漏洞扫描到权限提升，整个流程不仅耗时，而且对测试人员的知识广度有极高要求。随着大语言模型（LLM）的崛起，<strong>将 AI Agent 引入渗透测试全流程</strong>成为安全社区探索的前沿方向。</p>
+<p>Pentagi 正是这一方向的实践者——它构建了一套<strong>多智能体协作架构</strong>，让多个 AI Agent 各司其职、自主协同，完成从侦察到报告的全链路渗透测试任务。</p>
+<hr>
+<h2 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                    Pentagi System                       │</span><br><span class="line">│                                                         │</span><br><span class="line">│  ┌───────────┐  ┌───────────┐  ┌───────────┐           │</span><br><span class="line">│  │ Recon Agent│  │  Vuln Agent │  │ Exploit Agent│       │</span><br><span class="line">│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘           │</span><br><span class="line">│        │              │              │                  │</span><br><span class="line">│        └──────────────┼──────────────┘                  │</span><br><span class="line">│                       ▼                                  │</span><br><span class="line">│              ┌───────────────┐                         │</span><br><span class="line">│              │  Task Planner │  (LLM-powered)          │</span><br><span class="line">│              └───────┬───────┘                         │</span><br><span class="line">│                      │                                  │</span><br><span class="line">│        ┌─────────────┼─────────────┐                   │</span><br><span class="line">│        ▼             ▼             ▼                    │</span><br><span class="line">│  ┌───────────┐ ┌───────────┐ ┌───────────┐             │</span><br><span class="line">│  │  Executor │ │  Reporter │ │  Monitor  │             │</span><br><span class="line">│  └───────────┘ └───────────┘ └───────────┘             │</span><br><span class="line">│                                                         │</span><br><span class="line">│  ┌─────────────────────────────────────┐                │</span><br><span class="line">│  │       Tool Registry (Nmap, SQLmap,  │                │</span><br><span class="line">│  │        ffuf, Burp, Custom ...)      │                │</span><br><span class="line">│  └─────────────────────────────────────┘                │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><ol>
+<li><strong>任务规划（Task Planner）</strong>：接收测试目标，LLM 拆解为可执行子任务</li>
+<li><strong>多 Agent 并行执行</strong>：Recon &#x2F; Vuln &#x2F; Exploit Agent 各自调用专用工具链</li>
+<li><strong>工具注册表（Tool Registry）</strong>：统一管理扫描器、字典、PoC 等工具的调用接口</li>
+<li><strong>执行器（Executor）</strong>：负责任务调度、状态追踪与错误重试</li>
+<li><strong>报告生成（Reporter）</strong>：汇总发现，自动输出结构化渗透测试报告</li>
+</ol>
+<hr>
+<h2 id="核心功能解析"><a href="#核心功能解析" class="headerlink" title="核心功能解析"></a>核心功能解析</h2><h3 id="1-全自动侦察（Recon）"><a href="#1-全自动侦察（Recon）" class="headerlink" title="1. 全自动侦察（Recon）"></a>1. 全自动侦察（Recon）</h3><p>Pentagi 内置多维度侦察引擎：</p>
+<ul>
+<li><strong>被动信息收集</strong>：利用 OSINT 手段获取域名、邮箱、关联资产</li>
+<li><strong>主动端口扫描</strong>：集成 Nmap Masscan 等工具，自动识别开放服务</li>
+<li><strong>Web 指纹识别</strong>：自动探测 Web 技术栈、CMS、中间件版本</li>
+</ul>
+<h3 id="2-AI-驱动的漏洞分析"><a href="#2-AI-驱动的漏洞分析" class="headerlink" title="2. AI 驱动的漏洞分析"></a>2. AI 驱动的漏洞分析</h3><p>传统扫描器依赖规则库，而 Pentagi 的 <strong>Vuln Agent</strong> 利用 LLM 的推理能力：</p>
+<ul>
+<li>结合上下文判断漏洞真实可利用性（减少误报）</li>
+<li>针对目标资产特点生成定制化探测策略</li>
+<li>支持自定义漏洞检测逻辑的动态注入</li>
+</ul>
+<h3 id="3-智能漏洞利用（Exploit）"><a href="#3-智能漏洞利用（Exploit）" class="headerlink" title="3. 智能漏洞利用（Exploit）"></a>3. 智能漏洞利用（Exploit）</h3><p>Exploit Agent 并非简单调用公开 PoC，而是：</p>
+<ul>
+<li>基于漏洞分析结果，LLM 推理最优利用路径</li>
+<li>自动适配目标环境（版本、配置、WAF 规避）</li>
+<li>支持自定义利用脚本的即插即用</li>
+</ul>
+<h3 id="4-实时监控与日志"><a href="#4-实时监控与日志" class="headerlink" title="4. 实时监控与日志"></a>4. 实时监控与日志</h3><ul>
+<li>全程任务状态可视化</li>
+<li>详细操作日志可审计、可回放</li>
+<li>支持中断恢复，任务不因会话断开而丢失</li>
+</ul>
+<h3 id="5-报告自动生成"><a href="#5-报告自动生成" class="headerlink" title="5. 报告自动生成"></a>5. 报告自动生成</h3><p>测试完成后，Reporter Agent 自动整合：</p>
+<ul>
+<li>发现的所有漏洞（含 CVSS 评分）</li>
+<li>利用路径图（attack path visualization）</li>
+<li>修复建议（按优先级排序）</li>
+</ul>
+<hr>
+<h2 id="技术亮点"><a href="#技术亮点" class="headerlink" title="技术亮点"></a>技术亮点</h2><h3 id="多-Agent-协作机制"><a href="#多-Agent-协作机制" class="headerlink" title="多 Agent 协作机制"></a>多 Agent 协作机制</h3><p>不同于单 Agent 系统，Pentagi 采用<strong>任务分片 + 异步协作</strong>模式，各 Agent 之间通过消息队列通信，避免单点阻塞。</p>
+<h3 id="LLM-安全工具深度融合"><a href="#LLM-安全工具深度融合" class="headerlink" title="LLM + 安全工具深度融合"></a>LLM + 安全工具深度融合</h3><p>不是简单地将 LLM 作为”聊天界面”，Pentagi 的 Agent 被设计为 <strong>LLM 驱动决策 + 工具精确执行</strong>的混合体：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LLM（推理） + Tool（执行） = Agent</span><br></pre></td></tr></table></figure>
+
+<h3 id="可扩展工具注册表"><a href="#可扩展工具注册表" class="headerlink" title="可扩展工具注册表"></a>可扩展工具注册表</h3><p>开发者可通过标准接口注册新工具，Pentagi 自动将其纳入 Agent 的可用工具集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 伪代码：注册自定义工具</span></span><br><span class="line"><span class="meta">@register_tool(<span class="params">name=<span class="string">&quot;custom_scanner&quot;</span>, agent=<span class="string">&quot;vuln&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_scanner</span>(<span class="params">target: <span class="built_in">str</span></span>) -&gt; <span class="built_in">dict</span>:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果可审计"><a href="#结果可审计" class="headerlink" title="结果可审计"></a>结果可审计</h3><p>所有 LLM 推理链路和工具调用记录均持久化存储，满足安全测试合规要求。</p>
+<hr>
+<h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><ul>
+<li>Python 3.10+</li>
+<li>LLM API（OpenAI GPT &#x2F; Claude &#x2F; 本地模型，如 Ollama）</li>
+<li>Docker（可选，推荐用于隔离环境）</li>
+<li>网络扫描工具：Nmap、ffuf、SQLmap、Burp Suite 等</li>
+</ul>
+<h3 id="快速启动"><a href="#快速启动" class="headerlink" title="快速启动"></a>快速启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 克隆仓库</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/vxcontrol/pentagi.git</span><br><span class="line"><span class="built_in">cd</span> pentagi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装依赖</span></span><br><span class="line">pip install -r requirements.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 配置 LLM API</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=<span class="string">&quot;sk-...&quot;</span></span><br><span class="line"><span class="comment"># 或配置 Ollama</span></span><br><span class="line"><span class="built_in">export</span> OLLAMA_BASE_URL=<span class="string">&quot;http://localhost:11434&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 启动</span></span><br><span class="line">python -m pentagi.cli --target https://example.com --scope full</span><br><span class="line"></span><br><span class="line"><span class="comment"># Docker 模式</span></span><br><span class="line">docker build -t pentagi .</span><br><span class="line">docker run --<span class="built_in">rm</span> -it \</span><br><span class="line">  -e OPENAI_API_KEY=<span class="variable">$OPENAI_API_KEY</span> \</span><br><span class="line">  pentagi --target https://example.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h3><p>关键配置项在 <code>config.yaml</code> 中：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">llm:</span></span><br><span class="line">  <span class="attr">provider:</span> <span class="string">openai</span>  <span class="comment"># openai | anthropic | ollama</span></span><br><span class="line">  <span class="attr">model:</span> <span class="string">gpt-4o</span></span><br><span class="line">  <span class="attr">temperature:</span> <span class="number">0.1</span>  <span class="comment"># 低温度保证稳定性</span></span><br><span class="line"></span><br><span class="line"><span class="attr">agents:</span></span><br><span class="line">  <span class="attr">max_concurrency:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">retry_on_failure:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">max_retries:</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="attr">tools:</span></span><br><span class="line">  <span class="attr">nmap:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">default_args:</span> <span class="string">&quot;-sV -sC -T4&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Pentagi 代表了 <strong>AI + 安全</strong> 融合的一个有意义的探索方向。它并非要取代安全工程师，而是将大量重复性、规则性的工作自动化，让安全人员专注于更复杂的逻辑判断和未知漏洞挖掘。</p>
+<p>对于安全团队而言，Pentagi 的价值在于：</p>
+<ul>
+<li><strong>降低渗透测试门槛</strong>：非专业安全人员也能执行标准化测试</li>
+<li><strong>提升效率</strong>：多 Agent 并行处理，缩短测试周期</li>
+<li><strong>标准化输出</strong>：统一的报告格式，便于审计与对比</li>
+</ul>
+<p>不过需要注意的是，<strong>AI Agent 在安全领域的应用仍有局限性</strong>，尤其是在面对未知漏洞、复杂业务逻辑和强对抗环境时，纯 AI 驱动的渗透测试尚无法完全替代人工专家。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/23/daily-project-011-pentagi/">https://jollyfly.github.io/2026/03/23/daily-project-011-pentagi/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI-Agent/">AI Agent</a><a class="post-meta__tags" href="/tags/%E5%BC%80%E6%BA%90/">开源</a><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/">安全工具</a><a class="post-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/22/daily-project-manifest/" title="Manifest: OpenClaw 智能 LLM 路由插件，23 维评分选最优模型"><img class="cover" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Manifest: OpenClaw 智能 LLM 路由插件，23 维评分选最优模型</div></div><div class="info-2"><div class="info-item-1">项目概览Manifest 是一个 OpenClaw 插件，通过 23 维评分算法在 &lt;2ms 内将用户请求路由到最合适的大模型，实测节省成本最高可达 70%。  很多场景下我们用 GPT-4o 或 Claude Opus 处理一个”今天天气怎么样”这类简单查询，Manifest 解决的就是这个资源浪费问题。   GitHub: mnfst&#x2F;manifest 开源协议: MIT 语言: TypeScript &#x2F; NestJS &#x2F; SolidJS 架构: Monorepo (Turborepo) 支持模型: 300+（OpenAI、Anthropic、Google、DeepSeek、xAI、MiniMax 等）     核心特性   特性 说明    🔀 LLM 路由 23 维评分算法，&lt;2ms 决策，调用最适合的模型   🔄 自动降级 模型调用失败时，自动切换到备选模型   🔔 用量告警 设置阈值，超出后主动通知   📊 实时仪表盘 令牌消耗、费用、消息量、模型使用一览   🔒 隐私优先 本地模式下数据完全不外传   技术架构分析...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img class="cover" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterV2：全自动在线盈利自动化工具</div></div><div class="info-2"><div class="info-item-1">项目概览MoneyPrinterV2 是由开发者 FujiwaraChoki 开源的 Python 项目，GitHub Stars 超过 20,900，定位是「Automate the process of making money online」——将在线盈利的全链路流程进行自动化编排。  ⚠️ 声明：本项目仅作技术研究分析，请勿用于任何违规违法用途。  基础信息一览：    项目 信息    仓库 FujiwaraChoki&#x2F;MoneyPrinterV2   语言 Python   Stars 20,902   定位 在线盈利流程自动化    与 MoneyPrinterTurbo 对比MoneyPrinterV2 并非横空出世，其前代版本 MoneyPrinterTurbo（由 user一样 的同名仓库）在社区中已有相当热度。以下是两代项目的主要差异：    特性 MoneyPrinterTurbo MoneyPrinterV2    架构模式 单体脚本式 模块化分层设计   AI 模型支持 仅 WebUI WebUI + API 双模式   视频生成 基础字幕 ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-013-everything-claude-code/" title="everything-claude-code：让 AI Coding Agent 拥有「肌肉记忆」"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">everything-claude-code：让 AI Coding Agent 拥有「肌肉记忆」</div></div><div class="info-2"><div class="info-item-1">项目概览 everything-claude-code — affaan-m&#x2F;everything-claude-code ⭐ 99,707  又是一个 star 接近 10 万的超热门项目。它解决的问题非常直接：原生 Claude Code 太「傻」，缺乏长期记忆、领域直觉和安全意识，而这个项目试图给它装上一套完整的「神经系统」。 该项目自称是 Agent Harness Performance Optimization System，面向 Claude Code、Codex、Opencode、Cursor 等主流 AI Coding Agent，通过模块化的 Skills &#x2F; Instincts &#x2F; Memory &#x2F; Security 架构，让 Agent 在真实项目中表现得更像一位经验丰富的老开发者。  核心设计：四大模块拆解1. 🧠 Skills — 可组合的能力单元Skills 是项目最核心的设计理念之一。它将 Agent 的能力拆解为可插拔、可复用的技能单元，每个 Skill 包含：  触发条件（何时激活） 执行逻辑（具体怎么...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-027-iterm2/" title="iTerm2：Mac 上最强大的终端模拟器"><img class="cover" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">iTerm2：Mac 上最强大的终端模拟器</div></div><div class="info-2"><div class="info-item-1">项目概览iTerm2 是 macOS 平台上最受欢迎的终端模拟器之一，由 George Nachman 开发并开源。其 Slogan 直白而有力：“iTerm2 is a terminal emulator for Mac OS X that does amazing things.” 简单一句话，却道出了它的核心定位——它不只是一个命令终端，而是一个让开发者”做大事”的工具平台。 项目采用 Objective-C + Swift 双语言开发，当前在 GitHub 上属于趋势热门项目，Stars 数量持续攀升，社区活跃度极高。  核心功能分屏与布局iTerm2 提供了业界最灵活的分屏方案：  垂直&#x2F;水平分割：通过 Cmd+D（垂直）和 Cmd+Shift+D（水平）快速切分窗口 窗口管理：支持拖拽调整 pane 大小，热键绑定任意布局 标签页（Tabs）：Cmd+T 新建标签，Cmd+W 关闭，配合 Profile 可预设多标签启动脚本  对比 macOS 自带的 Terminal.app，iTerm2 的分屏体验领先一个量级。 无缝集成 Instant Replay：...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-017-arnis/" title="arnis：将真实世界带入 Minecraft 的开源神器"><img class="cover" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">arnis：将真实世界带入 Minecraft 的开源神器</div></div><div class="info-2"><div class="info-item-1">项目概览arnis（louis-e&#x2F;arnis）是一款将真实世界地理位置高保真映射到 Minecraft 的开源工具。无论你想重建巴黎街头、珠峰山体，还是自家小区，arnis 都能将真实地图数据转化为 Minecraft 中的方块世界，支持极高的地形细节还原。  GitHub：https://github.com/louis-e/arnis   技术原理arnis 的核心流程是 真实地图数据 → 地形解析 → Minecraft 方块映射： 1234567真实地图数据（卫星/高程）    ↓地形解析引擎（高度、坡度、地貌分类）    ↓Minecraft 方块材质映射    ↓生成 .schematic / .nbt 或直接写入世界文件  简单来说，它把真实世界的经纬度坐标对应到 Minecraft 的 X&#x2F;Z 坐标，用高程数据（DEM）还原三维地形，再基于地表类型（植被、水体、建筑区）将不同的真实地物分类映射为对应的 Minecraft 方块——比如草地、石头、水、树木等。  支持的真实地图数据源arnis 之所以能实现高保真还原，离不开丰富的真实地图数据源...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E5%8A%A8%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text">背景与动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">核心架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E8%A7%A3%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">核心功能解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%A8%E8%87%AA%E5%8A%A8%E4%BE%A6%E5%AF%9F%EF%BC%88Recon%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">1. 全自动侦察（Recon）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-AI-%E9%A9%B1%E5%8A%A8%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-number">4.2.</span> <span class="toc-text">2. AI 驱动的漏洞分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%99%BA%E8%83%BD%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%EF%BC%88Exploit%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">3. 智能漏洞利用（Exploit）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%A5%E5%BF%97"><span class="toc-number">4.4.</span> <span class="toc-text">4. 实时监控与日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%8A%A5%E5%91%8A%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90"><span class="toc-number">4.5.</span> <span class="toc-text">5. 报告自动生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E4%BA%AE%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">技术亮点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A-Agent-%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">5.1.</span> <span class="toc-text">多 Agent 协作机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LLM-%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%9E%8D%E5%90%88"><span class="toc-number">5.2.</span> <span class="toc-text">LLM + 安全工具深度融合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E5%B7%A5%E5%85%B7%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="toc-number">5.3.</span> <span class="toc-text">可扩展工具注册表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%8F%AF%E5%AE%A1%E8%AE%A1"><span class="toc-number">5.4.</span> <span class="toc-text">结果可审计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">部署方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="toc-number">6.1.</span> <span class="toc-text">前提条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8"><span class="toc-number">6.2.</span> <span class="toc-text">快速启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">6.3.</span> <span class="toc-text">配置说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'b8b3d34ee1319a906e4ec1bb4573e907'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

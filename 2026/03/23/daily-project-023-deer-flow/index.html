@@ -1,0 +1,663 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>deer-flow：字节跳动开源 SuperAgent 执行框架 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览deer-flow 是字节跳动开源的 SuperAgent 执行框架，定位为一个「AI 任务执行 harness」。它不只是一个提示词模板，而是一套完整的任务执行运行时，通过整合沙箱（Sandbox）、记忆（Memory）、工具（Tools）、技能（Skills）和子代理（Subagents），能够自主完成从分钟级到小时级不等复杂度的任务。  Stars: 36,801 语言: Pytho">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deer-flow：字节跳动开源 SuperAgent 执行框架">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/23/daily-project-023-deer-flow/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览deer-flow 是字节跳动开源的 SuperAgent 执行框架，定位为一个「AI 任务执行 harness」。它不只是一个提示词模板，而是一套完整的任务执行运行时，通过整合沙箱（Sandbox）、记忆（Memory）、工具（Tools）、技能（Skills）和子代理（Subagents），能够自主完成从分钟级到小时级不等复杂度的任务。  Stars: 36,801 语言: Pytho">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-23T10:13:50.826Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="SuperAgent">
+<meta property="article:tag" content="字节跳动">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "deer-flow：字节跳动开源 SuperAgent 执行框架",
+  "url": "https://jollyfly.github.io/2026/03/23/daily-project-023-deer-flow/",
+  "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80",
+  "datePublished": "2026-03-22T16:00:00.000Z",
+  "dateModified": "2026-03-23T10:13:50.826Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/23/daily-project-023-deer-flow/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'deer-flow：字节跳动开源 SuperAgent 执行框架',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">deer-flow：字节跳动开源 SuperAgent 执行框架</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">deer-flow：字节跳动开源 SuperAgent 执行框架</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-22T16:00:00.000Z" title="发表于 2026-03-23 00:00:00">2026-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-23T10:13:50.826Z" title="更新于 2026-03-23 18:13:50">2026-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><p><a target="_blank" rel="noopener" href="https://github.com/bytedance/deer-flow">deer-flow</a> 是字节跳动开源的 <strong>SuperAgent 执行框架</strong>，定位为一个「AI 任务执行 harness」。它不只是一个提示词模板，而是一套完整的任务执行运行时，通过整合沙箱（Sandbox）、记忆（Memory）、工具（Tools）、技能（Skills）和子代理（Subagents），能够自主完成从分钟级到小时级不等复杂度的任务。</p>
+<ul>
+<li><strong>Stars</strong>: 36,801</li>
+<li><strong>语言</strong>: Python</li>
+<li><strong>开源地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/bytedance/deer-flow">bytedance&#x2F;deer-flow</a></li>
+</ul>
+<p>当前社区对 LLM 应用框架的关注大多集中在 LangChain&#x2F;LlamaIndex 等「编排层」，而 deer-flow 选择了一条不同的路——<strong>以执行体为中心</strong>，强调模型在沙箱环境中的闭环操作能力。</p>
+<hr>
+<h2 id="SuperAgent-架构：沙箱-记忆-工具-技能体系"><a href="#SuperAgent-架构：沙箱-记忆-工具-技能体系" class="headerlink" title="SuperAgent 架构：沙箱 + 记忆 + 工具 + 技能体系"></a>SuperAgent 架构：沙箱 + 记忆 + 工具 + 技能体系</h2><p>deer-flow 的核心设计围绕五大组件展开：</p>
+<h3 id="🏖️-Sandbox（沙箱）"><a href="#🏖️-Sandbox（沙箱）" class="headerlink" title="🏖️ Sandbox（沙箱）"></a>🏖️ Sandbox（沙箱）</h3><p>沙箱是 deer-flow 区别于大多数 LLM 应用框架的关键。每个任务运行在独立的沙箱环境中，确保：</p>
+<ul>
+<li>代码执行不会污染宿主系统</li>
+<li>环境隔离保证可重复性</li>
+<li>支持多种运行时（容器、VM 等）</li>
+</ul>
+<p>沙箱提供了一套标准化的执行接口，LLM 生成的操作（代码、命令）统一经由沙箱执行并返回结果，形成<strong>观察 → 思考 → 行动的闭环</strong>。</p>
+<h3 id="🧠-Memory（记忆）"><a href="#🧠-Memory（记忆）" class="headerlink" title="🧠 Memory（记忆）"></a>🧠 Memory（记忆）</h3><p>deer-flow 实现了<strong>持久化记忆层</strong>，能够在多次交互和任务之间保持上下文：</p>
+<ul>
+<li><strong>短期记忆</strong>：当前会话内的消息历史</li>
+<li><strong>长期记忆</strong>：跨会话积累的知识、偏好和中间结果</li>
+<li>支持向量检索与结构化存储</li>
+</ul>
+<p>这使得 Agent 在处理复杂长任务时不会「失忆」，也无需在每次调用时重复传递完整上下文。</p>
+<h3 id="🔧-Tools（工具）"><a href="#🔧-Tools（工具）" class="headerlink" title="🔧 Tools（工具）"></a>🔧 Tools（工具）</h3><p>框架内置了一套可扩展的工具系统，典型工具包括：</p>
+<ul>
+<li>文件系统操作（读写、搜索）</li>
+<li>Web 搜索与页面获取</li>
+<li>代码执行</li>
+<li>API 调用封装</li>
+</ul>
+<p>工具通过统一接口注册，LLM 可以按需调用，工具描述以结构化方式注入到 prompt 中，实现<strong>工具选择自动化</strong>。</p>
+<h3 id="🛠️-Skills（技能）"><a href="#🛠️-Skills（技能）" class="headerlink" title="🛠️ Skills（技能）"></a>🛠️ Skills（技能）</h3><p>技能是 deer-flow 特有的<strong>高阶能力封装</strong>。不同于单次调用的工具，技能是一个完整的工作流模板：</p>
+<ul>
+<li>预定义的技能如「代码重构」「技术调研」「文档生成」</li>
+<li>每个技能内部编排了多步工具调用和 LLM 推理</li>
+<li>支持技能嵌套和组合复用</li>
+</ul>
+<p>通过技能体系，deer-flow 将常见的复杂操作沉淀为可复用的能力单元。</p>
+<h3 id="🤖-Subagents（子代理）"><a href="#🤖-Subagents（子代理）" class="headerlink" title="🤖 Subagents（子代理）"></a>🤖 Subagents（子代理）</h3><p>deer-flow 支持<strong>多代理协作</strong>：</p>
+<ul>
+<li>主代理负责任务规划和协调</li>
+<li>子代理承担特定子任务（调研、编码、测试等）</li>
+<li>子代理之间通过标准接口传递中间结果</li>
+</ul>
+<p>这种层级化的代理设计避免了单一代理的上下文膨胀问题，同时提升了任务处理的并行度。</p>
+<hr>
+<h2 id="核心流程解析"><a href="#核心流程解析" class="headerlink" title="核心流程解析"></a>核心流程解析</h2><p>deer-flow 的任务执行遵循经典的 <strong>OODA 循环</strong>变体：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户输入 → 任务规划 → [沙箱执行 + 工具调用] × N → 结果评估 → 任务完成/迭代</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>任务规划</strong>：主代理分析用户请求，拆解为可执行的步骤序列</li>
+<li><strong>迭代执行</strong>：每个步骤在沙箱中执行，LLM 根据执行结果决定下一步</li>
+<li><strong>结果评估</strong>：执行完成后，框架对输出质量做自动&#x2F;半自动评估</li>
+<li><strong>记忆更新</strong>：关键中间结果和最终结果写入记忆层，供后续任务复用</li>
+</ol>
+<p>这套流程的关键在于<strong>沙箱与 LLM 的紧耦合</strong>——不是简单的 tool calling，而是 LLM 生成完整操作序列后统一在沙箱中执行，降低了网络交互次数，提升了执行确定性。</p>
+<hr>
+<h2 id="与-LangChain-LlamaIndex-的区别"><a href="#与-LangChain-LlamaIndex-的区别" class="headerlink" title="与 LangChain &#x2F; LlamaIndex 的区别"></a>与 LangChain &#x2F; LlamaIndex 的区别</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>LangChain</th>
+<th>LlamaIndex</th>
+<th>deer-flow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定位</strong></td>
+<td>LLM 应用「胶水」框架</td>
+<td>知识检索与问答框架</td>
+<td>SuperAgent 执行运行时</td>
+</tr>
+<tr>
+<td><strong>核心抽象</strong></td>
+<td>Chain、Agent、Tool</td>
+<td>Index、Query Engine</td>
+<td>Sandbox、Skill、Subagent</td>
+</tr>
+<tr>
+<td><strong>执行模式</strong></td>
+<td>链式调用，LLM 每次生成一步</td>
+<td>检索 → 生成</td>
+<td>沙箱内闭环多步执行</td>
+</tr>
+<tr>
+<td><strong>记忆</strong></td>
+<td>简单 Chat Memory</td>
+<td>向量存储为主</td>
+<td>分层记忆（短期+长期+结构化）</td>
+</tr>
+<tr>
+<td><strong>沙箱</strong></td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+<td>✅ 核心组件</td>
+</tr>
+<tr>
+<td><strong>技能体系</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ 预定义技能工作流</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>快速原型、RAG 应用</td>
+<td>知识库问答</td>
+<td>复杂长任务、端到端自动化</td>
+</tr>
+</tbody></table>
+<p><strong>一句话总结</strong>：LangChain 解决的是「怎么串」，LlamaIndex 解决的是「怎么找」，deer-flow 解决的是「怎么做」——它真正把 LLM 当成了一个可以自主执行任务的 Agent，而不是生成文本的 API。</p>
+<hr>
+<h2 id="技术亮点"><a href="#技术亮点" class="headerlink" title="技术亮点"></a>技术亮点</h2><h3 id="1-沙箱优先的执行模型"><a href="#1-沙箱优先的执行模型" class="headerlink" title="1. 沙箱优先的执行模型"></a>1. 沙箱优先的执行模型</h3><p>大多数 LLM 代码生成工具依赖外部执行环境，而 deer-flow 将沙箱作为一等公民。这带来了更高的安全性和可重复性，也为「LLM 写代码 → 沙箱跑 → LLM 验证」的自动化闭环提供了基础设施。</p>
+<h3 id="2-技能可组合性"><a href="#2-技能可组合性" class="headerlink" title="2. 技能可组合性"></a>2. 技能可组合性</h3><p>Skills 层的设计借鉴了现代开发中的「设计模式」思路——将高频复杂操作封装为可插拔的工作流单元，LLM 可以像调用函数一样调用技能，降低了任务编排的复杂度。</p>
+<h3 id="3-多代理层级协作"><a href="#3-多代理层级协作" class="headerlink" title="3. 多代理层级协作"></a>3. 多代理层级协作</h3><p>Subagent 的引入让 deer-flow 具备了处理真正复杂任务的能力。通过主代理拆解 + 子代理执行 + 结果聚合的机制，单一代理的上下文窗口压力被显著缓解。</p>
+<h3 id="4-Python-优先"><a href="#4-Python-优先" class="headerlink" title="4. Python 优先"></a>4. Python 优先</h3><p>选择 Python 作为实现语言，贴合了 AI 领域的主流技术栈，降低了贡献门槛，也便于与现有的 Python ML&#x2F;AI 生态（PyTorch、transformers 等）集成。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>deer-flow 代表了一种新兴的 LLM 应用范式——<strong>不再把大模型当作生成器，而是当作执行器</strong>。它填补了「模型生成内容」到「内容实际可用」之间的鸿沟，是当前 SuperAgent 方向上一个值得关注的技术方案。</p>
+<p>如果你正在构建需要模型自主完成复杂任务的应用（如自动化研究、代码生成与测试、端到端流程自动化），deer-flow 的架构思路和工程实践值得深入研究。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/23/daily-project-023-deer-flow/">https://jollyfly.github.io/2026/03/23/daily-project-023-deer-flow/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/SuperAgent/">SuperAgent</a><a class="post-meta__tags" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/">字节跳动</a><a class="post-meta__tags" href="/tags/AI/">AI</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/23/daily-project-024-ruff/" title="ruff：用 Rust 重写的高速 Python Linter"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ruff：用 Rust 重写的高速 Python Linter</div></div><div class="info-2"><div class="info-item-1">项目概览ruff 是由 astral-sh 团队开源的一个极速 Python Linter 和代码格式化工具，完全使用 Rust 编写。它的核心目标是：用 Rust 的性能，替代 Python 生态中一系列经典工具（flake8、isort、pylint 部分规则等），实现”一个工具，多重能力”。 截至目前，ruff 已成为 Python 开源社区最受关注的工具之一，GitHub Stars 持续高速增长，被众多知名项目（如 UV、Polars、Disnake）采用作为默认 Linter。 核心能力覆盖：  Linting：500+ 条规则，兼容 flake8、pyflakes、pycodestyle、pylint 等规则集 格式化：兼容 black、ruff format，支持 PEP 8 风格 导入排序：兼容 isort 自动修复：支持自动修复大量可检测的问题   为什么用 Rust 写 Python 工具这听起来有点”用大炮打蚊子”——用 Rust 写一个 Python 工具。但背后有其深思熟虑的工程逻辑： 1. 性能瓶颈是 Python Linter 的原罪Python ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-021-trivy/" title="trivy：容器与云原生的全方位安全扫描工具"><img class="cover" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">trivy：容器与云原生的全方位安全扫描工具</div></div><div class="info-2"><div class="info-item-1">trivy：容器与云原生的全方位安全扫描工具项目概览trivy 是由 aquasecurity&#x2F;trivy 开发的开源安全扫描工具，采用 Go 语言编写，目前拥有 33,769 Stars。作为一款”一键式”的安全扫描器，trivy 能够对容器镜像、Kubernetes 集群、代码仓库、云环境进行全面体检，快速发现漏洞、配置错误和敏感信息泄露。  TRIVY 名字来源于英文单词 “trigger vulnerability“ 的缩写——一触即发的漏洞。  核心定位：让安全扫描像 git push 一样简单。  核心能力1. 漏洞扫描（Vulnerability Scanning）trivy 内置多源漏洞数据库，支持扫描：    扫描目标 数据源    Alpine, RHEL, CentOS, Debian, Ubuntu 等 Linux 发行版 官方 CVE 索引   Python (pip), Java (Maven&#x2F;Gradle), Node.js (npm&#x2F;yarn), Ruby gems 语言级依赖漏洞   容器镜像（Docker&#x2F...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-020-browser-use/" title="browser-use：让 AI 操控浏览器的开源框架"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">browser-use：让 AI 操控浏览器的开源框架</div></div><div class="info-2"><div class="info-item-1">项目概览browser-use 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。  GitHub: browser-use&#x2F;browser-use 语言: Python Star: 趋势热门  解决的问题传统浏览器自动化工具（如 Selenium、Playwright）需要开发者手动编写操作指令，门槛高、效率低。browser-use 通过接入大语言模型（LLM），让 AI 自动分析页面、规划操作步骤并执行，真正做到”说一句话，AI替你上网”。  核心原理AI 控制浏览器的流程图12345678910┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  用户指令   │ ──▶ │  LLM 分析   │ ──▶ │  规划动作   │ ──▶ │  浏览器执行  ││ (自然语言)  │     │  (理解页面)  │     │  (HTM...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img class="cover" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterV2：全自动在线盈利自动化工具</div></div><div class="info-2"><div class="info-item-1">项目概览MoneyPrinterV2 是由开发者 FujiwaraChoki 开源的 Python 项目，GitHub Stars 超过 20,900，定位是「Automate the process of making money online」——将在线盈利的全链路流程进行自动化编排。  ⚠️ 声明：本项目仅作技术研究分析，请勿用于任何违规违法用途。  基础信息一览：    项目 信息    仓库 FujiwaraChoki&#x2F;MoneyPrinterV2   语言 Python   Stars 20,902   定位 在线盈利流程自动化    与 MoneyPrinterTurbo 对比MoneyPrinterV2 并非横空出世，其前代版本 MoneyPrinterTurbo（由 user一样 的同名仓库）在社区中已有相当热度。以下是两代项目的主要差异：    特性 MoneyPrinterTurbo MoneyPrinterV2    架构模式 单体脚本式 模块化分层设计   AI 模型支持 仅 WebUI WebUI + API 双模式   视频生成 基础字幕 ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-026-warp/" title="Warp：内置 AI 的下一代终端"><img class="cover" src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">Warp：内置 AI 的下一代终端</div></div><div class="info-2"><div class="info-item-1">项目概览Warp（warpdotdev&#x2F;warp）是一款用 Rust 构建的现代化终端模拟器，其核心理念是将 AI 能力深度嵌入命令行界面。不同于传统终端仅负责文本渲染与进程管理，Warp 通过 AI 辅助大幅降低了命令行操作的学习门槛，同时提升资深用户的生产力。 作为 GitHub 趋势热门项目，Warp 以其独特的交互设计和底层性能优化，吸引了大量开发者的关注。  核心特性AI 自动补全Warp 内置智能补全引擎，不仅能补全文件名和路径，还能基于上下文补全完整的命令行参数、Git 工作流命令以及常用工具链指令。补全建议以直观的下拉菜单呈现，支持键盘导航，减少了记忆命令细节的负担。 命令解释对陌生命令感到困惑？选中任意命令行，Warp 的 AI 解释功能会即时返回该命令的功能分析、参数说明及潜在风险提示。这一特性对新人友好，也避免了资深用户因记忆偏差误操作。 AI 工作流Warp 不只是执行命令，还支持将一系列命令序列封装为可复用的”工作流”（Workflows）。结合 AI 理解，用户可以用自然语言描述目标，Warp 自动生成对应的工作流脚本并执行，降低了 Shel...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img class="cover" src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 Project N.O.M.A.D   全称 Novel Offline Machine for Autonomous Decision   地址 Crosstalk-Solutions&#x2F;project-nomad   语言 TypeScript + Docker   Stars 11,309   定位 离线生存计算机    核心理念：一台自包含的离线生存计算机，集成关键工具、知识库和 AI，无网络也能保持运转——随时随地为你提供信息支持和决策辅助。  离线生存计算机概念传统应用依赖云端，一旦没有网络就成了废铁。N.O.M.A.D 反其道而行：把一切你需要的信息和工具，全部打包进一个可离线运行的 Docker 容器里。 123456789101112131415┌─────────────────────────────────────────────┐│           N.O.M.A.D 离线生存计算机              ││                                             │...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-024-ruff/" title="ruff：用 Rust 重写的高速 Python Linter"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">ruff：用 Rust 重写的高速 Python Linter</div></div><div class="info-2"><div class="info-item-1">项目概览ruff 是由 astral-sh 团队开源的一个极速 Python Linter 和代码格式化工具，完全使用 Rust 编写。它的核心目标是：用 Rust 的性能，替代 Python 生态中一系列经典工具（flake8、isort、pylint 部分规则等），实现”一个工具，多重能力”。 截至目前，ruff 已成为 Python 开源社区最受关注的工具之一，GitHub Stars 持续高速增长，被众多知名项目（如 UV、Polars、Disnake）采用作为默认 Linter。 核心能力覆盖：  Linting：500+ 条规则，兼容 flake8、pyflakes、pycodestyle、pylint 等规则集 格式化：兼容 black、ruff format，支持 PEP 8 风格 导入排序：兼容 isort 自动修复：支持自动修复大量可检测的问题   为什么用 Rust 写 Python 工具这听起来有点”用大炮打蚊子”——用 Rust 写一个 Python 工具。但背后有其深思熟虑的工程逻辑： 1. 性能瓶颈是 Python Linter 的原罪Python ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SuperAgent-%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%B2%99%E7%AE%B1-%E8%AE%B0%E5%BF%86-%E5%B7%A5%E5%85%B7-%E6%8A%80%E8%83%BD%E4%BD%93%E7%B3%BB"><span class="toc-number">2.</span> <span class="toc-text">SuperAgent 架构：沙箱 + 记忆 + 工具 + 技能体系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8F%96%EF%B8%8F-Sandbox%EF%BC%88%E6%B2%99%E7%AE%B1%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">🏖️ Sandbox（沙箱）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%A0-Memory%EF%BC%88%E8%AE%B0%E5%BF%86%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">🧠 Memory（记忆）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%A7-Tools%EF%BC%88%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">🔧 Tools（工具）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9B%A0%EF%B8%8F-Skills%EF%BC%88%E6%8A%80%E8%83%BD%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">🛠️ Skills（技能）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A4%96-Subagents%EF%BC%88%E5%AD%90%E4%BB%A3%E7%90%86%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">🤖 Subagents（子代理）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">核心流程解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E-LangChain-LlamaIndex-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">与 LangChain &#x2F; LlamaIndex 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E4%BA%AE%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">技术亮点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B2%99%E7%AE%B1%E4%BC%98%E5%85%88%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.1.</span> <span class="toc-text">1. 沙箱优先的执行模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8A%80%E8%83%BD%E5%8F%AF%E7%BB%84%E5%90%88%E6%80%A7"><span class="toc-number">5.2.</span> <span class="toc-text">2. 技能可组合性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A4%9A%E4%BB%A3%E7%90%86%E5%B1%82%E7%BA%A7%E5%8D%8F%E4%BD%9C"><span class="toc-number">5.3.</span> <span class="toc-text">3. 多代理层级协作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Python-%E4%BC%98%E5%85%88"><span class="toc-number">5.4.</span> <span class="toc-text">4. Python 优先</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '6e3c4118b71b9b1b4060bf9e91a75599'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>browser-use：让 AI 操控浏览器的开源框架 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览browser-use 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。  GitHub: browser-use&#x2F;browser-use 语言: Python Star: 趋势热门  解决的问题传统浏览器自动化工具（如 Selenium、Playwrig">
+<meta property="og:type" content="article">
+<meta property="og:title" content="browser-use：让 AI 操控浏览器的开源框架">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/23/daily-project-020-browser-use/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览browser-use 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。  GitHub: browser-use&#x2F;browser-use 语言: Python Star: 趋势热门  解决的问题传统浏览器自动化工具（如 Selenium、Playwrig">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-23T10:13:40.818Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="浏览器自动化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "browser-use：让 AI 操控浏览器的开源框架",
+  "url": "https://jollyfly.github.io/2026/03/23/daily-project-020-browser-use/",
+  "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80",
+  "datePublished": "2026-03-22T16:00:00.000Z",
+  "dateModified": "2026-03-23T10:13:40.818Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/23/daily-project-020-browser-use/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'browser-use：让 AI 操控浏览器的开源框架',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">browser-use：让 AI 操控浏览器的开源框架</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">browser-use：让 AI 操控浏览器的开源框架</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-22T16:00:00.000Z" title="发表于 2026-03-23 00:00:00">2026-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-23T10:13:40.818Z" title="更新于 2026-03-23 18:13:40">2026-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><p><strong>browser-use</strong> 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。</p>
+<ul>
+<li><strong>GitHub</strong>: <a target="_blank" rel="noopener" href="https://github.com/browser-use/browser-use">browser-use&#x2F;browser-use</a></li>
+<li><strong>语言</strong>: Python</li>
+<li><strong>Star</strong>: 趋势热门</li>
+</ul>
+<h3 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h3><p>传统浏览器自动化工具（如 Selenium、Playwright）需要开发者手动编写操作指令，门槛高、效率低。browser-use 通过接入大语言模型（LLM），让 AI 自动分析页面、规划操作步骤并执行，真正做到”说一句话，AI替你上网”。</p>
+<hr>
+<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><h3 id="AI-控制浏览器的流程图"><a href="#AI-控制浏览器的流程图" class="headerlink" title="AI 控制浏览器的流程图"></a>AI 控制浏览器的流程图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐</span><br><span class="line">│  用户指令   │ ──▶ │  LLM 分析   │ ──▶ │  规划动作   │ ──▶ │  浏览器执行  │</span><br><span class="line">│ (自然语言)  │     │  (理解页面)  │     │  (HTML/DOM) │     │  (DOM 操作) │</span><br><span class="line">└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘</span><br><span class="line">                                                                        │</span><br><span class="line">                                                                        ▼</span><br><span class="line">                    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐</span><br><span class="line">                    │   结果评估  │ ◀── │  状态反馈   │ ◀── │  截图/页面  │</span><br><span class="line">                    │  (判断完成)  │     │  (视觉+DOM) │     │   更新     │</span><br><span class="line">                    └─────────────┘     └─────────────┘     └─────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="工作流程详解"><a href="#工作流程详解" class="headerlink" title="工作流程详解"></a>工作流程详解</h3><ol>
+<li><strong>页面分析</strong>：browser-use 通过 Playwright&#x2F;CDP 获取页面 DOM 结构，结合视觉模型识别元素位置</li>
+<li><strong>LLM 决策</strong>：将页面状态（DOM + 截图）发送给 LLM，LLM 输出下一步操作（点击、输入、滚动等）</li>
+<li><strong>动作执行</strong>：通过 CDP（Chrome DevTools Protocol）或 WebDriver 执行具体操作</li>
+<li><strong>循环迭代</strong>：重复”分析→决策→执行”直到任务完成</li>
+</ol>
+<hr>
+<h2 id="核心代码解析"><a href="#核心代码解析" class="headerlink" title="核心代码解析"></a>核心代码解析</h2><h3 id="安装与初始化"><a href="#安装与初始化" class="headerlink" title="安装与初始化"></a>安装与初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install browser-use</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> browser_use <span class="keyword">import</span> Agent</span><br><span class="line"><span class="keyword">from</span> langchain_openai <span class="keyword">import</span> ChatOpenAI</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 LLM</span></span><br><span class="line">llm = ChatOpenAI(model=<span class="string">&quot;gpt-4&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Agent，传入浏览器任务</span></span><br><span class="line">agent = Agent(task=<span class="string">&quot;帮我搜索 GitHub 上的 browser-use 项目&quot;</span>, llm=llm)</span><br><span class="line">result = agent.run()</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Agent-核心逻辑（伪代码）"><a href="#Agent-核心逻辑（伪代码）" class="headerlink" title="Agent 核心逻辑（伪代码）"></a>Agent 核心逻辑（伪代码）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Agent</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, task: <span class="built_in">str</span>, llm</span>):</span><br><span class="line">        <span class="variable language_">self</span>.task = task</span><br><span class="line">        <span class="variable language_">self</span>.llm = llm</span><br><span class="line">        <span class="variable language_">self</span>.browser = Browser()  <span class="comment"># 基于 Playwright</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> <span class="variable language_">self</span>.is_complete():</span><br><span class="line">            <span class="comment"># 1. 获取当前页面状态</span></span><br><span class="line">            page_state = <span class="variable language_">self</span>.browser.get_page_state()</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 2. 构建 prompt，让 LLM 决策下一步</span></span><br><span class="line">            prompt = <span class="variable language_">self</span>.build_prompt(page_state)</span><br><span class="line">            action = <span class="variable language_">self</span>.llm.invoke(prompt)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 3. 执行动作</span></span><br><span class="line">            <span class="variable language_">self</span>.browser.execute(action)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.get_result()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Action-解析示例"><a href="#Action-解析示例" class="headerlink" title="Action 解析示例"></a>Action 解析示例</h3><p>LLM 返回的动作 JSON 可能长这样：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;click&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;element&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;button&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span> <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Search&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="string">&quot;点击搜索按钮执行查询&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="支持的浏览器操作"><a href="#支持的浏览器操作" class="headerlink" title="支持的浏览器操作"></a>支持的浏览器操作</h2><table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>click</code></td>
+<td>点击元素</td>
+<td>点击按钮、链接</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>输入文本</td>
+<td>填写表单、搜索框</td>
+</tr>
+<tr>
+<td><code>scroll</code></td>
+<td>滚动页面</td>
+<td>加载更多内容</td>
+</tr>
+<tr>
+<td><code>go_back</code></td>
+<td>浏览器后退</td>
+<td>返回上一页</td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td>等待加载</td>
+<td>等待元素出现</td>
+</tr>
+<tr>
+<td><code>screenshot</code></td>
+<td>截图</td>
+<td>记录当前状态</td>
+</tr>
+<tr>
+<td><code>extract_content</code></td>
+<td>提取内容</td>
+<td>抓取页面文本</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="技术亮点"><a href="#技术亮点" class="headerlink" title="技术亮点"></a>技术亮点</h2><h3 id="1-多模型支持"><a href="#1-多模型支持" class="headerlink" title="1. 多模型支持"></a>1. 多模型支持</h3><p>支持 OpenAI、Anthropic、Azure OpenAI、Google Gemini 等主流 LLM 接口，灵活切换。</p>
+<h3 id="2-视觉-DOM-双通道"><a href="#2-视觉-DOM-双通道" class="headerlink" title="2. 视觉+DOM 双通道"></a>2. 视觉+DOM 双通道</h3><p>结合页面截图（视觉）和 DOM 结构（文本），让 LLM 准确理解页面布局，避免纯 DOM 理解的歧义。</p>
+<h3 id="3-任务记忆机制"><a href="#3-任务记忆机制" class="headerlink" title="3. 任务记忆机制"></a>3. 任务记忆机制</h3><p>Agent 维护对话历史和页面状态上下文，支持多轮交互完成复杂任务（如”先登录，再搜索，再下载”）。</p>
+<h3 id="4-可扩展性强"><a href="#4-可扩展性强" class="headerlink" title="4. 可扩展性强"></a>4. 可扩展性强</h3><ul>
+<li>支持自定义工具（Tools）</li>
+<li>支持流式输出（Streaming）</li>
+<li>支持本地浏览器或无头模式（Headless）</li>
+</ul>
+<h3 id="5-错误恢复"><a href="#5-错误恢复" class="headerlink" title="5. 错误恢复"></a>5. 错误恢复</h3><p>操作失败时自动重试，结合 LLM 自我纠错能力，提升任务成功率。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>browser-use 代表了 AI Agent 在 Web 自动化领域的重要突破。它将复杂的浏览器操控封装为自然语言交互，大大降低了 AI 上网的技术门槛。随着多模态模型的成熟，”AI 代替人类完成一切在线任务”正逐步变为现实。</p>
+<p>如果你想快速实现 AI 驱动的浏览器自动化，browser-use 是一个值得深入研究的开源项目。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/23/daily-project-020-browser-use/">https://jollyfly.github.io/2026/03/23/daily-project-020-browser-use/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%87%AA%E5%8A%A8%E5%8C%96/">浏览器自动化</a><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/AI/">AI</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/23/daily-project-021-trivy/" title="trivy：容器与云原生的全方位安全扫描工具"><img class="cover" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">trivy：容器与云原生的全方位安全扫描工具</div></div><div class="info-2"><div class="info-item-1">trivy：容器与云原生的全方位安全扫描工具项目概览trivy 是由 aquasecurity&#x2F;trivy 开发的开源安全扫描工具，采用 Go 语言编写，目前拥有 33,769 Stars。作为一款”一键式”的安全扫描器，trivy 能够对容器镜像、Kubernetes 集群、代码仓库、云环境进行全面体检，快速发现漏洞、配置错误和敏感信息泄露。  TRIVY 名字来源于英文单词 “trigger vulnerability“ 的缩写——一触即发的漏洞。  核心定位：让安全扫描像 git push 一样简单。  核心能力1. 漏洞扫描（Vulnerability Scanning）trivy 内置多源漏洞数据库，支持扫描：    扫描目标 数据源    Alpine, RHEL, CentOS, Debian, Ubuntu 等 Linux 发行版 官方 CVE 索引   Python (pip), Java (Maven&#x2F;Gradle), Node.js (npm&#x2F;yarn), Ruby gems 语言级依赖漏洞   容器镜像（Docker&#x2F...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-016-tradingagents-cn/" title="TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架"><img class="cover" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents-CN（hsliuping&#x2F;TradingAgents-CN）是 TradingAgents 项目的中文增强分支，基于多智能体 LLM 架构，专门针对中文金融市场进行深度优化。该项目利用大语言模型的推理与规划能力，构建了一套从市场分析、信号生成到交易执行的全链路自动化交易系统。 核心特性：  🌐 原生中文支持：数据源、Prompt、报告输出全面中文适配 🤖 多智能体协作：Researcher、Analyst、Trader 多角色分工明确 📊 多市场覆盖：A 股、港股、美股数据源均有对应接入方案 🔧 模块化设计：各组件解耦，便于二次开发和策略替换 🛡️ 风控层内置：内置止损、仓位管理、风险预算模块   与原版 TradingAgents 对比   维度 原版 TradingAgents TradingAgents-CN    数据源 Yahoo Finance &#x2F; Alpha Vantage（美股为主） Tushare &#x2F; AKShare &#x2F; 聚宽（A股&#x2F;港股）   Prompt 语言 英...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-023-deer-flow/" title="deer-flow：字节跳动开源 SuperAgent 执行框架"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">deer-flow：字节跳动开源 SuperAgent 执行框架</div></div><div class="info-2"><div class="info-item-1">项目概览deer-flow 是字节跳动开源的 SuperAgent 执行框架，定位为一个「AI 任务执行 harness」。它不只是一个提示词模板，而是一套完整的任务执行运行时，通过整合沙箱（Sandbox）、记忆（Memory）、工具（Tools）、技能（Skills）和子代理（Subagents），能够自主完成从分钟级到小时级不等复杂度的任务。  Stars: 36,801 语言: Python 开源地址: bytedance&#x2F;deer-flow  当前社区对 LLM 应用框架的关注大多集中在 LangChain&#x2F;LlamaIndex 等「编排层」，而 deer-flow 选择了一条不同的路——以执行体为中心，强调模型在沙箱环境中的闭环操作能力。  SuperAgent 架构：沙箱 + 记忆 + 工具 + 技能体系deer-flow 的核心设计围绕五大组件展开： 🏖️ Sandbox（沙箱）沙箱是 deer-flow 区别于大多数 LLM 应用框架的关键。每个任务运行在独立的沙箱环境中，确保：  代码执行不会污染宿主系统 环境隔离保证可重复性 支持多种运...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img class="cover" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterV2：全自动在线盈利自动化工具</div></div><div class="info-2"><div class="info-item-1">项目概览MoneyPrinterV2 是由开发者 FujiwaraChoki 开源的 Python 项目，GitHub Stars 超过 20,900，定位是「Automate the process of making money online」——将在线盈利的全链路流程进行自动化编排。  ⚠️ 声明：本项目仅作技术研究分析，请勿用于任何违规违法用途。  基础信息一览：    项目 信息    仓库 FujiwaraChoki&#x2F;MoneyPrinterV2   语言 Python   Stars 20,902   定位 在线盈利流程自动化    与 MoneyPrinterTurbo 对比MoneyPrinterV2 并非横空出世，其前代版本 MoneyPrinterTurbo（由 user一样 的同名仓库）在社区中已有相当热度。以下是两代项目的主要差异：    特性 MoneyPrinterTurbo MoneyPrinterV2    架构模式 单体脚本式 模块化分层设计   AI 模型支持 仅 WebUI WebUI + API 双模式   视频生成 基础字幕 ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-016-tradingagents-cn/" title="TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架"><img class="cover" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents-CN（hsliuping&#x2F;TradingAgents-CN）是 TradingAgents 项目的中文增强分支，基于多智能体 LLM 架构，专门针对中文金融市场进行深度优化。该项目利用大语言模型的推理与规划能力，构建了一套从市场分析、信号生成到交易执行的全链路自动化交易系统。 核心特性：  🌐 原生中文支持：数据源、Prompt、报告输出全面中文适配 🤖 多智能体协作：Researcher、Analyst、Trader 多角色分工明确 📊 多市场覆盖：A 股、港股、美股数据源均有对应接入方案 🔧 模块化设计：各组件解耦，便于二次开发和策略替换 🛡️ 风控层内置：内置止损、仓位管理、风险预算模块   与原版 TradingAgents 对比   维度 原版 TradingAgents TradingAgents-CN    数据源 Yahoo Finance &#x2F; Alpha Vantage（美股为主） Tushare &#x2F; AKShare &#x2F; 聚宽（A股&#x2F;港股）   Prompt 语言 英...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-024-ruff/" title="ruff：用 Rust 重写的高速 Python Linter"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">ruff：用 Rust 重写的高速 Python Linter</div></div><div class="info-2"><div class="info-item-1">项目概览ruff 是由 astral-sh 团队开源的一个极速 Python Linter 和代码格式化工具，完全使用 Rust 编写。它的核心目标是：用 Rust 的性能，替代 Python 生态中一系列经典工具（flake8、isort、pylint 部分规则等），实现”一个工具，多重能力”。 截至目前，ruff 已成为 Python 开源社区最受关注的工具之一，GitHub Stars 持续高速增长，被众多知名项目（如 UV、Polars、Disnake）采用作为默认 Linter。 核心能力覆盖：  Linting：500+ 条规则，兼容 flake8、pyflakes、pycodestyle、pylint 等规则集 格式化：兼容 black、ruff format，支持 PEP 8 风格 导入排序：兼容 isort 自动修复：支持自动修复大量可检测的问题   为什么用 Rust 写 Python 工具这听起来有点”用大炮打蚊子”——用 Rust 写一个 Python 工具。但背后有其深思熟虑的工程逻辑： 1. 性能瓶颈是 Python Linter 的原罪Python ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img class="cover" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterTurbo：AI 一键生成高清短视频</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取 → 语音合成 → 字幕渲染 → 视频合成，一键输出高清短视频（竖屏 9:16 &#x2F; 横屏 16:9）。 核心架构12345678910111213141516171819关键词/主题    │    ▼┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  LLM 文案生成 │ ──▶ │ Pexels 素材 │ ──▶ │  语音合成   ││  (DeepSeek/  │     │  (无版权)   │     │  (GPT-SoVITS││   Moonshot)  │     │             │...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">解决的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">核心原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AI-%E6%8E%A7%E5%88%B6%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">2.1.</span> <span class="toc-text">AI 控制浏览器的流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.2.</span> <span class="toc-text">工作流程详解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">核心代码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.1.</span> <span class="toc-text">安装与初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Agent-%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91%EF%BC%88%E4%BC%AA%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">Agent 核心逻辑（伪代码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Action-%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.4.</span> <span class="toc-text">Action 解析示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">支持的浏览器操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E4%BA%AE%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">技术亮点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%A4%9A%E6%A8%A1%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-number">5.1.</span> <span class="toc-text">1. 多模型支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%A7%86%E8%A7%89-DOM-%E5%8F%8C%E9%80%9A%E9%81%93"><span class="toc-number">5.2.</span> <span class="toc-text">2. 视觉+DOM 双通道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6"><span class="toc-number">5.3.</span> <span class="toc-text">3. 任务记忆机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E5%BC%BA"><span class="toc-number">5.4.</span> <span class="toc-text">4. 可扩展性强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%94%99%E8%AF%AF%E6%81%A2%E5%A4%8D"><span class="toc-number">5.5.</span> <span class="toc-text">5. 错误恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '3d37515b59c7d1cd745631c51a46eabc'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

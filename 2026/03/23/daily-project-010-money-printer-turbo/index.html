@@ -1,0 +1,695 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MoneyPrinterTurbo：AI 一键生成高清短视频 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MoneyPrinterTurbo：AI 一键生成高清短视频">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/23/daily-project-010-money-printer-turbo/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-23T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-23T09:11:37.773Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI视频生成">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="MoneyPrinterTurbo">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="短视频">
+<meta property="article:tag" content="自动化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MoneyPrinterTurbo：AI 一键生成高清短视频",
+  "url": "https://jollyfly.github.io/2026/03/23/daily-project-010-money-printer-turbo/",
+  "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+  "datePublished": "2026-03-23T04:00:00.000Z",
+  "dateModified": "2026-03-23T09:11:37.773Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/23/daily-project-010-money-printer-turbo/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MoneyPrinterTurbo：AI 一键生成高清短视频',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">MoneyPrinterTurbo：AI 一键生成高清短视频</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">MoneyPrinterTurbo：AI 一键生成高清短视频</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-23T09:11:37.773Z" title="更新于 2026-03-23 17:11:37">2026-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A1%B9%E7%9B%AE/">每日一项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名称</td>
+<td>MoneyPrinterTurbo</td>
+</tr>
+<tr>
+<td>地址</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/harry0703/MoneyPrinterTurbo">harry0703&#x2F;MoneyPrinterTurbo</a></td>
+</tr>
+<tr>
+<td>语言</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Stars</td>
+<td>20,000+</td>
+</tr>
+<tr>
+<td>架构</td>
+<td>MVC + 流式 pipeline</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>Docker &#x2F; conda &#x2F; 一键启动包</td>
+</tr>
+</tbody></table>
+<p>只需提供一个<strong>视频主题或关键词</strong>，即可全自动完成：文案生成 → 素材爬取 → 语音合成 → 字幕渲染 → 视频合成，一键输出高清短视频（竖屏 9:16 &#x2F; 横屏 16:9）。</p>
+<h2 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">关键词/主题</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">┌─────────────┐     ┌─────────────┐     ┌─────────────┐</span><br><span class="line">│  LLM 文案生成 │ ──▶ │ Pexels 素材 │ ──▶ │  语音合成   │</span><br><span class="line">│  (DeepSeek/  │     │  (无版权)   │     │  (GPT-SoVITS│</span><br><span class="line">│   Moonshot)  │     │             │     │   /Azure)   │</span><br><span class="line">└─────────────┘     └─────────────┘     └─────────────┘</span><br><span class="line">                                            │</span><br><span class="line">                    ┌────────────────────────┘</span><br><span class="line">                    ▼</span><br><span class="line">              ┌─────────────┐     ┌─────────────┐</span><br><span class="line">              │ FFmpeg 合成 │ ──▶ │  字幕渲染   │</span><br><span class="line">              │  (ImageMagick│     │  (Edge/     │</span><br><span class="line">              │   驱动)      │     │   Whisper)  │</span><br><span class="line">              └─────────────┘     └─────────────┘</span><br><span class="line">                    │</span><br><span class="line">                    ▼</span><br><span class="line">              高清短视频输出</span><br></pre></td></tr></table></figure>
+
+<p><strong>各环节技术选型：</strong></p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>选型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文案</td>
+<td>LLM（DeepSeek &#x2F; Moonshot &#x2F; OpenAI &#x2F; 通义千问）</td>
+<td>自动生成，也可自定义</td>
+</tr>
+<tr>
+<td>素材</td>
+<td>Pexels API &#x2F; 本地素材</td>
+<td>高清无版权</td>
+</tr>
+<tr>
+<td>语音</td>
+<td>Azure TTS &#x2F; GPT-SoVITS &#x2F; OpenAI TTS</td>
+<td>支持情绪调节</td>
+</tr>
+<tr>
+<td>字幕</td>
+<td>Edge（快）&#x2F; Whisper（大模型，高质量）</td>
+<td>字体&#x2F;颜色&#x2F;位置可调</td>
+</tr>
+<tr>
+<td>合成</td>
+<td>FFmpeg + ImageMagick</td>
+<td>跨平台</td>
+</tr>
+<tr>
+<td>视频尺寸</td>
+<td>竖屏 9:16 &#x2F; 横屏 16:9</td>
+<td>适配抖音&#x2F;视频号&#x2F;YouTube</td>
+</tr>
+</tbody></table>
+<h2 id="核心代码解析"><a href="#核心代码解析" class="headerlink" title="核心代码解析"></a>核心代码解析</h2><h3 id="1-视频生成主流程"><a href="#1-视频生成主流程" class="headerlink" title="1. 视频生成主流程"></a>1. 视频生成主流程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># main.py 核心逻辑</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">generate_video</span>(<span class="params">topic: <span class="built_in">str</span>, settings: Config</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="comment"># Step 1: LLM 生成文案</span></span><br><span class="line">    script = <span class="keyword">await</span> llm.generate_script(topic, settings)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 2: 语音合成</span></span><br><span class="line">    audio_path = <span class="keyword">await</span> tts合成(script, settings)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 3: 获取视频素材</span></span><br><span class="line">    video_clips = <span class="keyword">await</span> pexels.fetch_clips(script, settings)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 4: 生成字幕</span></span><br><span class="line">    subtitles = <span class="keyword">await</span> subtitle.generate(script, audio_path, settings)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 5: FFmpeg 合成最终视频</span></span><br><span class="line">    output = ffmpeg.compile_video(video_clips, audio_path, subtitles, settings)</span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-FFmpeg-合成命令"><a href="#2-FFmpeg-合成命令" class="headerlink" title="2. FFmpeg 合成命令"></a>2. FFmpeg 合成命令</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># video_creator.py</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">compile_video</span>(<span class="params">clips, audio, subtitle_path, output_path, settings</span>):</span><br><span class="line">    <span class="comment"># 素材裁剪 + 转场 + 字幕烧录 + 音频混合</span></span><br><span class="line">    cmd = [</span><br><span class="line">        <span class="string">&#x27;ffmpeg&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;-y&#x27;</span>,</span><br><span class="line">        *concat_video_parts(clips),      <span class="comment"># 素材片段拼接</span></span><br><span class="line">        <span class="string">&#x27;-i&#x27;</span>, audio,                      <span class="comment"># 背景音乐/配音</span></span><br><span class="line">        <span class="string">&#x27;-i&#x27;</span>, subtitle_path,              <span class="comment"># 字幕文件</span></span><br><span class="line">        <span class="string">&#x27;-c:v&#x27;</span>, <span class="string">&#x27;libx264&#x27;</span>, <span class="string">&#x27;-preset&#x27;</span>, <span class="string">&#x27;medium&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;-c:a&#x27;</span>, <span class="string">&#x27;aac&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;-vf&#x27;</span>, <span class="string">f&#x27;subtitles=<span class="subst">&#123;subtitle_path&#125;</span>&#x27;</span>,  <span class="comment"># 字幕烧录</span></span><br><span class="line">        output_path</span><br><span class="line">    ]</span><br><span class="line">    subprocess.run(cmd, check=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Pexels-素材获取"><a href="#3-Pexels-素材获取" class="headerlink" title="3. Pexels 素材获取"></a>3. Pexels 素材获取</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># video_creator.py</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">fetch_video_clips</span>(<span class="params">keywords: <span class="built_in">list</span>[<span class="built_in">str</span>], count: <span class="built_in">int</span> = <span class="number">5</span></span>):</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Authorization&#x27;</span>: PEXELS_API_KEY&#125;</span><br><span class="line">    clips = []</span><br><span class="line">    <span class="keyword">for</span> kw <span class="keyword">in</span> keywords[:count]:</span><br><span class="line">        resp = requests.get(</span><br><span class="line">            <span class="string">&#x27;https://api.pexels.com/videos/search&#x27;</span>,</span><br><span class="line">            headers=headers, params=&#123;<span class="string">&#x27;query&#x27;</span>: kw, <span class="string">&#x27;per_page&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">        )</span><br><span class="line">        videos = resp.json()[<span class="string">&#x27;videos&#x27;</span>]</span><br><span class="line">        <span class="comment"># 下载最高质量版本</span></span><br><span class="line">        url = videos[<span class="number">0</span>][<span class="string">&#x27;video_files&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;link&#x27;</span>]</span><br><span class="line">        path = download(url)</span><br><span class="line">        clips.append(&#123;<span class="string">&#x27;path&#x27;</span>: path, <span class="string">&#x27;duration&#x27;</span>: videos[<span class="number">0</span>][<span class="string">&#x27;duration&#x27;</span>]&#125;)</span><br><span class="line">    <span class="keyword">return</span> clips</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-字幕生成（Edge-Whisper）"><a href="#4-字幕生成（Edge-Whisper）" class="headerlink" title="4. 字幕生成（Edge &#x2F; Whisper）"></a>4. 字幕生成（Edge &#x2F; Whisper）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># subtitle.py</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">generate_subtitles</span>(<span class="params">text: <span class="built_in">str</span>, audio_path: <span class="built_in">str</span>, provider: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">if</span> provider == <span class="string">&#x27;edge&#x27;</span>:</span><br><span class="line">        <span class="comment"># 速度快，对硬件无要求</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> edge_tts.generate(audio_path, text)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 质量更高，需下载 whisper-large-v3 模型 (~3GB)</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> whisper_model.transcribe(audio_path)</span><br></pre></td></tr></table></figure>
+
+<h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h2><h3 id="支持的模型提供商"><a href="#支持的模型提供商" class="headerlink" title="支持的模型提供商"></a>支持的模型提供商</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OpenAI / Azure / DeepSeek / Moonshot / 通义千问 /</span><br><span class="line">Google Gemini / Pollinations / ModelScope / Ollama / gpt4free / one-api</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>国内用户推荐</strong>：DeepSeek 或 Moonshot（国内可直接访问，注册送额度）</p>
+</blockquote>
+<h3 id="视频尺寸与平台适配"><a href="#视频尺寸与平台适配" class="headerlink" title="视频尺寸与平台适配"></a>视频尺寸与平台适配</h3><table>
+<thead>
+<tr>
+<th>尺寸</th>
+<th>比例</th>
+<th>适用平台</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1080 × 1920</td>
+<td>9:16 竖屏</td>
+<td>抖音、视频号、快手</td>
+</tr>
+<tr>
+<td>1920 × 1080</td>
+<td>16:9 横屏</td>
+<td>YouTube、B站</td>
+</tr>
+<tr>
+<td>720 × 1280</td>
+<td>竖屏（可选）</td>
+<td>短视频平台</td>
+</tr>
+</tbody></table>
+<h3 id="批量生成"><a href="#批量生成" class="headerlink" title="批量生成"></a>批量生成</h3><p>支持一次输入多个主题，批量生成多个视频，从中挑选最满意的一个。</p>
+<h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><h3 id="方式一：DOCKER（一行部署）"><a href="#方式一：DOCKER（一行部署）" class="headerlink" title="方式一：DOCKER（一行部署）"></a>方式一：DOCKER（一行部署）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/harry0703/MoneyPrinterTurbo.git</span><br><span class="line"><span class="built_in">cd</span> MoneyPrinterTurbo</span><br><span class="line">docker-compose up</span><br><span class="line"><span class="comment"># 访问 http://localhost:8080/docs 或 http://localhost:8501</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方式二：Conda-本地"><a href="#方式二：Conda-本地" class="headerlink" title="方式二：Conda 本地"></a>方式二：Conda 本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conda create -n MoneyPrinterTurbo python=3.11</span><br><span class="line">conda activate MoneyPrinterTurbo</span><br><span class="line">pip install -r requirements.txt</span><br><span class="line"><span class="comment"># Linux/Mac:</span></span><br><span class="line">sh webui.sh</span><br><span class="line"><span class="comment"># Windows:</span></span><br><span class="line">webui.bat</span><br></pre></td></tr></table></figure>
+
+<h3 id="方式三：一键启动包"><a href="#方式三：一键启动包" class="headerlink" title="方式三：一键启动包"></a>方式三：一键启动包</h3><p>下载百度网盘或 Google Drive 的打包文件，解压后双击 <code>start.bat</code>，无需配置环境。</p>
+<h3 id="国内用户特别提示"><a href="#国内用户特别提示" class="headerlink" title="国内用户特别提示"></a>国内用户特别提示</h3><ul>
+<li><strong>大模型</strong>：推荐 DeepSeek &#x2F; Moonshot（国内直连）</li>
+<li><strong>素材</strong>：Pexels 国内可直接访问</li>
+<li>** Whisper 模型**：国内访问 HuggingFace 困难，可从百度网盘手动下载</li>
+</ul>
+<h2 id="技术亮点"><a href="#技术亮点" class="headerlink" title="技术亮点"></a>技术亮点</h2><h3 id="1-完整-MVC-架构"><a href="#1-完整-MVC-架构" class="headerlink" title="1. 完整 MVC 架构"></a>1. 完整 MVC 架构</h3><p>代码结构清晰，<code>main.py</code> 入口、<code>video_creator.py</code> 合成、<code>llm_provider</code> 抽象层，插件式设计便于扩展新模型&#x2F;素材源。</p>
+<h3 id="2-无版权视频素材"><a href="#2-无版权视频素材" class="headerlink" title="2. 无版权视频素材"></a>2. 无版权视频素材</h3><p>Pexels API 提供大量高质量无版权视频，替代成本高昂的自制素材。</p>
+<h3 id="3-情绪化语音合成"><a href="#3-情绪化语音合成" class="headerlink" title="3. 情绪化语音合成"></a>3. 情绪化语音合成</h3><p>通过 GPT-SoVITS 和 Azure TTS，实现带有情绪起伏的配音，而非机械朗读。参考 demo 中”生命的意义是什么”等视频，效果自然。</p>
+<h3 id="4-字幕精准同步"><a href="#4-字幕精准同步" class="headerlink" title="4. 字幕精准同步"></a>4. 字幕精准同步</h3><p>Edge 模式实时生成速度快；Whisper 大模型模式质量可靠，支持自动时间轴对齐。</p>
+<h3 id="5-FFmpeg-自动化合成"><a href="#5-FFmpeg-自动化合成" class="headerlink" title="5. FFmpeg 自动化合成"></a>5. FFmpeg 自动化合成</h3><p>所有素材、音频、字幕通过 FFmpeg 一条命令完成混合编码，避免手工操作。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li><strong>自媒体账号</strong>：快速批量生产短视频内容</li>
+<li><strong>出海营销</strong>：生成 YouTube&#x2F;TikTok 多语言视频</li>
+<li><strong>内容工厂</strong>：结合 AI 文案 + 素材库，实现日更自动化</li>
+<li><strong>演示Demo</strong>：输入主题，自动生成演示视频用于产品介绍</li>
+</ul>
+<h2 id="局限与注意事项"><a href="#局限与注意事项" class="headerlink" title="局限与注意事项"></a>局限与注意事项</h2><ol>
+<li><strong>内容审核</strong>：生成内容需自行审核，平台违规风险自担</li>
+<li><strong>素材匹配</strong>：AI 素材匹配尚不完美，可能出现文不对题情况</li>
+<li><strong>Whisper 模型</strong>：高质量字幕需手动下载 ~3GB 模型文件</li>
+<li><strong>中文路径</strong>：Windows 用户避免使用中文路径部署</li>
+<li><strong>网络</strong>：国内需 VPN 全局模式访问部分模型 API</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MoneyPrinterTurbo 将”短视频生产”的全链路做到了<strong>开箱即用</strong>：</p>
+<ul>
+<li>一个主题 → 完整视频文案 → 素材自动爬取 → 情绪配音 → 字幕渲染 → FFmpeg 合成</li>
+<li>支持 Docker &#x2F; conda &#x2F; 一键包多种部署方式</li>
+<li>国内友好（DeepSeek + Moonshot + Pexels 均直连）</li>
+</ul>
+<p>代码开源，架构清晰，是一个<strong>工程化程度很高</strong>的 AI 应用项目，值得研究其 LLM 调用、FFmpeg 合成、字幕生成等模块的实现思路。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目技术分析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/23/daily-project-010-money-printer-turbo/">https://jollyfly.github.io/2026/03/23/daily-project-010-money-printer-turbo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90/">AI视频生成</a><a class="post-meta__tags" href="/tags/%E7%9F%AD%E8%A7%86%E9%A2%91/">短视频</a><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a><a class="post-meta__tags" href="/tags/MoneyPrinterTurbo/">MoneyPrinterTurbo</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img class="cover" src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 Project N.O.M.A.D   全称 Novel Offline Machine for Autonomous Decision   地址 Crosstalk-Solutions&#x2F;project-nomad   语言 TypeScript + Docker   Stars 11,309   定位 离线生存计算机    核心理念：一台自包含的离线生存计算机，集成关键工具、知识库和 AI，无网络也能保持运转——随时随地为你提供信息支持和决策辅助。  离线生存计算机概念传统应用依赖云端，一旦没有网络就成了废铁。N.O.M.A.D 反其道而行：把一切你需要的信息和工具，全部打包进一个可离线运行的 Docker 容器里。 123456789101112131415┌─────────────────────────────────────────────┐│           N.O.M.A.D 离线生存计算机              ││                                             │...</div></div></div></a><a class="pagination-related" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img class="cover" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">算法剖析④ | 堆、图论、高级数据结构</div></div><div class="info-2"><div class="info-item-1"> 本系列以「题目描述 → 分类标签 → 初步思路（暴力） → 画图演示（mermaid） → 优化过程 → 最优解 → Java 实现代码 → 复杂度分析」八段式结构，深入剖析 LeetCode 高频面试算法题。本文为第四篇，涵盖第 16-20 题，主题聚焦于堆、图论与高级数据结构的综合运用。   题目十六：合并 K 个有序链表（LeetCode 23）题目描述 给定 K 个有序链表，将其合并为一个有序链表，返回头结点。  示例： 12输入：lists = [[1,4,5],[1,3,4],[2,6]]输出：1 → 1 → 2 → 3 → 4 → 4 → 5 → 6  分类标签堆 优先队列 链表 分治 归并 初步思路（暴力）依次遍历 K 条链表的所有节点，将值全部存入数组，排序后重新构建链表。 123456789101112131415161718// 暴力法：O(N log N)，N 为总节点数public ListNode mergeKLists暴力(ListNode[] lists) &#123;    List&lt;Integer&gt; vals = new Arra...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img class="cover" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterV2：全自动在线盈利自动化工具</div></div><div class="info-2"><div class="info-item-1">项目概览MoneyPrinterV2 是由开发者 FujiwaraChoki 开源的 Python 项目，GitHub Stars 超过 20,900，定位是「Automate the process of making money online」——将在线盈利的全链路流程进行自动化编排。  ⚠️ 声明：本项目仅作技术研究分析，请勿用于任何违规违法用途。  基础信息一览：    项目 信息    仓库 FujiwaraChoki&#x2F;MoneyPrinterV2   语言 Python   Stars 20,902   定位 在线盈利流程自动化    与 MoneyPrinterTurbo 对比MoneyPrinterV2 并非横空出世，其前代版本 MoneyPrinterTurbo（由 user一样 的同名仓库）在社区中已有相当热度。以下是两代项目的主要差异：    特性 MoneyPrinterTurbo MoneyPrinterV2    架构模式 单体脚本式 模块化分层设计   AI 模型支持 仅 WebUI WebUI + API 双模式   视频生成 基础字幕 ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-016-tradingagents-cn/" title="TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架"><img class="cover" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents-CN（hsliuping&#x2F;TradingAgents-CN）是 TradingAgents 项目的中文增强分支，基于多智能体 LLM 架构，专门针对中文金融市场进行深度优化。该项目利用大语言模型的推理与规划能力，构建了一套从市场分析、信号生成到交易执行的全链路自动化交易系统。 核心特性：  🌐 原生中文支持：数据源、Prompt、报告输出全面中文适配 🤖 多智能体协作：Researcher、Analyst、Trader 多角色分工明确 📊 多市场覆盖：A 股、港股、美股数据源均有对应接入方案 🔧 模块化设计：各组件解耦，便于二次开发和策略替换 🛡️ 风控层内置：内置止损、仓位管理、风险预算模块   与原版 TradingAgents 对比   维度 原版 TradingAgents TradingAgents-CN    数据源 Yahoo Finance &#x2F; Alpha Vantage（美股为主） Tushare &#x2F; AKShare &#x2F; 聚宽（A股&#x2F;港股）   Prompt 语言 英...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架"><img class="cover" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents：多智能体 LLM 金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents 是由 TauricResearch 团队开源的多智能体 LLM 金融交易框架，目前在 GitHub 上已斩获 38,185 Stars，是金融量化与 AI Agent 结合领域最热门的项目之一。 该项目利用大语言模型（LLM）的推理能力，通过多个专业 Agent 的协作，完成从市场分析、策略制定、交易执行到风险控制的完整交易流程。核心使用 Python 开发，架构清晰，扩展性强。  多智能体架构TradingAgents 的核心设计理念是专业分工 + 智能协作。系统由多个各司其职的 Agent 组成，通过消息传递和任务调度形成完整的交易决策链： 12345678910111213141516171819202122┌─────────────────────────────────────────────────────────┐│                    TradingAgents 系统架构                │├────────────────────────────────────────────────────...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-015-lightrag/" title="LightRAG：简单高效的检索增强生成系统"><img class="cover" src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">LightRAG：简单高效的检索增强生成系统</div></div><div class="info-2"><div class="info-item-1">LightRAG：简单高效的检索增强生成系统📌 项目概览   属性 信息    项目名称 LightRAG   仓库地址 HKUDS&#x2F;LightRAG   论文 EMNLP2025   语言 Python   Stars 趋势上升中   机构 香港大学 (HKU)   LightRAG 是香港大学研究团队在 EMNLP 2025 发表的一种轻量级检索增强生成（Retrieval-Augmented Generation）框架。其核心主张：简单 + 快速——通过简化传统 RAG  pipeline 的多个环节，在保证答案质量的同时显著提升推理效率。 传统 RAG 系统往往需要复杂的向量数据库、多次检索轮次、冗长的上下文窗口管理。LightRAG 另辟蹊径，用更少的计算资源交出更好的答卷。  🔄 RAG vs LightRAG：核心差异传统 RAG 的痛点12345用户问题 → 向量检索 → Top-K 文档 → 拼接上下文 → LLM 生成                                      ↑                          ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-020-browser-use/" title="browser-use：让 AI 操控浏览器的开源框架"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">browser-use：让 AI 操控浏览器的开源框架</div></div><div class="info-2"><div class="info-item-1">项目概览browser-use 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。  GitHub: browser-use&#x2F;browser-use 语言: Python Star: 趋势热门  解决的问题传统浏览器自动化工具（如 Selenium、Playwright）需要开发者手动编写操作指令，门槛高、效率低。browser-use 通过接入大语言模型（LLM），让 AI 自动分析页面、规划操作步骤并执行，真正做到”说一句话，AI替你上网”。  核心原理AI 控制浏览器的流程图12345678910┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  用户指令   │ ──▶ │  LLM 分析   │ ──▶ │  规划动作   │ ──▶ │  浏览器执行  ││ (自然语言)  │     │  (理解页面)  │     │  (HTM...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">核心架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">核心代码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E4%B8%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">1. 视频生成主流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-FFmpeg-%E5%90%88%E6%88%90%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text">2. FFmpeg 合成命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Pexels-%E7%B4%A0%E6%9D%90%E8%8E%B7%E5%8F%96"><span class="toc-number">3.3.</span> <span class="toc-text">3. Pexels 素材获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AD%97%E5%B9%95%E7%94%9F%E6%88%90%EF%BC%88Edge-Whisper%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">4. 字幕生成（Edge &#x2F; Whisper）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">功能特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%8F%90%E4%BE%9B%E5%95%86"><span class="toc-number">4.1.</span> <span class="toc-text">支持的模型提供商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E5%B0%BA%E5%AF%B8%E4%B8%8E%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D"><span class="toc-number">4.2.</span> <span class="toc-text">视频尺寸与平台适配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90"><span class="toc-number">4.3.</span> <span class="toc-text">批量生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">部署方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9ADOCKER%EF%BC%88%E4%B8%80%E8%A1%8C%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">方式一：DOCKER（一行部署）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9AConda-%E6%9C%AC%E5%9C%B0"><span class="toc-number">5.2.</span> <span class="toc-text">方式二：Conda 本地</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89%EF%BC%9A%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8%E5%8C%85"><span class="toc-number">5.3.</span> <span class="toc-text">方式三：一键启动包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E5%86%85%E7%94%A8%E6%88%B7%E7%89%B9%E5%88%AB%E6%8F%90%E7%A4%BA"><span class="toc-number">5.4.</span> <span class="toc-text">国内用户特别提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E4%BA%AE%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">技术亮点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%8C%E6%95%B4-MVC-%E6%9E%B6%E6%9E%84"><span class="toc-number">6.1.</span> <span class="toc-text">1. 完整 MVC 架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%89%88%E6%9D%83%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90"><span class="toc-number">6.2.</span> <span class="toc-text">2. 无版权视频素材</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%83%85%E7%BB%AA%E5%8C%96%E8%AF%AD%E9%9F%B3%E5%90%88%E6%88%90"><span class="toc-number">6.3.</span> <span class="toc-text">3. 情绪化语音合成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AD%97%E5%B9%95%E7%B2%BE%E5%87%86%E5%90%8C%E6%AD%A5"><span class="toc-number">6.4.</span> <span class="toc-text">4. 字幕精准同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-FFmpeg-%E8%87%AA%E5%8A%A8%E5%8C%96%E5%90%88%E6%88%90"><span class="toc-number">6.5.</span> <span class="toc-text">5. FFmpeg 自动化合成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">7.</span> <span class="toc-text">适用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">8.</span> <span class="toc-text">局限与注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterV2：全自动在线盈利自动化工具"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-018-money-printer-v2/" title="MoneyPrinterV2：全自动在线盈利自动化工具">MoneyPrinterV2：全自动在线盈利自动化工具</a><time datetime="2026-03-23T09:00:00.000Z" title="发表于 2026-03-23 17:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析④ | 堆、图论、高级数据结构"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-004-heap-graph-topology/" title="算法剖析④ | 堆、图论、高级数据结构">算法剖析④ | 堆、图论、高级数据结构</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoneyPrinterTurbo：AI 一键生成高清短视频"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频">MoneyPrinterTurbo：AI 一键生成高清短视频</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"/></a><div class="content"><a class="title" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析③ | 回溯、动态规划、递归树"/></a><div class="content"><a class="title" href="/2026/03/23/algorithm-003-dp-backtracking/" title="算法剖析③ | 回溯、动态规划、递归树">算法剖析③ | 回溯、动态规划、递归树</a><time datetime="2026-03-23T03:00:00.000Z" title="发表于 2026-03-23 11:00:00">2026-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'ea9d3f25d8ef096303779f8e54b8320e'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
