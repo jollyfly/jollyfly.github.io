@@ -1,0 +1,708 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览AutoResearch（karpathy&#x2F;autoresearch）是深度学习泰斗 Andrej Karpathy 开源的一个极简 autonomous AI research 实验框架。核心思想简单而有力：给 AI Agent 一个真实可运行的单 GPU LLM 训练环境，让它在夜里自主调参、训练、评估，早上你来收实验报告。 ⭐ 54,584 GitHub Stars | 单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/25/daily-project-030-autoresearch/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览AutoResearch（karpathy&#x2F;autoresearch）是深度学习泰斗 Andrej Karpathy 开源的一个极简 autonomous AI research 实验框架。核心思想简单而有力：给 AI Agent 一个真实可运行的单 GPU LLM 训练环境，让它在夜里自主调参、训练、评估，早上你来收实验报告。 ⭐ 54,584 GitHub Stars | 单">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://source.unsplash.com/1200x630/?neural-network,deep-learning">
+<meta property="article:published_time" content="2026-03-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-25T04:08:36.284Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="AutoML">
+<meta property="article:tag" content="Autonomous-Agent">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="PyTorch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://source.unsplash.com/1200x630/?neural-network,deep-learning"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM",
+  "url": "https://jollyfly.github.io/2026/03/25/daily-project-030-autoresearch/",
+  "image": "https://source.unsplash.com/1200x630/?neural-network,deep-learning",
+  "datePublished": "2026-03-24T16:00:00.000Z",
+  "dateModified": "2026-03-25T04:08:36.284Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/25/daily-project-030-autoresearch/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://source.unsplash.com/1200x630/?neural-network,deep-learning);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-24T16:00:00.000Z" title="发表于 2026-03-25 00:00:00">2026-03-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-25T04:08:36.284Z" title="更新于 2026-03-25 12:08:36">2026-03-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI-Agent/">AI-Agent</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI-Agent/LLM-Training/">LLM-Training</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI-Agent/LLM-Training/Open-Source/">Open-Source</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><p><strong>AutoResearch</strong>（<a target="_blank" rel="noopener" href="https://github.com/karpathy/autoresearch">karpathy&#x2F;autoresearch</a>）是深度学习泰斗 <strong>Andrej Karpathy</strong> 开源的一个极简 autonomous AI research 实验框架。核心思想简单而有力：<strong>给 AI Agent 一个真实可运行的单 GPU LLM 训练环境，让它在夜里自主调参、训练、评估，早上你来收实验报告。</strong></p>
+<p>⭐ <strong>54,584</strong> GitHub Stars | 单文件 agent 修改 | 5 分钟固定时间预算 | 纯 PyTorch 实现</p>
+<p>Karpathy 本人在 2026 年 3 月的访谈中坦言自己”大概从 12 月开始就没手动写过一行代码了”，AutoResearch 正是他展示这一范式的技术载体——把科研人员从调参炼丹的体力活中彻底解放出来。</p>
+<hr>
+<h2 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h2><h3 id="1-极简双文件架构"><a href="#1-极简双文件架构" class="headerlink" title="1. 极简双文件架构"></a>1. 极简双文件架构</h3><p>整个 repo 只包含三个真正重要的文件，设计上刻意保持最小化：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>职责</th>
+<th>谁修改</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prepare.py</code></td>
+<td>数据下载、BPE Tokenizer 训练、DataLoader、评估工具</td>
+<td><strong>固定不变</strong></td>
+</tr>
+<tr>
+<td><code>train.py</code></td>
+<td>GPT 模型定义 + Muon+AdamW 优化器 + 训练循环</td>
+<td><strong>Agent 唯一修改对象</strong></td>
+</tr>
+<tr>
+<td><code>program.md</code></td>
+<td>Agent 指令 prompt（元认知层）</td>
+<td><strong>Human 迭代优化</strong></td>
+</tr>
+</tbody></table>
+<p>这种设计的精妙之处在于：<strong>Agent 的作用域被严格限制在 <code>train.py</code> 一个文件内</strong>。这意味着：</p>
+<ul>
+<li>Diff 可审计、可回滚</li>
+<li>Agent 不可能意外破坏数据管道或评估逻辑</li>
+<li>实验对比永远公平（同数据、同 tokenizer、同评估协议）</li>
+</ul>
+<h3 id="2-5-分钟固定时间预算"><a href="#2-5-分钟固定时间预算" class="headerlink" title="2. 5 分钟固定时间预算"></a>2. 5 分钟固定时间预算</h3><p>无论你在 H100 还是 MacBook M3，训练<strong>严格运行 5 分钟 wall-clock time</strong>（不含启动和编译开销）。这产生了两个关键优势：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">实验对比公平性：</span><br><span class="line">  - Agent 改模型深度、batch size、架构 → 运行时间相同 → val_bpb 可直接比较</span><br><span class="line">  - 不会出现&quot;更大模型跑更久所以 loss 更低&quot;的作弊情况</span><br><span class="line"></span><br><span class="line">平台自适应最优：</span><br><span class="line">  - 小 GPU → Agent 自然倾向于小模型、小 batch size</span><br><span class="line">  - 大 GPU → Agent 自然探索更大参数空间</span><br><span class="line">  - 每个平台找到属于自己的 Pareto 最优</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-val-bpb-—-架构无关的评估指标"><a href="#3-val-bpb-—-架构无关的评估指标" class="headerlink" title="3. val_bpb — 架构无关的评估指标"></a>3. val_bpb — 架构无关的评估指标</h3><p><strong>Validation Bits Per Byte（val_bpb）</strong> 是核心评估指标：</p>
+<ul>
+<li>来自信息论的严格度量，与词汇表大小无关</li>
+<li>可公平比较任何架构变化（增加 attention head、换激活函数、改位置编码）</li>
+<li>越低越好，代表模型对数据的压缩效率更高</li>
+</ul>
+<h3 id="4-Markdown-编程范式"><a href="#4-Markdown-编程范式" class="headerlink" title="4. Markdown 编程范式"></a>4. Markdown 编程范式</h3><p>传统的 AI Agent 研究流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Human → 写 Python 代码 → 运行实验 → 读日志 → 判断 → 再写代码...</span><br></pre></td></tr></table></figure>
+
+<p>AutoResearch 的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Human → 迭代 program.md（Agent 指令）→ Agent 自动改 train.py → 跑实验 → 收报告</span><br></pre></td></tr></table></figure>
+
+<p><strong>Human 编程的是”研究组织的元认知”，而非具体的训练代码。</strong> 这是一次认知层次的跃迁。</p>
+<hr>
+<h2 id="技术架构分析"><a href="#技术架构分析" class="headerlink" title="技术架构分析"></a>技术架构分析</h2><h3 id="整体架构图"><a href="#整体架构图" class="headerlink" title="整体架构图"></a>整体架构图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                   Human (You)                            │</span><br><span class="line">│  迭代 program.md → 设置研究目标 → 启动 Agent             │</span><br><span class="line">└──────────────────────┬──────────────────────────────────┘</span><br><span class="line">                       │ prompt / 自然语言</span><br><span class="line">                       ▼</span><br><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│              AI Agent (Claude/Codex/...)                │</span><br><span class="line">│  read program.md → decide what to change in train.py    │</span><br><span class="line">│  edit train.py → git commit → run: uv run train.py      │</span><br><span class="line">└──────────────────────┬──────────────────────────────────┘</span><br><span class="line">                       │</span><br><span class="line">                       ▼</span><br><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                  train.py (Agent 修改区)                │</span><br><span class="line">│  ┌─────────────────────────────────────────────────┐    │</span><br><span class="line">│  │  GPT Model (DEPTH×LAYER × HEADS × DIM)          │    │</span><br><span class="line">│  │  Muon + AdamW Optimizer                         │    │</span><br><span class="line">│  │  Training Loop (5-min budget enforced)          │    │</span><br><span class="line">│  │  val_bpb Evaluation                             │    │</span><br><span class="line">│  └─────────────────────────────────────────────────┘    │</span><br><span class="line">└──────────────────────┬──────────────────────────────────┘</span><br><span class="line">                       │</span><br><span class="line">                       ▼</span><br><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│              prepare.py (Fixed Infrastructure)          │</span><br><span class="line">│  ┌──────────────┐  ┌─────────────┐  ┌──────────────┐   │</span><br><span class="line">│  │ TinyStories  │→ │ BPE Tokenizer│→ │  DataLoader  │   │</span><br><span class="line">│  │   Dataset    │  │  (train.py) │  │              │   │</span><br><span class="line">│  └──────────────┘  └─────────────┘  └──────────────┘   │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br><span class="line">                       │</span><br><span class="line">                       ▼</span><br><span class="line">              ┌─────────────────┐</span><br><span class="line">              │  Experiment Log │</span><br><span class="line">              │  val_bpb ↑/↓    │</span><br><span class="line">              └─────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="GPT-模型架构（train-py-核心）"><a href="#GPT-模型架构（train-py-核心）" class="headerlink" title="GPT 模型架构（train.py 核心）"></a>GPT 模型架构（train.py 核心）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train.py — 核心 GPT 实现（Karpathy 简化版 nanochat）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TransformerBlock</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, dim, n_heads, window_pattern=<span class="string">&quot;SSSL&quot;</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.attn = CausalSelfAttention(dim, n_heads, window_pattern)</span><br><span class="line">        <span class="variable language_">self</span>.ffn = nn.Sequential(</span><br><span class="line">            nn.Linear(dim, dim * <span class="number">4</span>),</span><br><span class="line">            nn.Gelu(),</span><br><span class="line">            nn.Linear(dim * <span class="number">4</span>, dim),</span><br><span class="line">        )</span><br><span class="line">        <span class="variable language_">self</span>.norm1 = nn.LayerNorm(dim)</span><br><span class="line">        <span class="variable language_">self</span>.norm2 = nn.LayerNorm(dim)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GPT</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, vocab_size, max_seq_len, dim=<span class="number">384</span>, depth=<span class="number">8</span>, n_heads=<span class="number">6</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.token_emb = nn.Embedding(vocab_size, dim)</span><br><span class="line">        <span class="variable language_">self</span>.pos_emb = nn.Embedding(max_seq_len, dim)</span><br><span class="line">        <span class="variable language_">self</span>.blocks = nn.ModuleList([TransformerBlock(dim, n_heads) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(depth)])</span><br><span class="line">        <span class="variable language_">self</span>.norm = nn.LayerNorm(dim)</span><br><span class="line">        <span class="variable language_">self</span>.lm_head = nn.Linear(dim, vocab_size, bias=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="comment"># Token embedding + Positional embedding</span></span><br><span class="line">        x = <span class="variable language_">self</span>.token_emb(x) + <span class="variable language_">self</span>.pos_emb(torch.arange(x.shape[<span class="number">1</span>]))</span><br><span class="line">        <span class="comment"># Stack of Transformer blocks</span></span><br><span class="line">        <span class="keyword">for</span> block <span class="keyword">in</span> <span class="variable language_">self</span>.blocks:</span><br><span class="line">            x = block(x)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.lm_head(<span class="variable language_">self</span>.norm(x))</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键设计选择：</strong></p>
+<ol>
+<li><p><strong>WINDOW_PATTERN</strong> — 支持 <code>&quot;L&quot;</code>（全 causal attention）和 <code>&quot;SSSL&quot;</code>（Sparse Sliding Window Local + Sparse Global）两种注意力模式。SSSL 模式通过交替的 banded attention pattern 大幅降低 attention 计算复杂度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SSSL 注意力掩码示意</span></span><br><span class="line"><span class="comment"># L:  full causal  [1 1 1 1 1]</span></span><br><span class="line"><span class="comment">#      [0 1 1 1 1]</span></span><br><span class="line"><span class="comment">#      [0 0 1 1 1]</span></span><br><span class="line"><span class="comment"># SSSL: banded     [1 1 0 0 1]  ← 每个 token 只关注局部窗口 + 少数全局 token</span></span><br><span class="line"><span class="comment">#        [1 1 1 0 0]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>DEPTH 参数</strong> — 控制模型深度，所有其他参数（FFN 维度、参数量）都是 DEPTH 的函数。Agent 只需调这一个参数就能控制模型复杂度。</p>
+</li>
+</ol>
+<h3 id="Muon-优化器实现"><a href="#Muon-优化器实现" class="headerlink" title="Muon 优化器实现"></a>Muon 优化器实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Muon = Newton&#x27;s method for matrix optimization</span></span><br><span class="line"><span class="comment"># 论文: https://arxiv.org/abs/2502.00654</span></span><br><span class="line"><span class="comment"># 核心思想：用 Newton-Schulz 迭代替代 SGD/Adam 来学习权重矩阵</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">muon</span>(<span class="params">param: nn.Parameter, grad: torch.Tensor, lr: <span class="built_in">float</span></span>) -&gt; torch.Tensor:</span><br><span class="line">    <span class="comment"># 梯度正交化到当前权重列空间</span></span><br><span class="line">    G = grad - (grad @ param.T) / (param @ param.T + <span class="number">1e-8</span>) * param</span><br><span class="line">    <span class="comment"># Newton-Schulz 迭代: 归一化权重矩阵</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):  <span class="comment"># 5次迭代通常足够收敛</span></span><br><span class="line">        G = <span class="number">1.4</span> * G - <span class="number">0.4</span> * G @ G.T @ G</span><br><span class="line">    <span class="keyword">return</span> param - lr * G</span><br></pre></td></tr></table></figure>
+
+<p>Muon 的核心优势在于它直接优化矩阵流形（matrix manifold），而非在欧几里得空间做梯度下降。实验表明，在 ImageNet 和 LLM 训练任务中，Muon 相比 AdamW 有显著收敛速度优势。</p>
+<h3 id="训练循环（5-分钟预算）"><a href="#训练循环（5-分钟预算）" class="headerlink" title="训练循环（5 分钟预算）"></a>训练循环（5 分钟预算）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train.py — 核心训练循环</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>():</span><br><span class="line">    model = GPT(VOCAB_SIZE, MAX_SEQ_LEN, DEPTH=<span class="number">8</span>, ...)</span><br><span class="line">    model.to(DEVICE)</span><br><span class="line">    optimizer = Muon(model.parameters()) + AdamW(lr=<span class="number">3e-4</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 固定5分钟时间预算（wall clock）</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line">    max_seconds = <span class="number">5</span> * <span class="number">60</span>  <span class="comment"># 300 seconds</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> time.time() - start_time &lt; max_seconds:</span><br><span class="line">        x, y = <span class="built_in">next</span>(dataloader)          <span class="comment"># (BATCH_SIZE, SEQ_LEN)</span></span><br><span class="line">        logits = model(x)                <span class="comment"># forward</span></span><br><span class="line">        loss = F.cross_entropy(logits.view(-<span class="number">1</span>, VOCAB_SIZE), y.view(-<span class="number">1</span>))</span><br><span class="line">        loss.backward()                   <span class="comment"># backward</span></span><br><span class="line">        optimizer.step()                 <span class="comment"># Muon + AdamW update</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 每N步评估一次 val_bpb</span></span><br><span class="line">        <span class="keyword">if</span> step % EVAL_EVERY == <span class="number">0</span>:</span><br><span class="line">            val_bpb = evaluate(model, val_data)</span><br><span class="line">            logger.log(step, val_bpb, time.time() - start_time)</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据流水线（prepare-py）"><a href="#数据流水线（prepare-py）" class="headerlink" title="数据流水线（prepare.py）"></a>数据流水线（prepare.py）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TinyStories 数据集</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">BPE Tokenizer 训练（8192 / 4096 / 256 vocab sizes）</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">DataLoader: 每次 yield (input_ids, labels), 因果位移正确处理</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">train.py 的 train() 函数消费</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="源码实现深度解析"><a href="#源码实现深度解析" class="headerlink" title="源码实现深度解析"></a>源码实现深度解析</h2><h3 id="Agent-如何与-program-md-交互"><a href="#Agent-如何与-program-md-交互" class="headerlink" title="Agent 如何与 program.md 交互"></a>Agent 如何与 program.md 交互</h3><p><code>program.md</code> 是整个系统的”大脑”。Agent 读取它，然后决定如何修改 <code>train.py</code>。一个典型的 baseline <code>program.md</code> 结构如下：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># AutoResearch Agent Instructions</span></span><br><span class="line"></span><br><span class="line"><span class="section">## Mission</span></span><br><span class="line">You are an AI research engineer. Your goal is to improve val<span class="emphasis">_bpb on the</span></span><br><span class="line"><span class="emphasis">validation set. Lower val_</span>bpb = better model = better data compression.</span><br><span class="line"></span><br><span class="line"><span class="section">## Constraints</span></span><br><span class="line"><span class="bullet">-</span> You may ONLY modify train.py</span><br><span class="line"><span class="bullet">-</span> Training runs for exactly 5 minutes (wall clock)</span><br><span class="line"><span class="bullet">-</span> Do not modify prepare.py or any data handling</span><br><span class="line"><span class="bullet">-</span> All changes must be committed with clear git commit messages</span><br><span class="line"></span><br><span class="line"><span class="section">## Strategy</span></span><br><span class="line">Review the current val<span class="emphasis">_bpb from the last run. Identify the biggest</span></span><br><span class="line"><span class="emphasis">bottleneck (architecture? hyperparameters? optimizer settings?).</span></span><br><span class="line"><span class="emphasis">Make ONE change at a time. Rerun. Compare.</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">## Reporting</span></span><br><span class="line"><span class="emphasis">After each experiment, log:</span></span><br><span class="line"><span class="emphasis">1. What changed</span></span><br><span class="line"><span class="emphasis">2. val_</span>bpb before → after</span><br><span class="line"><span class="bullet">3.</span> Hypothesis for why it worked (or didn&#x27;t)</span><br></pre></td></tr></table></figure>
+
+<h3 id="平台自适应的关键参数表"><a href="#平台自适应的关键参数表" class="headerlink" title="平台自适应的关键参数表"></a>平台自适应的关键参数表</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+<th>小平台建议</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>MAX_SEQ_LEN</code></td>
+<td>1024</td>
+<td>256</td>
+<td>序列长度</td>
+</tr>
+<tr>
+<td><code>DEVICE_BATCH_SIZE</code></td>
+<td>动态</td>
+<td>可略增</td>
+<td>每步 token 数 &#x3D; BATCH×SEQ</td>
+</tr>
+<tr>
+<td><code>TOTAL_BATCH_SIZE</code></td>
+<td>2^20 (~1M)</td>
+<td>2^14 (~16K)</td>
+<td>累积梯度</td>
+</tr>
+<tr>
+<td><code>DEPTH</code></td>
+<td>8</td>
+<td>4</td>
+<td>Transformer 层数</td>
+</tr>
+<tr>
+<td><code>VOCAB_SIZE</code></td>
+<td>8192</td>
+<td>256 (byte-level)</td>
+<td>词表大小</td>
+</tr>
+<tr>
+<td><code>WINDOW_PATTERN</code></td>
+<td>“SSSL”</td>
+<td>“L”</td>
+<td>注意力模式</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><h3 id="非常适合的场景"><a href="#非常适合的场景" class="headerlink" title="非常适合的场景"></a>非常适合的场景</h3><ol>
+<li><p><strong>科研机构快速探索架构变体</strong></p>
+<ul>
+<li>想验证某个 attention 变体是否有效？丢给 AutoResearch，让 Agent 跑一晚上，明天拿结果。</li>
+<li>多 GPU 集群太贵？单 H100 也能持续产出有价值的实验数据。</li>
+</ul>
+</li>
+<li><p><strong>个人开发者学习 LLM 训练</strong></p>
+<ul>
+<li>极简代码 + 固定时间预算 &#x3D; 完美的学习环境</li>
+<li>改一个参数，看效果，理解训练 dynamics</li>
+</ul>
+</li>
+<li><p><strong>嵌入式&#x2F;端侧 LLM 调优</strong></p>
+<ul>
+<li>在 Jetson、MacBook、M2 Mac Mini 上跑</li>
+<li>Agent 自动为你的硬件找到最优模型配置</li>
+</ul>
+</li>
+<li><p><strong>AI Agent 研究本身</strong></p>
+<ul>
+<li>把 AutoResearch 本身作为研究对象</li>
+<li>迭代 <code>program.md</code>，研究”什么样的元认知指令能让 Agent 更高效”</li>
+</ul>
+</li>
+</ol>
+<h3 id="不适合的场景"><a href="#不适合的场景" class="headerlink" title="不适合的场景"></a>不适合的场景</h3><ul>
+<li>需要分布式训练的大模型（&gt;1B 参数）</li>
+<li>需要长时间（&gt;5 分钟）才能看到效果的优化策略</li>
+<li>对实验结果可复现性有严格要求的场景</li>
+</ul>
+<hr>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 安装 uv（如果还没有）</span></span><br><span class="line">curl -LsSf https://astral.sh/uv/install.sh | sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装依赖</span></span><br><span class="line">uv <span class="built_in">sync</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 下载数据 + 训练 Tokenizer（一次性，约2分钟）</span></span><br><span class="line">uv run prepare.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 手动跑一次实验验证环境正常（约5分钟）</span></span><br><span class="line">uv run train.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 如果一切正常，启动 Agent 自主研究模式</span></span><br><span class="line"><span class="comment"># 在 Claude Code / Codex 中：</span></span><br><span class="line"><span class="comment"># &quot;Hi, have a look at program.md and let&#x27;s kick off a new experiment!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AutoResearch 的本质是一个<strong>极简研究自动化框架</strong>——它用最小化的代码基础设施（一个固定文件 + 一个可变文件 + 一个 prompt），构建了一个完整的 autonomous research 闭环。Karpathy 的设计哲学贯穿其中：<strong>约束产生创造力</strong>。Agent 只改 <code>train.py</code> 一件事，反而让它比开放式探索更高效。</p>
+<blockquote>
+<p>“The agents claim that we are now in the 10,205th generation of the code base…” — @karpathy</p>
+</blockquote>
+<p>这个 repo 的存在本身，就是对 AI research 未来的一次严肃探索。</p>
+<hr>
+<p><em>相关链接：<a target="_blank" rel="noopener" href="https://github.com/karpathy/autoresearch">AutoResearch GitHub</a> · <a target="_blank" rel="noopener" href="https://github.com/karpathy/nanochat">nanochat</a> · <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2502.00654">Muon 论文</a></em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/25/daily-project-030-autoresearch/">https://jollyfly.github.io/2026/03/25/daily-project-030-autoresearch/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/AutoML/">AutoML</a><a class="post-meta__tags" href="/tags/Autonomous-Agent/">Autonomous-Agent</a><a class="post-meta__tags" href="/tags/PyTorch/">PyTorch</a></div><div class="post-share"><div class="social-share" data-image="https://source.unsplash.com/1200x630/?neural-network,deep-learning" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/25/daily-project-030-nemoclaw/" title="daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent"><img class="cover" src="https://source.unsplash.com/1200x630/?nvidia+gpu+ai" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent</div></div><div class="info-2"><div class="info-item-1">daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent项目概览NemoClaw（NVIDIA&#x2F;NemoClaw，⭐16,414）是由 NVIDIA 官方开源的参考技术栈，旨在 NVIDIA OpenShell 运行时中更安全地运行 OpenClaw 始终在线 AI 助手。它将 OpenClaw Agent 部署在一个由 Landlock + seccomp + netns 三层内核安全机制构成的隔离沙箱中，所有网络请求、文件系统访问和推理调用都受到声明式安全策略的约束。 核心定位：用 NVIDIA 官方背书的容器化安全架构，解决 AI Agent 权限失控、推理请求裸奔这两个生产级痛点。  核心特性1. 多层内核级沙箱隔离NemoClaw 不依赖单一安全机制，而是叠加了三层纵深防御：    隔离层 技术实现 防护目标    Landlock Linux 内核 5.13+ 安全模块，基于 BPF 的文件系统&#x2F;网络访问控制 限制 Agent 对文件系统树和网络栈的读写权限   seccomp 系统调用过...</div></div></div></a><a class="pagination-related" href="/2026/03/24/algorithm-008-bit-manipulation/" title="算法剖析⑧ | 位运算高频技巧与真题"><img class="cover" src="https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">算法剖析⑧ | 位运算高频技巧与真题</div></div><div class="info-2"><div class="info-item-1">本章解决的问题   # 题号 题目 难度 分类    36 LC136 只出现一次的数字 🟢 简单 位运算&#x2F;XOR   37 LC231 2的幂 🟢 简单 位运算   38 LC191 位1的个数 🟢 简单 位运算   39 LC338 比特位计数 🟡 中等 DP+位运算   40 LC190 颠倒二进制位 🟢 简单 位运算   位运算核心技巧   运算 公式 说明    获取最低位1 x &amp; -x 提取最右侧的 1   消除最低位1 x &amp; (x-1) 消除最右侧的 1   判断是否为2的幂 x &amp; (x-1) == 0 且 x != 0    XOR 性质 a^a=0, a^0=a 成对消除   判断奇数 x &amp; 1 == 1    逐题解析36. LC136 只出现一次的数字思路：XOR 的成对消除性质，所有数字异或结果即为单独的那个。 12345def singleNumber(nums):    result = 0    for n in nums:        result ^= n    return resu...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-013-everything-claude-code/" title="everything-claude-code：让 AI Coding Agent 拥有「肌肉记忆」"><img class="cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">everything-claude-code：让 AI Coding Agent 拥有「肌肉记忆」</div></div><div class="info-2"><div class="info-item-1">项目概览 everything-claude-code — affaan-m&#x2F;everything-claude-code ⭐ 99,707  又是一个 star 接近 10 万的超热门项目。它解决的问题非常直接：原生 Claude Code 太「傻」，缺乏长期记忆、领域直觉和安全意识，而这个项目试图给它装上一套完整的「神经系统」。 该项目自称是 Agent Harness Performance Optimization System，面向 Claude Code、Codex、Opencode、Cursor 等主流 AI Coding Agent，通过模块化的 Skills &#x2F; Instincts &#x2F; Memory &#x2F; Security 架构，让 Agent 在真实项目中表现得更像一位经验丰富的老开发者。  核心设计：四大模块拆解1. 🧠 Skills — 可组合的能力单元Skills 是项目最核心的设计理念之一。它将 Agent 的能力拆解为可插拔、可复用的技能单元，每个 Skill 包含：  触发条件（何时激活） 执行逻辑（具体怎么...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-026-warp/" title="Warp：内置 AI 的下一代终端"><img class="cover" src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">Warp：内置 AI 的下一代终端</div></div><div class="info-2"><div class="info-item-1">项目概览Warp（warpdotdev&#x2F;warp）是一款用 Rust 构建的现代化终端模拟器，其核心理念是将 AI 能力深度嵌入命令行界面。不同于传统终端仅负责文本渲染与进程管理，Warp 通过 AI 辅助大幅降低了命令行操作的学习门槛，同时提升资深用户的生产力。 作为 GitHub 趋势热门项目，Warp 以其独特的交互设计和底层性能优化，吸引了大量开发者的关注。  核心特性AI 自动补全Warp 内置智能补全引擎，不仅能补全文件名和路径，还能基于上下文补全完整的命令行参数、Git 工作流命令以及常用工具链指令。补全建议以直观的下拉菜单呈现，支持键盘导航，减少了记忆命令细节的负担。 命令解释对陌生命令感到困惑？选中任意命令行，Warp 的 AI 解释功能会即时返回该命令的功能分析、参数说明及潜在风险提示。这一特性对新人友好，也避免了资深用户因记忆偏差误操作。 AI 工作流Warp 不只是执行命令，还支持将一系列命令序列封装为可复用的”工作流”（Workflows）。结合 AI 理解，用户可以用自然语言描述目标，Warp 自动生成对应的工作流脚本并执行，降低了 Shel...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-020-browser-use/" title="browser-use：让 AI 操控浏览器的开源框架"><img class="cover" src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">browser-use：让 AI 操控浏览器的开源框架</div></div><div class="info-2"><div class="info-item-1">项目概览browser-use 是当前 GitHub 趋势热门项目，旨在让 AI 代理（Agent）能够直接操控浏览器完成在线任务。它将自然语言指令转化为真实的浏览器操作，实现”AI 代替人类上网”的愿景。  GitHub: browser-use&#x2F;browser-use 语言: Python Star: 趋势热门  解决的问题传统浏览器自动化工具（如 Selenium、Playwright）需要开发者手动编写操作指令，门槛高、效率低。browser-use 通过接入大语言模型（LLM），让 AI 自动分析页面、规划操作步骤并执行，真正做到”说一句话，AI替你上网”。  核心原理AI 控制浏览器的流程图12345678910┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  用户指令   │ ──▶ │  LLM 分析   │ ──▶ │  规划动作   │ ──▶ │  浏览器执行  ││ (自然语言)  │     │  (理解页面)  │     │  (HTM...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-019-project-nomad/" title="Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴"><img class="cover" src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">Project N.O.M.A.D：离线生存计算机，一站式野外求生智能伙伴</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 Project N.O.M.A.D   全称 Novel Offline Machine for Autonomous Decision   地址 Crosstalk-Solutions&#x2F;project-nomad   语言 TypeScript + Docker   Stars 11,309   定位 离线生存计算机    核心理念：一台自包含的离线生存计算机，集成关键工具、知识库和 AI，无网络也能保持运转——随时随地为你提供信息支持和决策辅助。  离线生存计算机概念传统应用依赖云端，一旦没有网络就成了废铁。N.O.M.A.D 反其道而行：把一切你需要的信息和工具，全部打包进一个可离线运行的 Docker 容器里。 123456789101112131415┌─────────────────────────────────────────────┐│           N.O.M.A.D 离线生存计算机              ││                                             │...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架"><img class="cover" src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents：多智能体 LLM 金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents 是由 TauricResearch 团队开源的多智能体 LLM 金融交易框架，目前在 GitHub 上已斩获 38,185 Stars，是金融量化与 AI Agent 结合领域最热门的项目之一。 该项目利用大语言模型（LLM）的推理能力，通过多个专业 Agent 的协作，完成从市场分析、策略制定、交易执行到风险控制的完整交易流程。核心使用 Python 开发，架构清晰，扩展性强。  多智能体架构TradingAgents 的核心设计理念是专业分工 + 智能协作。系统由多个各司其职的 Agent 组成，通过消息传递和任务调度形成完整的交易决策链： 12345678910111213141516171819202122┌─────────────────────────────────────────────────────────┐│                    TradingAgents 系统架构                │├────────────────────────────────────────────────────...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">116</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">核心特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9E%81%E7%AE%80%E5%8F%8C%E6%96%87%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">1. 极简双文件架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%88%86%E9%92%9F%E5%9B%BA%E5%AE%9A%E6%97%B6%E9%97%B4%E9%A2%84%E7%AE%97"><span class="toc-number">2.2.</span> <span class="toc-text">2. 5 分钟固定时间预算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-val-bpb-%E2%80%94-%E6%9E%B6%E6%9E%84%E6%97%A0%E5%85%B3%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="toc-number">2.3.</span> <span class="toc-text">3. val_bpb — 架构无关的评估指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Markdown-%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F"><span class="toc-number">2.4.</span> <span class="toc-text">4. Markdown 编程范式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">技术架构分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">3.1.</span> <span class="toc-text">整体架构图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPT-%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%EF%BC%88train-py-%E6%A0%B8%E5%BF%83%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">GPT 模型架构（train.py 核心）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Muon-%E4%BC%98%E5%8C%96%E5%99%A8%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.3.</span> <span class="toc-text">Muon 优化器实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%BE%AA%E7%8E%AF%EF%BC%885-%E5%88%86%E9%92%9F%E9%A2%84%E7%AE%97%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">训练循环（5 分钟预算）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E6%B0%B4%E7%BA%BF%EF%BC%88prepare-py%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">数据流水线（prepare.py）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">源码实现深度解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Agent-%E5%A6%82%E4%BD%95%E4%B8%8E-program-md-%E4%BA%A4%E4%BA%92"><span class="toc-number">4.1.</span> <span class="toc-text">Agent 如何与 program.md 交互</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E5%8F%B0%E8%87%AA%E9%80%82%E5%BA%94%E7%9A%84%E5%85%B3%E9%94%AE%E5%8F%82%E6%95%B0%E8%A1%A8"><span class="toc-number">4.2.</span> <span class="toc-text">平台自适应的关键参数表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">适用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%B8%B8%E9%80%82%E5%90%88%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">5.1.</span> <span class="toc-text">非常适合的场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E9%80%82%E5%90%88%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">5.2.</span> <span class="toc-text">不适合的场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-number">6.</span> <span class="toc-text">快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/algorithm-009-strings/" title="算法剖析⑨ | 字符串高频题型精讲"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑨ | 字符串高频题型精讲"/></a><div class="content"><a class="title" href="/2026/03/25/algorithm-009-strings/" title="算法剖析⑨ | 字符串高频题型精讲">算法剖析⑨ | 字符串高频题型精讲</a><time datetime="2026-03-25T04:00:00.000Z" title="发表于 2026-03-25 12:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/daily-project-030-autoresearch/" title="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM"><img src="https://source.unsplash.com/1200x630/?neural-network,deep-learning" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM"/></a><div class="content"><a class="title" href="/2026/03/25/daily-project-030-autoresearch/" title="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM">daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM</a><time datetime="2026-03-24T16:00:00.000Z" title="发表于 2026-03-25 00:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/daily-project-030-nemoclaw/" title="daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent"><img src="https://source.unsplash.com/1200x630/?nvidia+gpu+ai" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent"/></a><div class="content"><a class="title" href="/2026/03/25/daily-project-030-nemoclaw/" title="daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent">daily project | NemoClaw 在 NVIDIA OpenShell 中安全运行 AI Agent</a><time datetime="2026-03-24T16:00:00.000Z" title="发表于 2026-03-25 00:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/daily-project-031-gstack/" title="daily project | gstack Garry Tan 的 15 工具 AI 软件工厂，1 人 &gt; 20 人团队"><img src="https://source.unsplash.com/1200x630/?developer,tools" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="daily project | gstack Garry Tan 的 15 工具 AI 软件工厂，1 人 &gt; 20 人团队"/></a><div class="content"><a class="title" href="/2026/03/25/daily-project-031-gstack/" title="daily project | gstack Garry Tan 的 15 工具 AI 软件工厂，1 人 &gt; 20 人团队">daily project | gstack Garry Tan 的 15 工具 AI 软件工厂，1 人 &gt; 20 人团队</a><time datetime="2026-03-24T16:00:00.000Z" title="发表于 2026-03-25 00:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/daily-project-031-symphony/" title="daily project | Symphony 让团队以&quot;管理工单&quot;的方式驾驭 AI 编程 Agent"><img src="https://source.unsplash.com/1200x630/?orchestra+conductor" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="daily project | Symphony 让团队以&quot;管理工单&quot;的方式驾驭 AI 编程 Agent"/></a><div class="content"><a class="title" href="/2026/03/25/daily-project-031-symphony/" title="daily project | Symphony 让团队以&quot;管理工单&quot;的方式驾驭 AI 编程 Agent">daily project | Symphony 让团队以&quot;管理工单&quot;的方式驾驭 AI 编程 Agent</a><time datetime="2026-03-24T16:00:00.000Z" title="发表于 2026-03-25 00:00:00">2026-03-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '0a004daaf06a5eadb4f1013f72f739cd'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
