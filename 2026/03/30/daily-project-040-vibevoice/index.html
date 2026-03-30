@@ -1,0 +1,785 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音） | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览VibeVoice（microsoft&#x2F;VibeVoice）是微软开源的前沿语音AI全家桶，包含了三大核心模型：    模型 参数量 功能 特点    VibeVoice-ASR-7B 7B 语音识别 60分钟长音频单遍处理、50+语言、说话人分离、时间戳   VibeVoice-TTS-1.5B 1.5B 语音合成 90分钟长文本合成、4人对话、情感表达（已下架）   Vibe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）">
+<meta property="og:url" content="https://jollyfly.github.io/2026/03/30/daily-project-040-vibevoice/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览VibeVoice（microsoft&#x2F;VibeVoice）是微软开源的前沿语音AI全家桶，包含了三大核心模型：    模型 参数量 功能 特点    VibeVoice-ASR-7B 7B 语音识别 60分钟长音频单遍处理、50+语言、说话人分离、时间戳   VibeVoice-TTS-1.5B 1.5B 语音合成 90分钟长文本合成、4人对话、情感表达（已下架）   Vibe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&q=80">
+<meta property="article:published_time" content="2026-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-30T12:15:03.866Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="ASR">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Microsoft">
+<meta property="article:tag" content="TTS">
+<meta property="article:tag" content="多语言">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="语音AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）",
+  "url": "https://jollyfly.github.io/2026/03/30/daily-project-040-vibevoice/",
+  "image": "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&q=80",
+  "datePublished": "2026-03-29T16:00:00.000Z",
+  "dateModified": "2026-03-30T12:15:03.866Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/03/30/daily-project-040-vibevoice/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-29T16:00:00.000Z" title="发表于 2026-03-30 00:00:00">2026-03-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-30T12:15:03.866Z" title="更新于 2026-03-30 20:15:03">2026-03-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E9%9F%B3AI/">语音AI</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E9%9F%B3AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E9%9F%B3AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E9%9F%B3AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/Microsoft/">Microsoft</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E9%9F%B3AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/Microsoft/LLM%E5%BA%94%E7%94%A8/">LLM应用</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><p><strong>VibeVoice</strong>（<a target="_blank" rel="noopener" href="https://github.com/microsoft/VibeVoice">microsoft&#x2F;VibeVoice</a>）是微软开源的前沿语音AI全家桶，包含了三大核心模型：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>参数量</th>
+<th>功能</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VibeVoice-ASR-7B</strong></td>
+<td>7B</td>
+<td>语音识别</td>
+<td>60分钟长音频单遍处理、50+语言、说话人分离、时间戳</td>
+</tr>
+<tr>
+<td><strong>VibeVoice-TTS-1.5B</strong></td>
+<td>1.5B</td>
+<td>语音合成</td>
+<td>90分钟长文本合成、4人对话、情感表达（已下架）</td>
+</tr>
+<tr>
+<td><strong>VibeVoice-Realtime-0.5B</strong></td>
+<td>0.5B</td>
+<td>实时TTS</td>
+<td>流式输入、~300ms首音频延迟、部署友好</td>
+</tr>
+</tbody></table>
+<p>⭐ <strong>28,529</strong> GitHub Stars | 今日 <strong>2,509</strong> stars | 2026-03-30 GitHub Trending #1</p>
+<p><strong>核心技术亮点：</strong> 采用连续语音分词器（Acoustic&#x2F;Semantic Tokenizer）工作于<strong>超低帧率 7.5 Hz</strong>，结合 Next-Token Diffusion 框架和 LLM（如 Qwen2.5），在显著提升计算效率的同时保持高保真音频输出。</p>
+<blockquote>
+<p>⚠️ <strong>注意：</strong> VibeVoice-TTS 代码已于 2025年9月从仓库移除（因被滥用风险），目前仅保留 ASR 和 Realtime TTS 部分。</p>
+</blockquote>
+<hr>
+<h2 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h2><h3 id="1-VibeVoice-ASR：60分钟长音频单遍识别"><a href="#1-VibeVoice-ASR：60分钟长音频单遍识别" class="headerlink" title="1. VibeVoice-ASR：60分钟长音频单遍识别"></a>1. VibeVoice-ASR：60分钟长音频单遍识别</h3><p>传统 ASR 模型通常将长音频切片成短片段处理，导致：</p>
+<ul>
+<li>跨片段说话人身份丢失（speaker drift）</li>
+<li>全局语义上下文断裂</li>
+<li>时间戳不连续</li>
+</ul>
+<p>VibeVoice-ASR 创新性地支持<strong>长达60分钟音频的单个 64K token 上下文内一次性处理</strong>，确保：</p>
+<ul>
+<li>全局说话人追踪一致</li>
+<li>语义连贯性贯穿整段对话</li>
+<li>输出 Who（谁）+ When（何时）+ What（说了什么）三要素结构化转录</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：60分钟多说话人会议音频</span><br><span class="line">输出：</span><br><span class="line">  [00:01:23] Person A: &quot;关于Q3的产品规划，我有几个想法...&quot;</span><br><span class="line">  [00:01:45] Person B: &quot;我来说一下技术层面的可行性...&quot;</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-声学连续分词器：7-5-Hz-超低帧率"><a href="#2-声学连续分词器：7-5-Hz-超低帧率" class="headerlink" title="2. 声学连续分词器：7.5 Hz 超低帧率"></a>2. 声学连续分词器：7.5 Hz 超低帧率</h3><p>这是 VibeVoice 架构的核心创新。传统语音模型以高帧率（50-100 Hz）处理音频，导致：</p>
+<ul>
+<li>token 序列极长（1小时音频 → 数百万 token）</li>
+<li>LLM 处理效率极低</li>
+<li>显存占用爆炸</li>
+</ul>
+<p>VibeVoice 引入<strong>连续语音分词器</strong>，将音频编码为 <strong>7.5 Hz</strong> 的离散 token 序列——即每秒仅需 7.5 个 token：</p>
+<ul>
+<li>1小时音频 ≈ 27,000 token（vs 传统方法数十万 token）</li>
+<li>大幅降低 LLM 侧计算量</li>
+<li>同时保留足够的声学细节</li>
+</ul>
+<h3 id="3-Next-Token-Diffusion：LLM-扩散模型协同"><a href="#3-Next-Token-Diffusion：LLM-扩散模型协同" class="headerlink" title="3. Next-Token Diffusion：LLM + 扩散模型协同"></a>3. Next-Token Diffusion：LLM + 扩散模型协同</h3><p>VibeVoice 采用 Next-Token Diffusion 框架（引用 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2412.08635">arXiv:2412.08635</a>）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────┐</span><br><span class="line">│            连续语音 Token (7.5 Hz)           │</span><br><span class="line">└──────────────────┬────────────────────────┘</span><br><span class="line">                   │</span><br><span class="line">         ┌─────────▼─────────┐</span><br><span class="line">         │  LLM (Qwen2.5-7B)  │  ← 理解文本语义/对话上下文</span><br><span class="line">         │   预测下一个语义    │</span><br><span class="line">         │   连续 Token       │</span><br><span class="line">         └─────────┬─────────┘</span><br><span class="line">                   │</span><br><span class="line">         ┌─────────▼─────────┐</span><br><span class="line">         │    Diffusion Head  │  ← 细化声学细节，生成高保真音频</span><br><span class="line">         │   恢复音频质量      │</span><br><span class="line">         └─────────┬─────────┘</span><br><span class="line">                   │</span><br><span class="line">         ┌─────────▼─────────┐</span><br><span class="line">         │    音频 Token       │</span><br><span class="line">         │  重建波形           │</span><br><span class="line">         └────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-多语言-代码切换原生支持"><a href="#4-多语言-代码切换原生支持" class="headerlink" title="4. 多语言 &amp; 代码切换原生支持"></a>4. 多语言 &amp; 代码切换原生支持</h3><p>VibeVoice-ASR 支持<strong>50+语言</strong>，无需显式语言设置，且原生支持：</p>
+<ul>
+<li>语种内代码切换（e.g., 中文中夹杂英文技术术语）</li>
+<li>跨语种对话（e.g., 中英混合会议）</li>
+<li>说话人间不同母语识别</li>
+</ul>
+<h3 id="5-VibeVoice-Realtime：0-5B-轻量实时TTS"><a href="#5-VibeVoice-Realtime：0-5B-轻量实时TTS" class="headerlink" title="5. VibeVoice-Realtime：0.5B 轻量实时TTS"></a>5. VibeVoice-Realtime：0.5B 轻量实时TTS</h3><p>0.5B 参数量 + 流式输入 + ~300ms 首音频延迟，专为：</p>
+<ul>
+<li>实时对话助手</li>
+<li>语音播报系统</li>
+<li>低延迟语音交互场景</li>
+</ul>
+<hr>
+<h2 id="技术架构分析"><a href="#技术架构分析" class="headerlink" title="技术架构分析"></a>技术架构分析</h2><h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">VibeVoice-ASR Pipeline：</span><br><span class="line">  WAV Audio (PCM)</span><br><span class="line">     │</span><br><span class="line">     ▼</span><br><span class="line">  ┌──────────────────┐</span><br><span class="line">  │  Feature Extract │  ← 音频预处理（MFCC/Filter Bank）</span><br><span class="line">  └────────┬─────────┘</span><br><span class="line">           │</span><br><span class="line">     ▼ (音频帧)</span><br><span class="line">  ┌──────────────────┐</span><br><span class="line">  │ Acoustic Tokenizer │  ← 连续分词：音频→7.5Hz离散token</span><br><span class="line">  │  (Semantic+Acoustic) │</span><br><span class="line">  └────────┬─────────┘</span><br><span class="line">           │</span><br><span class="line">     ▼ (7.5 Hz tokens)</span><br><span class="line">  ┌──────────────────┐</span><br><span class="line">  │ LLM (Qwen2.5-7B)  │  ←  next-token 预测，加入语言建模目标</span><br><span class="line">  │ Conditional Gen   │</span><br><span class="line">  └────────┬─────────┘</span><br><span class="line">           │</span><br><span class="line">     ▼ (语义tokens)</span><br><span class="line">  ┌──────────────────┐</span><br><span class="line">  │  Diffusion Head   │  ←  细化声学细节</span><br><span class="line">  └────────┬─────────┘</span><br><span class="line">           │</span><br><span class="line">     ▼ (声学tokens)</span><br><span class="line">  ┌──────────────────┐</span><br><span class="line">  │  Vocoder/Decoder  │  ←  token → 波形重建</span><br><span class="line">  └────────┬─────────┘</span><br><span class="line">           │</span><br><span class="line">         WAV Output</span><br></pre></td></tr></table></figure>
+
+<h3 id="核心技术选型分析"><a href="#核心技术选型分析" class="headerlink" title="核心技术选型分析"></a>核心技术选型分析</h3><p><strong>1. LLM backbone：Qwen2.5-7B</strong></p>
+<p>选择 Qwen2.5 而非更大模型的原因：</p>
+<ul>
+<li>7B 量级在单卡 A100&#x2F;H100 可推理</li>
+<li>Qwen2.5 的多语言预训练与 VibeVoice 的多语言目标高度契合</li>
+<li>推理速度满足实时性要求</li>
+</ul>
+<p><strong>2. 连续分词器 vs 传统 ASR</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>传统 CTC&#x2F;RNN-T</th>
+<th>VibeVoice 连续分词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>帧率</td>
+<td>50-100 Hz</td>
+<td>7.5 Hz</td>
+</tr>
+<tr>
+<td>1h音频 token 数</td>
+<td>~180K-360K</td>
+<td>~27K</td>
+</tr>
+<tr>
+<td>LLM 效率</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>声学细节保留</td>
+<td>完整</td>
+<td>经过分词器压缩</td>
+</tr>
+</tbody></table>
+<p><strong>3. Diffusion Head 的作用</strong></p>
+<p>Diffusion Head 不做语义建模，而是专注于<strong>声学保真度恢复</strong>：</p>
+<ul>
+<li>LLM 输出的 token 序列在语义层面正确，但可能丢失高频细节</li>
+<li>Diffusion 过程在声学空间去噪，恢复自然语音的细微结构</li>
+</ul>
+<h3 id="评估指标解读"><a href="#评估指标解读" class="headerlink" title="评估指标解读"></a>评估指标解读</h3><p>从官方报告（MLC-Challenge 数据集）：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>DER（说话人分离错误率）</th>
+<th>cpWER（含标点WER）</th>
+<th>WER</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英语</td>
+<td>4.28%</td>
+<td>13.02%</td>
+<td>7.99%</td>
+</tr>
+<tr>
+<td>中文</td>
+<td>6.77%</td>
+<td>25.35%</td>
+<td>21.40%</td>
+</tr>
+<tr>
+<td>平均</td>
+<td>3.42%</td>
+<td>15.66%</td>
+<td>12.07%</td>
+</tr>
+</tbody></table>
+<p>DER 指标（越低越好）表明说话人分离质量优秀；WER 指标与其他顶级 ASR 系统（如 Whisper）相当。</p>
+<hr>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h3 id="推理入口：vibevoice-asr-inference-from-file-py"><a href="#推理入口：vibevoice-asr-inference-from-file-py" class="headerlink" title="推理入口：vibevoice_asr_inference_from_file.py"></a>推理入口：<code>vibevoice_asr_inference_from_file.py</code></h3><p>核心推理类 <code>VibeVoiceASRBatchInference</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">VibeVoiceASRBatchInference</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self, </span></span><br><span class="line"><span class="params">        model_path: <span class="built_in">str</span>, </span></span><br><span class="line"><span class="params">        device: <span class="built_in">str</span> = <span class="string">&quot;cuda&quot;</span>, </span></span><br><span class="line"><span class="params">        dtype: torch.dtype = torch.bfloat16,</span></span><br><span class="line"><span class="params">        attn_implementation: <span class="built_in">str</span> = <span class="string">&quot;sdpa&quot;</span>  <span class="comment"># 可选 flash_attention_2 / sdpa / eager</span></span></span><br><span class="line"><span class="params">    </span>):</span><br><span class="line">        <span class="comment"># 1. 加载分词处理器</span></span><br><span class="line">        <span class="variable language_">self</span>.processor = VibeVoiceASRProcessor.from_pretrained(</span><br><span class="line">            model_path,</span><br><span class="line">            language_model_pretrained_name=<span class="string">&quot;Qwen/Qwen2.5-7B&quot;</span></span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. 加载模型（支持多种注意力实现）</span></span><br><span class="line">        <span class="variable language_">self</span>.model = VibeVoiceASRForConditionalGeneration.from_pretrained(</span><br><span class="line">            model_path,</span><br><span class="line">            dtype=dtype,</span><br><span class="line">            device_map=device <span class="keyword">if</span> device == <span class="string">&quot;auto&quot;</span> <span class="keyword">else</span> <span class="literal">None</span>,</span><br><span class="line">            attn_implementation=attn_implementation,</span><br><span class="line">            trust_remote_code=<span class="literal">True</span></span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<p><strong>设计亮点：</strong> 支持 <code>flash_attention_2</code>、<code>sdpa</code>（原语）、<code>eager</code> 三种注意力实现，适配不同硬件环境：</p>
+<ul>
+<li>A100&#x2F;H100 → <code>flash_attention_2</code>（最快）</li>
+<li>普通 GPU → <code>sdpa</code>（PyTorch 内核优化）</li>
+<li>CPU&#x2F;老卡 → <code>eager</code>（兼容）</li>
+</ul>
+<h3 id="批处理推理流程"><a href="#批处理推理流程" class="headerlink" title="批处理推理流程"></a>批处理推理流程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">transcribe_batch</span>(<span class="params">self, audio_inputs: <span class="type">List</span>, ...</span>):</span><br><span class="line">    <span class="comment"># 1. 批量音频预处理（padding 到同长）</span></span><br><span class="line">    inputs = <span class="variable language_">self</span>.processor(</span><br><span class="line">        audio=audio_inputs,</span><br><span class="line">        sampling_rate=<span class="literal">None</span>,</span><br><span class="line">        return_tensors=<span class="string">&quot;pt&quot;</span>,</span><br><span class="line">        padding=<span class="literal">True</span>,</span><br><span class="line">        add_generation_prompt=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 2. 移动到设备</span></span><br><span class="line">    inputs = &#123;k: v.to(<span class="variable language_">self</span>.device) <span class="keyword">if</span> <span class="built_in">isinstance</span>(v, torch.Tensor) <span class="keyword">else</span> v </span><br><span class="line">              <span class="keyword">for</span> k, v <span class="keyword">in</span> inputs.items()&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 3. 生成配置</span></span><br><span class="line">    generation_config = <span class="variable language_">self</span>._prepare_generation_config(...)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 4. LLM 自回归生成</span></span><br><span class="line">    outputs = <span class="variable language_">self</span>.model.generate(</span><br><span class="line">        **inputs,</span><br><span class="line">        **generation_config</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 5. 后处理：token → 结构化文本</span></span><br><span class="line">    results = <span class="variable language_">self</span>.processor.batch_decode(outputs)</span><br><span class="line">    <span class="keyword">return</span> results</span><br></pre></td></tr></table></figure>
+
+<h3 id="模型类：VibeVoiceASRForConditionalGeneration"><a href="#模型类：VibeVoiceASRForConditionalGeneration" class="headerlink" title="模型类：VibeVoiceASRForConditionalGeneration"></a>模型类：<code>VibeVoiceASRForConditionalGeneration</code></h3><p>位于 <code>vibevoice/modular/modeling_vibevoice_asr.py</code>，继承自 <code>PreTrainedModel</code>，核心结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">VibeVoiceASRForConditionalGeneration</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, config</span>):</span><br><span class="line">        <span class="comment"># 1. 连续分词器（将音频转为7.5Hz token）</span></span><br><span class="line">        <span class="variable language_">self</span>.acoustic_tokenizer = AcousticTokenizer(...)</span><br><span class="line">        <span class="variable language_">self</span>.semantic_tokenizer = SemanticTokenizer(...)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. LLM backbone（Qwen2.5-7B）</span></span><br><span class="line">        <span class="variable language_">self</span>.language_model = Qwen2LMHeadModel.from_pretrained(</span><br><span class="line">            config.llm_name, ...</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 3. Diffusion Head（声学细化）</span></span><br><span class="line">        <span class="variable language_">self</span>.diffusion_head = DiffusionHead(</span><br><span class="line">            in_channels=config.hidden_size,</span><br><span class="line">            out_channels=config.acoustic_vocab_size,</span><br><span class="line">            ...</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 4. 音频解码器（token → 波形）</span></span><br><span class="line">        <span class="variable language_">self</span>.vocoder = HiFiGANVocoder.from_pretrained(...)</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键设计：</strong> <code>VibeVoiceASRForConditionalGeneration</code> 的 forward 流程：</p>
+<ol>
+<li>音频经 Acoustic&#x2F;Semantic Tokenizer → 7.5Hz tokens</li>
+<li>tokens 送入 LLM 做条件生成（给定文本提示，预测音频 token）</li>
+<li>Diffusion Head 对 token 进行声学层面去噪</li>
+<li>Vocoder 将 tokens 重建为最终音频波形</li>
+</ol>
+<hr>
+<h2 id="适用场景与局限性"><a href="#适用场景与局限性" class="headerlink" title="适用场景与局限性"></a>适用场景与局限性</h2><h3 id="✅-适用场景"><a href="#✅-适用场景" class="headerlink" title="✅ 适用场景"></a>✅ 适用场景</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>适用模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>长会议记录转录</strong></td>
+<td>VibeVoice-ASR</td>
+<td>60分钟单遍，全局说话人追踪</td>
+</tr>
+<tr>
+<td><strong>多语言播客生成字幕</strong></td>
+<td>VibeVoice-ASR</td>
+<td>50+语言，代码切换原生支持</td>
+</tr>
+<tr>
+<td><strong>实时语音对话助手</strong></td>
+<td>VibeVoice-Realtime</td>
+<td>0.5B，~300ms 延迟</td>
+</tr>
+<tr>
+<td><strong>语音输入法</strong></td>
+<td>VibeVoice-ASR</td>
+<td>已商用：Vibing 基于 ASR 构建 macOS&#x2F;Windows 输入法</td>
+</tr>
+<tr>
+<td><strong>Hugging Face Transformers 集成</strong></td>
+<td>VibeVoice-ASR</td>
+<td>已集成进 transformers 5.3.0</td>
+</tr>
+</tbody></table>
+<h3 id="⚠️-局限性"><a href="#⚠️-局限性" class="headerlink" title="⚠️ 局限性"></a>⚠️ 局限性</h3><ol>
+<li><strong>TTS 下架</strong>：VibeVoice-TTS 因滥用风险已从仓库移除，相关功能不可用</li>
+<li><strong>安全风险</strong>：高质量语音合成被用于 deepfake 的风险极高，微软主动下架体现负责任 AI 态度</li>
+<li><strong>实时性有上限</strong>：ASR 端到端推理在 CPU 上较慢，需 GPU 加速</li>
+<li><strong>商用需谨慎</strong>：README 明确说明”不建议用于商业或真实世界应用”</li>
+<li><strong>依赖 HuggingFace 模型</strong>：Qwen2.5-7B 需要较大显存（~14GB）</li>
+</ol>
+<hr>
+<h2 id="我的看法"><a href="#我的看法" class="headerlink" title="我的看法"></a>我的看法</h2><p><strong>技术价值：8&#x2F;10</strong></p>
+<p>VibeVoice 最值得学习的不是某个单一算法突破，而是<strong>系统级工程整合能力</strong>：</p>
+<ul>
+<li>将连续分词器 + LLM + Diffusion 三个完全不同范式的模块融合为一个流畅 pipeline</li>
+<li>7.5 Hz 的帧率设计体现了对 LLM 计算特性的深刻理解——不是简单地”把音频塞进 LLM”，而是<strong>重新设计音频表示</strong>来适应 LLM 的计算规律</li>
+<li>这也是微软 Azure Speech + Research 联合发力的标志性项目</li>
+</ul>
+<p><strong>对开发者而言：</strong></p>
+<p>VibeVoice-ASR 已集成进 transformers 5.3.0，生产可用门槛大幅降低。如果你在做：</p>
+<ul>
+<li>会议纪要&#x2F;字幕生成系统</li>
+<li>多语言语音分析平台</li>
+<li>需要超长音频识别的场景</li>
+</ul>
+<p>值得将 VibeVoice-ASR 纳入技术选型对比清单（对比 Whisper、Paraformer 等）。</p>
+<p><strong>对 AI 研究而言：</strong></p>
+<p>Next-Token Diffusion 框架值得深入研究——它展示了一条”让 LLM 理解语音生成”的新路径，而非传统的”ASR → NLU → TTS”三段式级联。语音的端到端理解和生成正在走向统一。</p>
+<hr>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/microsoft/VibeVoice.git</span><br><span class="line"><span class="built_in">cd</span> VibeVoice &amp;&amp; pip install -e .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. Gradio 可视化 Demo</span></span><br><span class="line">python demo/vibevoice_asr_gradio_demo.py --model_path microsoft/VibeVoice-ASR --share</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 文件推理</span></span><br><span class="line">python demo/vibevoice_asr_inference_from_file.py \</span><br><span class="line">    --model_path microsoft/VibeVoice-ASR \</span><br><span class="line">    --audio_files [your_audio.wav]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. vLLM 加速推理</span></span><br><span class="line"><span class="comment"># 见 docs/vibevoice-vllm-asr.md</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><em>本文由 AI 全栈开发工程师🦞 编写，基于 GitHub 热门开源项目技术分析。</em><br><em>项目源码：<a target="_blank" rel="noopener" href="https://github.com/microsoft/VibeVoice">https://github.com/microsoft/VibeVoice</a> | 论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2601.18184">https://arxiv.org/pdf/2601.18184</a></em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/03/30/daily-project-040-vibevoice/">https://jollyfly.github.io/2026/03/30/daily-project-040-vibevoice/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/Microsoft/">Microsoft</a><a class="post-meta__tags" href="/tags/ASR/">ASR</a><a class="post-meta__tags" href="/tags/TTS/">TTS</a><a class="post-meta__tags" href="/tags/%E8%AF%AD%E9%9F%B3AI/">语音AI</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E8%AF%AD%E8%A8%80/">多语言</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/30/algorithm-005-binary-tree-traversal/" title="算法剖析⑤ | 二叉树遍历与经典应用"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">算法剖析⑤ | 二叉树遍历与经典应用</div></div><div class="info-2"><div class="info-item-1">本章解决的问题   # 题号 题目 难度 分类    21 LC104 二叉树的最大深度 🟢 简单 BFS&#x2F;DFS   22 LC112 路径总和 🟢 简单 DFS   23 LC113 路径总和 II 🟡 中等 DFS   24 LC257 二叉树的所有路径 🟢 简单 DFS   25 LC222 完全二叉树的节点数 🟡 中等 BFS   核心框架：二叉树 DFS 遍历逐题解析21. LC104 二叉树的最大深度思路：递归求左右子树最大深度 + 1。 复杂度：O(n) 时间，O(h) 递归栈空间（h 为树高）。 关键点：深度优先遍历的本质是后序遍历（左→右→根）。  22. LC112 路径总和思路：从根到叶子节点的路径和是否等于 target。 关键点：递减 targetSum，到叶子节点判断是否为 0。  23. LC113 路径总和 II思路：找所有从根到叶子 sum&#x3D;&#x3D;target 的路径。 关键点：记录完整路径 + 回溯。路径总和 II 是 22 的升级版，需要枚举所有路径。  24. LC257 二叉树的所有路径思路：DFS ...</div></div></div></a><a class="pagination-related" href="/2026/03/25/algorithm-009-strings/" title="算法剖析⑨ | 字符串高频题型精讲"><img class="cover" src="/images/covers/algo-009.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">算法剖析⑨ | 字符串高频题型精讲</div></div><div class="info-2"><div class="info-item-1">本章解决的问题   # 题号 题目 难度 分类    41 LC3 无重复字符的最长子串 🟡 中等 滑动窗口   42 LC5 最长回文子串 🟡 中等 中心扩散&#x2F;DP   43 LC20 有效的括号 🟢 简单 栈   44 LC49 字母异位词分组 🟡 中等 哈希   45 LC647 回文子串 🟡 中等 中心扩散   字符串解题框架123456字符串问题常见解法：1. 滑动窗口 → 最长子串/子数组2. 栈 → 括号匹配/括号消除3. 双指针 → 两端向中4. 哈希表 → 词频统计/字母分组5. 中心扩散 → 回文串   LC3 无重复字符的最长子串暴力解 O(n²)两个 for 循环枚举所有子串，再用 Set 判断是否有重复： 1234567891011121314151617181920// 暴力解：枚举所有子串，判断无重复 → O(n³)public int lengthOfLongestSubstring(String s) &#123;    int n = s.length();    int max = 0;    for (int i = 0...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架"><img class="cover" src="/images/covers/photo-1642790106117-e829e14a795f.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents：多智能体 LLM 金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents 是由 TauricResearch 团队开源的多智能体 LLM 金融交易框架，目前在 GitHub 上已斩获 38,185 Stars，是金融量化与 AI Agent 结合领域最热门的项目之一。 该项目利用大语言模型（LLM）的推理能力，通过多个专业 Agent 的协作，完成从市场分析、策略制定、交易执行到风险控制的完整交易流程。核心使用 Python 开发，架构清晰，扩展性强。  核心原理分析TradingAgents 的核心设计理念是专业分工 + 智能协作。系统将复杂的量化交易流程拆解为多个各司其职的 Agent，每个 Agent 是一个独立的 LLM-powered 推理单元，通过标准化的消息传递协议实现协作。这种多 Agent 架构解决了单一 Agent 在复杂任务上的两大瓶颈：上下文膨胀和职责混淆。 Agent 抽象：BaseAgent 类每个 Agent 本质上是一个状态机，维护自己的推理循环： 12345678910111213141516171819202122232425# trading_agents/agents/base...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-015-lightrag/" title="LightRAG：简单高效的检索增强生成系统"><img class="cover" src="/images/covers/photo-1633356122102-3fe601e05bd2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">LightRAG：简单高效的检索增强生成系统</div></div><div class="info-2"><div class="info-item-1">LightRAG：简单高效的检索增强生成系统📌 项目概览   属性 信息    项目名称 LightRAG   仓库地址 HKUDS&#x2F;LightRAG   论文 EMNLP2025   语言 Python   Stars 趋势上升中   机构 香港大学 (HKU)   LightRAG 是香港大学研究团队在 EMNLP 2025 发表的一种轻量级检索增强生成（Retrieval-Augmented Generation）框架。其核心主张：简单 + 快速——通过简化传统 RAG  pipeline 的多个环节，在保证答案质量的同时显著提升推理效率。 传统 RAG 系统往往需要复杂的向量数据库、多次检索轮次、冗长的上下文窗口管理。LightRAG 另辟蹊径，用更少的计算资源交出更好的答卷。  🔄 RAG vs LightRAG：核心差异传统 RAG 的痛点12345用户问题 → 向量检索 → Top-K 文档 → 拼接上下文 → LLM 生成                                      ↑                          ...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-012-production-agentic-rag/" title="production-agentic-rag-course：生产级 Agentic RAG 实战课程"><img class="cover" src="/images/covers/photo-1677442136019-21780ecad995.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">production-agentic-rag-course：生产级 Agentic RAG 实战课程</div></div><div class="info-2"><div class="info-item-1">项目概览production-agentic-rag-course（jamwithai&#x2F;production-agentic-rag-course）是一个专注于生产级 Agentic RAG（检索增强生成）系统的开源课程项目，当前已斩获 4,975 Stars，语言为 Python。 该项目并非一个toy demo，而是一套从理论到实践的完整学习路径，涵盖 RAG 基础架构、Agent 编排、高级检索策略、评估体系等关键环节，是想要将 RAG 落地到真实业务场景的工程师不可错过的优质资源。  RAG 核心架构传统 RAG 的 Pipeline 可以拆解为以下几个核心阶段： 1用户查询 → 检索（Retrieval） → 增强（Augmentation） → 生成（Generation）  1. 检索层（Retrieval）检索是 RAG 的核心瓶颈，直接决定生成质量上限。项目覆盖了多种检索范式：  稀疏检索（Sparse Retrieval）：BM25、TF-IDF，基于词频和逆文档频率，适合关键词精确匹配 稠密检索（Dense Retrieval）：Sentence-...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img class="cover" src="/images/covers/photo-1574717024653-61fd2cf4d44d.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterTurbo：AI 一键生成高清短视频</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取 → 语音合成 → 字幕渲染 → 视频合成，一键输出高清短视频（竖屏 9:16 &#x2F; 横屏 16:9）。 核心架构12345678910111213141516171819关键词/主题    │    ▼┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  LLM 文案生成 │ ──▶ │ Pexels 素材 │ ──▶ │  语音合成   ││  (DeepSeek/  │     │  (无版权)   │     │  (GPT-SoVITS││   Moonshot)  │     │             │...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-016-tradingagents-cn/" title="TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架"><img class="cover" src="/images/covers/photo-1611974789855-9c2a0a7236a3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents-CN（hsliuping&#x2F;TradingAgents-CN）是 TradingAgents 项目的中文增强分支，基于多智能体 LLM 架构，专门针对中文金融市场进行深度优化。该项目利用大语言模型的推理与规划能力，构建了一套从市场分析、信号生成到交易执行的全链路自动化交易系统。 核心特性：  🌐 原生中文支持：数据源、Prompt、报告输出全面中文适配 🤖 多智能体协作：Researcher、Analyst、Trader 多角色分工明确 📊 多市场覆盖：A 股、港股、美股数据源均有对应接入方案 🔧 模块化设计：各组件解耦，便于二次开发和策略替换 🛡️ 风控层内置：内置止损、仓位管理、风险预算模块   与原版 TradingAgents 对比   维度 原版 TradingAgents TradingAgents-CN    数据源 Yahoo Finance &#x2F; Alpha Vantage（美股为主） Tushare &#x2F; AKShare &#x2F; 聚宽（A股&#x2F;港股）   Prompt 语言 英...</div></div></div></a><a class="pagination-related" href="/2026/03/25/daily-project-035-autoresearch/" title="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM"><img class="cover" src="/images/covers/unique-cover-01.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="info-item-2">daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM</div></div><div class="info-2"><div class="info-item-1">项目概览AutoResearch（karpathy&#x2F;autoresearch）是深度学习泰斗 Andrej Karpathy 开源的一个极简 autonomous AI research 实验框架。核心思想简单而有力：给 AI Agent 一个真实可运行的单 GPU LLM 训练环境，让它在夜里自主调参、训练、评估，早上你来收实验报告。 ⭐ 54,584 GitHub Stars | 单文件 agent 修改 | 5 分钟固定时间预算 | 纯 PyTorch 实现 Karpathy 本人在 2026 年 3 月的访谈中坦言自己”大概从 12 月开始就没手动写过一行代码了”，AutoResearch 正是他展示这一范式的技术载体——把科研人员从调参炼丹的体力活中彻底解放出来。  核心特性1. 极简双文件架构整个 repo 只包含三个真正重要的文件，设计上刻意保持最小化：    文件 职责 谁修改    prepare.py 数据下载、BPE Tokenizer 训练、DataLoader、评估工具 固定不变   train.py GPT 模型定义 + Muon+AdamW...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">116</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">核心特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-VibeVoice-ASR%EF%BC%9A60%E5%88%86%E9%92%9F%E9%95%BF%E9%9F%B3%E9%A2%91%E5%8D%95%E9%81%8D%E8%AF%86%E5%88%AB"><span class="toc-number">2.1.</span> <span class="toc-text">1. VibeVoice-ASR：60分钟长音频单遍识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A3%B0%E5%AD%A6%E8%BF%9E%E7%BB%AD%E5%88%86%E8%AF%8D%E5%99%A8%EF%BC%9A7-5-Hz-%E8%B6%85%E4%BD%8E%E5%B8%A7%E7%8E%87"><span class="toc-number">2.2.</span> <span class="toc-text">2. 声学连续分词器：7.5 Hz 超低帧率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Next-Token-Diffusion%EF%BC%9ALLM-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E5%8D%8F%E5%90%8C"><span class="toc-number">2.3.</span> <span class="toc-text">3. Next-Token Diffusion：LLM + 扩散模型协同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A4%9A%E8%AF%AD%E8%A8%80-%E4%BB%A3%E7%A0%81%E5%88%87%E6%8D%A2%E5%8E%9F%E7%94%9F%E6%94%AF%E6%8C%81"><span class="toc-number">2.4.</span> <span class="toc-text">4. 多语言 &amp; 代码切换原生支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-VibeVoice-Realtime%EF%BC%9A0-5B-%E8%BD%BB%E9%87%8F%E5%AE%9E%E6%97%B6TTS"><span class="toc-number">2.5.</span> <span class="toc-text">5. VibeVoice-Realtime：0.5B 轻量实时TTS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">技术架构分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">整体架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">核心技术选型分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E8%A7%A3%E8%AF%BB"><span class="toc-number">3.3.</span> <span class="toc-text">评估指标解读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E7%90%86%E5%85%A5%E5%8F%A3%EF%BC%9Avibevoice-asr-inference-from-file-py"><span class="toc-number">4.1.</span> <span class="toc-text">推理入口：vibevoice_asr_inference_from_file.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%8E%A8%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">批处理推理流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%B1%BB%EF%BC%9AVibeVoiceASRForConditionalGeneration"><span class="toc-number">4.3.</span> <span class="toc-text">模型类：VibeVoiceASRForConditionalGeneration</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">适用场景与局限性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.1.</span> <span class="toc-text">✅ 适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">5.2.</span> <span class="toc-text">⚠️ 局限性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E7%9C%8B%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">我的看法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-number">7.</span> <span class="toc-text">快速上手</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/30/algorithm-005-binary-tree-traversal/" title="算法剖析⑤ | 二叉树遍历与经典应用"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑤ | 二叉树遍历与经典应用"/></a><div class="content"><a class="title" href="/2026/03/30/algorithm-005-binary-tree-traversal/" title="算法剖析⑤ | 二叉树遍历与经典应用">算法剖析⑤ | 二叉树遍历与经典应用</a><time datetime="2026-03-30T04:00:00.000Z" title="发表于 2026-03-30 12:00:00">2026-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/30/algorithm-006-bst/" title="算法剖析⑥ | 二叉搜索树（BST）高频面试题"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑥ | 二叉搜索树（BST）高频面试题"/></a><div class="content"><a class="title" href="/2026/03/30/algorithm-006-bst/" title="算法剖析⑥ | 二叉搜索树（BST）高频面试题">算法剖析⑥ | 二叉搜索树（BST）高频面试题</a><time datetime="2026-03-30T04:00:00.000Z" title="发表于 2026-03-30 12:00:00">2026-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/30/algorithm-007-divide-conquer/" title="算法剖析⑦ | 分治策略与经典排序"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑦ | 分治策略与经典排序"/></a><div class="content"><a class="title" href="/2026/03/30/algorithm-007-divide-conquer/" title="算法剖析⑦ | 分治策略与经典排序">算法剖析⑦ | 分治策略与经典排序</a><time datetime="2026-03-30T04:00:00.000Z" title="发表于 2026-03-30 12:00:00">2026-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/30/algorithm-008-bit-manipulation/" title="算法剖析⑧ | 位运算高频技巧与真题"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑧ | 位运算高频技巧与真题"/></a><div class="content"><a class="title" href="/2026/03/30/algorithm-008-bit-manipulation/" title="算法剖析⑧ | 位运算高频技巧与真题">算法剖析⑧ | 位运算高频技巧与真题</a><time datetime="2026-03-30T04:00:00.000Z" title="发表于 2026-03-30 12:00:00">2026-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/30/daily-project-040-vibevoice/" title="daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）"><img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）"/></a><div class="content"><a class="title" href="/2026/03/30/daily-project-040-vibevoice/" title="daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）">daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）</a><time datetime="2026-03-29T16:00:00.000Z" title="发表于 2026-03-30 00:00:00">2026-03-30</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '478b3729772137d437a347aa098171a7'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
