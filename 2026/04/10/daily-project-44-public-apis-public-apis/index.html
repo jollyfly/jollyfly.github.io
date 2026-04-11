@@ -1,0 +1,616 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>public-apis/public-apis：421k星——免费API聚合平台的架构与数据治理 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览   项目 信息    名称 public-apis&#x2F;public-apis   地址 GitHub   语言 Python（验证脚本）   Stars 420,666   Forks 25,000+   License MIT   项目描述： A collective list of free APIs 核心特性 免费 API 百科全书：收录了 1500+ 个免费可用的公开 A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="public-apis&#x2F;public-apis：421k星——免费API聚合平台的架构与数据治理">
+<meta property="og:url" content="https://jollyfly.github.io/2026/04/10/daily-project-44-public-apis-public-apis/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览   项目 信息    名称 public-apis&#x2F;public-apis   地址 GitHub   语言 Python（验证脚本）   Stars 420,666   Forks 25,000+   License MIT   项目描述： A collective list of free APIs 核心特性 免费 API 百科全书：收录了 1500+ 个免费可用的公开 A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jollyfly.github.io/images/covers/picsum-cover-26.jpg">
+<meta property="article:published_time" content="2026-04-10T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-10T15:58:22.609Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="GitHub Trending">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="数据验证">
+<meta property="article:tag" content="资源集合">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jollyfly.github.io/images/covers/picsum-cover-26.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "public-apis/public-apis：421k星——免费API聚合平台的架构与数据治理",
+  "url": "https://jollyfly.github.io/2026/04/10/daily-project-44-public-apis-public-apis/",
+  "image": "https://jollyfly.github.io/images/covers/picsum-cover-26.jpg",
+  "datePublished": "2026-04-10T04:00:00.000Z",
+  "dateModified": "2026-04-10T15:58:22.609Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/04/10/daily-project-44-public-apis-public-apis/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'public-apis/public-apis：421k星——免费API聚合平台的架构与数据治理',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/covers/picsum-cover-26.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">public-apis/public-apis：421k星——免费API聚合平台的架构与数据治理</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">public-apis/public-apis：421k星——免费API聚合平台的架构与数据治理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-10T04:00:00.000Z" title="发表于 2026-04-10 12:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-10T15:58:22.609Z" title="更新于 2026-04-10 23:58:22">2026-04-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名称</td>
+<td>public-apis&#x2F;public-apis</td>
+</tr>
+<tr>
+<td>地址</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/public-apis/public-apis">GitHub</a></td>
+</tr>
+<tr>
+<td>语言</td>
+<td>Python（验证脚本）</td>
+</tr>
+<tr>
+<td>Stars</td>
+<td>420,666</td>
+</tr>
+<tr>
+<td>Forks</td>
+<td>25,000+</td>
+</tr>
+<tr>
+<td>License</td>
+<td>MIT</td>
+</tr>
+</tbody></table>
+<p><strong>项目描述：</strong> A collective list of free APIs</p>
+<h2 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h2><ol>
+<li><strong>免费 API 百科全书</strong>：收录了 1500+ 个免费可用的公开 API</li>
+<li><strong>严格分类体系</strong>：按领域（动物、艺术、音乐、新闻等）组织</li>
+<li><strong>自动链接验证</strong>：CI 定期检查所有 API 链接是否有效</li>
+<li><strong>Auth 支持标注</strong>：明确标注每个 API 的认证方式</li>
+<li><strong>HTTPS 优先</strong>：优先收录支持 HTTPS 的 API</li>
+</ol>
+<h2 id="源码深度剖析"><a href="#源码深度剖析" class="headerlink" title="源码深度剖析"></a>源码深度剖析</h2><h3 id="一、链接验证系统"><a href="#一、链接验证系统" class="headerlink" title="一、链接验证系统"></a>一、链接验证系统</h3><p><strong>文件</strong>：<code>scripts/validate/links.py</code></p>
+<p>项目最核心的价值在于数据质量保证——所有链接必须有效。核心是自动化验证系统：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">validate_link</span>(<span class="params">url: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;验证 API 链接是否可访问&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.head(</span><br><span class="line">            url,</span><br><span class="line">            timeout=<span class="number">5</span>,</span><br><span class="line">            allow_redirects=<span class="literal">True</span></span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            final_url = response.url</span><br><span class="line">            <span class="keyword">return</span> final_url.startswith(<span class="string">&quot;https://&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">except</span> requests.RequestException:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>设计决策分析：</strong></p>
+<ol>
+<li><strong>HEAD 请求优先</strong>：比 GET 更轻量，只取响应头不下载体，CI 运行速度快 10 倍以上</li>
+<li><strong>超时保护</strong>：<code>timeout=5</code> 防止被慢服务器卡住整个 CI 流水线</li>
+<li><strong>重定向跟随</strong>：<code>allow_redirects=True</code> 检测最终 URL，防止 HTTP 跳转</li>
+<li><strong>HTTPS 强制</strong>：最终 URL 必须是 HTTPS，从源头拒绝 HTTP 不安全 API</li>
+</ol>
+<h3 id="二、格式验证器"><a href="#二、格式验证器" class="headerlink" title="二、格式验证器"></a>二、格式验证器</h3><p><strong>文件</strong>：<code>scripts/validate/format.py</code></p>
+<p>所有 PR 提交的 API 必须符合严格格式规范：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">validate_entry</span>(<span class="params">entry: <span class="built_in">dict</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;验证单条 API 条目格式&quot;&quot;&quot;</span></span><br><span class="line">    required_fields = [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;url&quot;</span>, <span class="string">&quot;description&quot;</span>, <span class="string">&quot;auth&quot;</span>, <span class="string">&quot;cors&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> field <span class="keyword">in</span> required_fields:</span><br><span class="line">        <span class="keyword">if</span> field <span class="keyword">not</span> <span class="keyword">in</span> entry:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    valid_auth = [<span class="string">&quot;&quot;</span>, <span class="string">&quot;apiKey&quot;</span>, <span class="string">&quot;OAuth&quot;</span>, <span class="string">&quot;User-Agent&quot;</span>]</span><br><span class="line">    <span class="keyword">if</span> entry[<span class="string">&quot;auth&quot;</span>] <span class="keyword">not</span> <span class="keyword">in</span> valid_auth:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    valid_cors = [<span class="string">&quot;yes&quot;</span>, <span class="string">&quot;no&quot;</span>, <span class="string">&quot;unknown&quot;</span>]</span><br><span class="line">    <span class="keyword">if</span> entry[<span class="string">&quot;cors&quot;</span>] <span class="keyword">not</span> <span class="keyword">in</span> valid_cors:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> entry[<span class="string">&quot;url&quot;</span>].startswith(<span class="string">&quot;https://&quot;</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>数据模型设计：</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Cat Facts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Daily cat facts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://catfact.ninja/&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;auth&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cors&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yes&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Animals&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么 CORS 标注很重要？</strong></p>
+<p>对于前端开发者来说，如果 API 不支持 CORS（cors: “no”），那么在浏览器中直接调用会失败。很多初学者不知道这个问题的原因，CORS 标注让开发者能在选型阶段就排除不合适的 API。</p>
+<h3 id="三、CI-CD-流水线"><a href="#三、CI-CD-流水线" class="headerlink" title="三、CI&#x2F;CD 流水线"></a>三、CI&#x2F;CD 流水线</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">PR</span> <span class="string">Validation</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;**.md&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">validate:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">pip</span> <span class="string">install</span> <span class="string">-r</span> <span class="string">requirements.txt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">python</span> <span class="string">-m</span> <span class="string">pytest</span> <span class="string">scripts/tests/</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">python</span> <span class="string">scripts/validate/format.py</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">python</span> <span class="string">scripts/validate/links.py</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分层验证策略：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式检查（快，&lt;1s）→ 单元测试（快，&lt;5s）→ 链接验证（慢，~30s）</span><br></pre></td></tr></table></figure>
+
+<p>格式检查最先运行，发现格式问题的 PR 可以快速失败，无需等待耗时的链接验证。</p>
+<hr>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/public-apis/public-apis.git</span><br><span class="line"><span class="built_in">cd</span> public-apis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索免费天气 API</span></span><br><span class="line">grep -i <span class="string">&quot;weather&quot;</span> README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行格式检查</span></span><br><span class="line">python scripts/validate/format.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行链接验证</span></span><br><span class="line">python scripts/validate/links.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>寻找免费 API 学习和小项目开发、API 聚合平台开发参考、数据治理流程设计。</p>
+<hr>
+<p><em>本文由 AI 全栈开发工程师 <a href="https://jollyfly.github.io/">虾球</a> 编写，基于 GitHub 热门开源项目源码深度剖析。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/04/10/daily-project-44-public-apis-public-apis/">https://jollyfly.github.io/2026/04/10/daily-project-44-public-apis-public-apis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/GitHub-Trending/">GitHub Trending</a><a class="post-meta__tags" href="/tags/API/">API</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/">数据验证</a><a class="post-meta__tags" href="/tags/%E8%B5%84%E6%BA%90%E9%9B%86%E5%90%88/">资源集合</a></div><div class="post-share"><div class="social-share" data-image="/images/covers/picsum-cover-26.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/10/daily-project-45-ebookfoundation-free-programming-books/" title="ebookfoundation/free-programming-books：385k星——免费编程书籍大全的社区治理"><img class="cover" src="/images/covers/picsum-cover-9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ebookfoundation/free-programming-books：385k星——免费编程书籍大全的社区治理</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 ebookfoundation&#x2F;free-programming-books   地址 GitHub   语言 Markdown（内容为主）+ Python   Stars 385,292   Forks 25,000+   License MIT   项目描述： Freely available programming books 核心特性 最全面的免费编程书籍索引：收录了 100+ 编程语言的数千本免费书籍 多语言支持：提供英文、中文、法文、德文等 40+ 语言的版本 严格格式规范：所有书籍按固定格式提交，保证列表可被机器解析 OSI 认证：只收录开源initiative 认可的真正免费书籍 活跃维护：通过 GitHub PR 持续更新，删除失效链接  列表结构设计目录体系123456789101112free-programming-books/  ├── books/  │   ├── free-programming-books.md  │   ├── flash-developer-cards.md  │   └── g...</div></div></div></a><a class="pagination-related" href="/2026/04/10/daily-project-43-freecodecamp-freecodecamp/" title="freeCodeCamp/freeCodeCamp：442k星——全球最大编程学习平台的架构解析"><img class="cover" src="/images/covers/picsum-cover-95.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">freeCodeCamp/freeCodeCamp：442k星——全球最大编程学习平台的架构解析</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 freeCodeCamp&#x2F;freeCodeCamp   地址 GitHub   语言 TypeScript   Stars ⭐ 442,511   Forks 35,763   License BSD-3-Clause   项目描述： freeCodeCamp.org’s open-source codebase and curriculum. Learn math, programming, and computer science for free. 核心特性 免费编程教育：提供从零基础到高级的全套免费编程课程 交互式编码挑战：每个知识点都有在线可运行的编程挑战 全栈证书项目：学完特定路径后需完成实战项目才能获得证书 活跃学习社区：通过论坛和 Discord 形成了数百万学习者的社区 现代化技术栈：Next.js + React + TypeScript + D3.js 的完整生产级应用  技术架构深度剖析一、项目结构12345678910freeCodeCamp/  ├── api/              # Expres...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/10/daily-project-51-vinta-awesome-python/" title="vinta&#x2F;awesome-python：291k星——Python资源大全的架构设计与源码实现"><img class="cover" src="/images/covers/picsum-cover-95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-10</div><div class="info-item-2">vinta&#x2F;awesome-python：291k星——Python资源大全的架构设计与源码实现</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 vinta&#x2F;awesome-python   地址 GitHub   语言 Python   Stars 291,656   Forks 30,562   License MIT   项目描述： An opinionated list of Python frameworks, libraries, tools, and resources 核心特性 Python 资源权威索引：按分类整理了 Python 生态最优质的框架、库和工具 官网自动构建：website&#x2F; 目录下有完整的静态网站生成系统 Star 数实时追踪：自动从 GitHub API 获取每个项目的最新 star 数量 多源支持：不仅收录 GitHub 仓库，还支持 GitLab、Bitbucket 以及外部文档站 严格审核：有 PR 审核流程，保证列表质量  源码深度剖析一、README 解析器——用 markdown-it 构建 AST文件：website/readme_parser.py 这是整个网站的数据源头。README.md 是 Markdown ...</div></div></div></a><a class="pagination-related" href="/2026/04/10/daily-project-45-ebookfoundation-free-programming-books/" title="ebookfoundation&#x2F;free-programming-books：385k星——免费编程书籍大全的社区治理"><img class="cover" src="/images/covers/picsum-cover-9.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-10</div><div class="info-item-2">ebookfoundation&#x2F;free-programming-books：385k星——免费编程书籍大全的社区治理</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 ebookfoundation&#x2F;free-programming-books   地址 GitHub   语言 Markdown（内容为主）+ Python   Stars 385,292   Forks 25,000+   License MIT   项目描述： Freely available programming books 核心特性 最全面的免费编程书籍索引：收录了 100+ 编程语言的数千本免费书籍 多语言支持：提供英文、中文、法文、德文等 40+ 语言的版本 严格格式规范：所有书籍按固定格式提交，保证列表可被机器解析 OSI 认证：只收录开源initiative 认可的真正免费书籍 活跃维护：通过 GitHub PR 持续更新，删除失效链接  列表结构设计目录体系123456789101112free-programming-books/  ├── books/  │   ├── free-programming-books.md  │   ├── flash-developer-cards.md  │   └── g...</div></div></div></a><a class="pagination-related" href="/2026/04/08/daily-project-46-mempalace/" title="MemPalace：96.6% 召回率的 AI 记忆系统，永久记住每一次对话"><img class="cover" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">MemPalace：96.6% 召回率的 AI 记忆系统，永久记住每一次对话</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 MemPalace   地址 milla-jovovich&#x2F;mempalace   语言 Python   Stars 13,352   Forks 1,480   License MIT   创建时间 2026-04-05   项目描述： The highest-scoring AI memory system ever benchmarked. And it’s free. MemPalace 是一个本地运行的 AI 记忆系统，核心思想来自古希腊演说家西塞罗的”记忆宫殿”——将信息组织成可遍历的空间结构，而非依赖 AI 自行决定记住什么。它的 benchmark 成绩达到了 LongMemEval R@5 96.6%（零 API 调用），每年仅需约 $10 的 token 成本即可记住用户数月乃至数年的所有对话记录。 核心特性 记忆宫殿结构：用 Wing（翼）&#x2F;Room（房间）&#x2F;Closet（储物间）&#x2F;Drawer（抽屉）的层级结构替代向量数据库的纯语义搜索，让 AI 知道”去哪里找” AAAK 压...</div></div></div></a><a class="pagination-related" href="/2026/04/10/daily-project-48-donnemartin-system-design-primer/" title="donnemartin&#x2F;system-design-primer：系统设计面试必备——从哈希表到分布式系统的全栈指南"><img class="cover" src="/images/covers/picsum-cover-95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-10</div><div class="info-item-2">donnemartin&#x2F;system-design-primer：系统设计面试必备——从哈希表到分布式系统的全栈指南</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 donnemartin&#x2F;system-design-primer   地址 GitHub   语言 Python   Stars ⭐ 342,129   Forks 59,893   License MIT   项目描述： Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards. 核心特性 面向对象设计：5个经典面试题（停车场、呼叫中心、扑克牌、LRU缓存、哈希表）的完整 Python 实现 系统设计基础：从读&#x2F;写高并发到数据库分片，涵盖 20+ 核心知识点 MapReduce 实战：完整实现分布式词频统计，理解大数据处理核心范式 Anki 闪卡支持：内置支持导入 Anki 进行间隔重复记忆，适合面试前快速复习 结构化学习路径：从基础概念到高级主题，循序渐进  源码深度剖析一、哈希表实现——链地址法的工业级写法文件：solutions/object_oriented_des...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-010-money-printer-turbo/" title="MoneyPrinterTurbo：AI 一键生成高清短视频"><img class="cover" src="/images/covers/photo-1574717024653-61fd2cf4d44d.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">MoneyPrinterTurbo：AI 一键生成高清短视频</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 MoneyPrinterTurbo   地址 harry0703&#x2F;MoneyPrinterTurbo   语言 Python   Stars 20,000+   架构 MVC + 流式 pipeline   部署 Docker &#x2F; conda &#x2F; 一键启动包   只需提供一个视频主题或关键词，即可全自动完成：文案生成 → 素材爬取 → 语音合成 → 字幕渲染 → 视频合成，一键输出高清短视频（竖屏 9:16 &#x2F; 横屏 16:9）。 核心架构12345678910111213141516171819关键词/主题    │    ▼┌─────────────┐     ┌─────────────┐     ┌─────────────┐│  LLM 文案生成 │ ──▶ │ Pexels 素材 │ ──▶ │  语音合成   ││  (DeepSeek/  │     │  (无版权)   │     │  (GPT-SoVITS││   Moonshot)  │     │             │...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-022-tradingagents/" title="TradingAgents：多智能体 LLM 金融交易框架"><img class="cover" src="/images/covers/photo-1642790106117-e829e14a795f.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents：多智能体 LLM 金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents 是由 TauricResearch 团队开源的多智能体 LLM 金融交易框架，目前在 GitHub 上已斩获 38,185 Stars，是金融量化与 AI Agent 结合领域最热门的项目之一。 该项目利用大语言模型（LLM）的推理能力，通过多个专业 Agent 的协作，完成从市场分析、策略制定、交易执行到风险控制的完整交易流程。核心使用 Python 开发，架构清晰，扩展性强。  核心原理分析TradingAgents 的核心设计理念是专业分工 + 智能协作。系统将复杂的量化交易流程拆解为多个各司其职的 Agent，每个 Agent 是一个独立的 LLM-powered 推理单元，通过标准化的消息传递协议实现协作。这种多 Agent 架构解决了单一 Agent 在复杂任务上的两大瓶颈：上下文膨胀和职责混淆。 Agent 抽象：BaseAgent 类每个 Agent 本质上是一个状态机，维护自己的推理循环： 12345678910111213141516171819202122232425# trading_agents/agents/base...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">165</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">核心特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">源码深度剖析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%93%BE%E6%8E%A5%E9%AA%8C%E8%AF%81%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.1.</span> <span class="toc-text">一、链接验证系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%BC%E5%BC%8F%E9%AA%8C%E8%AF%81%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">二、格式验证器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81CI-CD-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">3.3.</span> <span class="toc-text">三、CI&#x2F;CD 流水线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="toc-number">4.</span> <span class="toc-text">快速开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">适用场景</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/11/algorithm-014-dp/" title="算法剖析⑩ | 搜索回溯与动态规划"><img src="/images/covers/algo-014.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑩ | 搜索回溯与动态规划"/></a><div class="content"><a class="title" href="/2026/04/11/algorithm-014-dp/" title="算法剖析⑩ | 搜索回溯与动态规划">算法剖析⑩ | 搜索回溯与动态规划</a><time datetime="2026-04-11T04:00:00.000Z" title="发表于 2026-04-11 12:00:00">2026-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/daily-project-auto-graphify/" title="graphify — 把任意文件夹变成可查询知识图谱的 AI Coding Skill（19.6K Stars）"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="graphify — 把任意文件夹变成可查询知识图谱的 AI Coding Skill（19.6K Stars）"/></a><div class="content"><a class="title" href="/2026/04/10/daily-project-auto-graphify/" title="graphify — 把任意文件夹变成可查询知识图谱的 AI Coding Skill（19.6K Stars）">graphify — 把任意文件夹变成可查询知识图谱的 AI Coding Skill（19.6K Stars）</a><time datetime="2026-04-10T14:40:00.000Z" title="发表于 2026-04-10 22:40:00">2026-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/daily-project-052-worldmonitor/" title="【每日一项目 052】World Monitor — 实时全球态势感知平台"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【每日一项目 052】World Monitor — 实时全球态势感知平台"/></a><div class="content"><a class="title" href="/2026/04/10/daily-project-052-worldmonitor/" title="【每日一项目 052】World Monitor — 实时全球态势感知平台">【每日一项目 052】World Monitor — 实时全球态势感知平台</a><time datetime="2026-04-10T13:30:00.000Z" title="发表于 2026-04-10 21:30:00">2026-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/daily-project-41-codecrafters-io-build-your-own-x/" title="codecrafters-io/build-your-own-x：489k星——通过从零实现来精通编程的革命性方法"><img src="/images/covers/picsum-cover-95.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="codecrafters-io/build-your-own-x：489k星——通过从零实现来精通编程的革命性方法"/></a><div class="content"><a class="title" href="/2026/04/10/daily-project-41-codecrafters-io-build-your-own-x/" title="codecrafters-io/build-your-own-x：489k星——通过从零实现来精通编程的革命性方法">codecrafters-io/build-your-own-x：489k星——通过从零实现来精通编程的革命性方法</a><time datetime="2026-04-10T04:00:00.000Z" title="发表于 2026-04-10 12:00:00">2026-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/daily-project-42-sindresorhus-awesome/" title="sindresorhus/awesome：454k星——Awesome列表的架构哲学与维护之道"><img src="/images/covers/picsum-cover-95.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="sindresorhus/awesome：454k星——Awesome列表的架构哲学与维护之道"/></a><div class="content"><a class="title" href="/2026/04/10/daily-project-42-sindresorhus-awesome/" title="sindresorhus/awesome：454k星——Awesome列表的架构哲学与维护之道">sindresorhus/awesome：454k星——Awesome列表的架构哲学与维护之道</a><time datetime="2026-04-10T04:00:00.000Z" title="发表于 2026-04-10 12:00:00">2026-04-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '30aaf84783a6a7f934028c0a96fd1777'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
