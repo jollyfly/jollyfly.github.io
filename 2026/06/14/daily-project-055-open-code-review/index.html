@@ -1,0 +1,757 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践 | jolly的博客</title><meta name="author" content="jolly"><meta name="copyright" content="jolly"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目概览   项目 信息    名称 open-code-review   地址 alibaba&#x2F;open-code-review   语言 Go   Stars 6,796 ⭐   Forks 581   许可证 Apache-2.0   定位 阿里集团官方 AI 代码评审 CLI 工具，混合架构：确定性工程 × LLM Agent   项目描述： Open-source &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践">
+<meta property="og:url" content="https://jollyfly.github.io/2026/06/14/daily-project-055-open-code-review/">
+<meta property="og:site_name" content="jolly的博客">
+<meta property="og:description" content="项目概览   项目 信息    名称 open-code-review   地址 alibaba&#x2F;open-code-review   语言 Go   Stars 6,796 ⭐   Forks 581   许可证 Apache-2.0   定位 阿里集团官方 AI 代码评审 CLI 工具，混合架构：确定性工程 × LLM Agent   项目描述： Open-source &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80">
+<meta property="article:published_time" content="2026-06-14T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-14T12:04:48.565Z">
+<meta property="article:author" content="jolly">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="代码评审">
+<meta property="article:tag" content="架构设计">
+<meta property="article:tag" content="阿里">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践",
+  "url": "https://jollyfly.github.io/2026/06/14/daily-project-055-open-code-review/",
+  "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80",
+  "datePublished": "2026-06-14T12:00:00.000Z",
+  "dateModified": "2026-06-14T12:04:48.565Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jolly",
+      "url": "https://jollyfly.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jollyfly.github.io/2026/06/14/daily-project-055-open-code-review/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style> .post-reward img.post-qr-code-img { width: 180px !important; height: auto !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; } </style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">jolly的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-14T12:00:00.000Z" title="发表于 2026-06-14 20:00:00">2026-06-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-14T12:04:48.565Z" title="更新于 2026-06-14 20:04:48">2026-06-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">开源项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="项目概览"><a href="#项目概览" class="headerlink" title="项目概览"></a>项目概览</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名称</td>
+<td>open-code-review</td>
+</tr>
+<tr>
+<td>地址</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/open-code-review">alibaba&#x2F;open-code-review</a></td>
+</tr>
+<tr>
+<td>语言</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Stars</td>
+<td>6,796 ⭐</td>
+</tr>
+<tr>
+<td>Forks</td>
+<td>581</td>
+</tr>
+<tr>
+<td>许可证</td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>阿里集团官方 AI 代码评审 CLI 工具，混合架构：确定性工程 × LLM Agent</td>
+</tr>
+</tbody></table>
+<p><strong>项目描述：</strong> Open-source &amp; free — Battle-tested at Alibaba’s scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in fine-tuned ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI &amp; Anthropic compatible.</p>
+<p>这是一个从阿里巴巴集团内部孵化出来的开源项目，历经两年多、服务的开发者数量级的生产验证，累计发现数百万个代码缺陷后开源给社区。项目用 Go 语言实现，核心哲学是：<strong>确定性工程做硬约束，LLM Agent 做动态决策</strong>，两者各司其职。</p>
+<h2 id="核心问题：通用-Agent-做代码评审的三大痛点"><a href="#核心问题：通用-Agent-做代码评审的三大痛点" class="headerlink" title="核心问题：通用 Agent 做代码评审的三大痛点"></a>核心问题：通用 Agent 做代码评审的三大痛点</h2><p>作者在 README 中直击痛点：</p>
+<ol>
+<li><strong>覆盖不全（Incomplete coverage）</strong> — 大规模 changeset 下，Agent “走捷径”，选择性忽略部分文件</li>
+<li><strong>位置漂移（Position drift）</strong> — 报告的问题和实际代码位置不匹配，行号或文件引用偏移</li>
+<li><strong>质量不稳定（Unstable quality）</strong> — 纯语言驱动的 Skills 难以调试，评审质量随 prompt 微调而大幅波动</li>
+</ol>
+<p>根因分析：<strong>纯语言驱动的架构缺乏对评审过程的硬约束</strong>。</p>
+<h2 id="核心架构：Deterministic-×-Agent-混合"><a href="#核心架构：Deterministic-×-Agent-混合" class="headerlink" title="核心架构：Deterministic × Agent 混合"></a>核心架构：Deterministic × Agent 混合</h2><p>这是整个项目最值得学习的架构设计思想：</p>
+<h3 id="确定性工程-—-硬约束"><a href="#确定性工程-—-硬约束" class="headerlink" title="确定性工程 — 硬约束"></a>确定性工程 — 硬约束</h3><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>精确文件选择</strong></td>
+<td>精确决定哪些文件需要评审、哪些需要过滤，确保不遗漏重要变更</td>
+</tr>
+<tr>
+<td><strong>智能文件打包</strong></td>
+<td>将关联文件打包成一个评审单元（如 <code>message_en.properties</code> + <code>message_zh.properties</code>），每个 bundle 作为独立子 Agent 运行，大规模 changeset 下稳定，支持并发评审</td>
+</tr>
+<tr>
+<td><strong>细粒度规则匹配</strong></td>
+<td>根据每个文件的特征匹配评审规则，保持模型注意力聚焦，从源头消除信息噪音</td>
+</tr>
+<tr>
+<td><strong>外部定位和反思模块</strong></td>
+<td>独立的评论定位（Re-location）+ 评论反思（Reflection）模块，系统性提升 AI 反馈的位置准确性和内容准确性</td>
+</tr>
+</tbody></table>
+<h3 id="Agent-—-动态决策"><a href="#Agent-—-动态决策" class="headerlink" title="Agent — 动态决策"></a>Agent — 动态决策</h3><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>场景化 Prompt 模板</strong></td>
+<td>针对代码评审深度优化的 Prompt 模板，提升有效性的同时降低 token 消耗</td>
+</tr>
+<tr>
+<td><strong>场景化工具集</strong></td>
+<td>从海量生产数据中提炼工具调用分布（调用频率、重复率、对调用链的影响），形成专属于代码评审的工具集，比通用 Agent 工具集更稳定可预测</td>
+</tr>
+</tbody></table>
+<h2 id="技术架构详解"><a href="#技术架构详解" class="headerlink" title="技术架构详解"></a>技术架构详解</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cmd/opencodereview/           # CLI 入口</span><br><span class="line">├── main.go                   # 程序入口</span><br><span class="line">├── config_cmd.go             # 配置命令</span><br><span class="line">├── review_cmd.go             # 评审命令（核心）</span><br><span class="line">├── provider_cmd.go           # LLM Provider 配置</span><br><span class="line">├── git.go                    # Git 操作封装</span><br><span class="line">└── output.go                 # 输出格式化</span><br><span class="line"></span><br><span class="line">internal/</span><br><span class="line">├── agent/                    # 🌟 核心 Agent 引擎</span><br><span class="line">│   └── agent.go              # Agent 主循环，Plan Phase + Main Loop</span><br><span class="line">├── diff/                     # Git Diff 解析</span><br><span class="line">│   ├── git.go                # Diff Provider（workspace/commit/range 三模式）</span><br><span class="line">│   ├── parser.go             # Diff 文本解析</span><br><span class="line">│   └── resolver.go           # 评论位置解析</span><br><span class="line">├── llm/                      # LLM 客户端抽象</span><br><span class="line">│   └── client.go             # 统一接口，支持 Anthropic Messages API + OpenAI Chat Completions API</span><br><span class="line">├── tool/                     # Agent 可调用的工具集</span><br><span class="line">│   ├── definitions.go         # 工具定义（TaskDone, CodeComment, FileRead, FileFind, CodeSearch 等）</span><br><span class="line">│   ├── file_read.go          # 文件读取工具</span><br><span class="line">│   ├── file_find.go          # 文件搜索工具</span><br><span class="line">│   └── code_search.go        # 代码搜索工具</span><br><span class="line">├── model/                    # 数据模型</span><br><span class="line">│   ├── diff.go               # Diff 模型</span><br><span class="line">│   └── review.go             # 评审结果模型</span><br><span class="line">├── config/rules/             # 内置规则集</span><br><span class="line">│   └── system_rules.go       # NPE、线程安全、XSS、SQL注入等规则</span><br><span class="line">├── session/                  # 会话历史</span><br><span class="line">│   └── history.go            # 会话记录，支持持久化</span><br><span class="line">└── telemetry/               # 可观测性</span><br><span class="line">    ├── metrics.go            # 指标收集</span><br><span class="line">    └── events.go             # 事件追踪</span><br></pre></td></tr></table></figure>
+
+<h3 id="Agent-执行流程（源码解析）"><a href="#Agent-执行流程（源码解析）" class="headerlink" title="Agent 执行流程（源码解析）"></a>Agent 执行流程（源码解析）</h3><p><code>internal/agent/agent.go</code> 中的 <code>Run()</code> 方法是整个评审流程的入口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *Agent)</span></span> Run(ctx context.Context) ([]model.LlmComment, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="comment">// Step 1: 解析 diffs（workspace / commit / range 三种模式）</span></span><br><span class="line">    <span class="keyword">if</span> err := a.loadDiffs(ctx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;load diffs: %w&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建只读的 DiffMap，供 LLM 查询关联文件的 diff</span></span><br><span class="line">    a.injectDiffMap()</span><br><span class="line">    a.args.Tools.Freeze()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按文件过滤（路径规则 + 扩展名规则）</span></span><br><span class="line">    a.diffs = a.filterDiffs(a.diffs)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 2: 并发分发每个文件的 subtask（Plan Phase + Main Loop）</span></span><br><span class="line">    comments, err := a.dispatchSubtasks(ctx)</span><br><span class="line">    <span class="keyword">return</span> comments, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>并发控制：</strong> 使用信号量限制并发数，默认 8 个 goroutine 并行评审多个文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sem := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, concurrency)</span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> a.diffs &#123;</span><br><span class="line">    wg.Add(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(d model.Diff)</span></span> &#123;</span><br><span class="line">        <span class="keyword">defer</span> wg.Done()</span><br><span class="line">        <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; &lt;-sem &#125;()</span><br><span class="line">        a.executeSubtask(fileCtx, d)</span><br><span class="line">    &#125;(a.diffs[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="双阶段评审：Plan-Phase-Main-Loop"><a href="#双阶段评审：Plan-Phase-Main-Loop" class="headerlink" title="双阶段评审：Plan Phase + Main Loop"></a>双阶段评审：Plan Phase + Main Loop</h3><p>每个文件都经历两个阶段：</p>
+<h4 id="Phase-1-Plan（计划阶段）"><a href="#Phase-1-Plan（计划阶段）" class="headerlink" title="Phase 1: Plan（计划阶段）"></a>Phase 1: Plan（计划阶段）</h4><p>仅当变更行数超过阈值时运行，作用是根据文件特征决定评审重点：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// executePlanPhase — 运行计划任务，给出评审指导</span></span><br><span class="line">planResult, err = a.executePlanPhase(ctx, newPath, d.Diff, changeFiles, rule)</span><br></pre></td></tr></table></figure>
+
+<p>计划结果通过 <code>&#123;&#123;plan_guidance&#125;&#125;</code> 占位符注入到主任务 Prompt 中。如果变更行数低于阈值则跳过此阶段。</p>
+<h4 id="Phase-2-Main-Loop（主循环）"><a href="#Phase-2-Main-Loop（主循环）" class="headerlink" title="Phase 2: Main Loop（主循环）"></a>Phase 2: Main Loop（主循环）</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// performLlmCodeReview — LLM 工具调用循环</span></span><br><span class="line"><span class="keyword">for</span> toolReqCount &gt; <span class="number">0</span> &#123;</span><br><span class="line">    resp, err := a.args.LLMClient.CompletionsWithCtx(ctx, llm.ChatRequest&#123;</span><br><span class="line">        Model:     a.args.Model,</span><br><span class="line">        Messages:  messages,</span><br><span class="line">        Tools:     a.args.MainToolDefs,</span><br><span class="line">        MaxTokens: a.args.Template.MaxTokens,</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    calls := resp.ToolCalls()</span><br><span class="line">    <span class="keyword">for</span> _, call := <span class="keyword">range</span> calls &#123;</span><br><span class="line">        cp := a.executeToolCall(ctx, newPath, call, rec)</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 添加 assistant 消息 + tool results 到对话历史</span></span><br><span class="line">    a.addNextMessage(ctx, content, calls, results, &amp;messages, newPath)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="工具集设计"><a href="#工具集设计" class="headerlink" title="工具集设计"></a>工具集设计</h3><p><code>internal/tool/definitions.go</code> 定义了 7 个核心工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>task_done</code></td>
+<td>通知 Agent 任务完成，退出循环</td>
+</tr>
+<tr>
+<td><code>code_comment</code></td>
+<td>生成代码评审意见（核心输出工具）</td>
+</tr>
+<tr>
+<td><code>file_read</code></td>
+<td>读取文件内容供分析</td>
+</tr>
+<tr>
+<td><code>file_find</code></td>
+<td>按条件查找文件</td>
+</tr>
+<tr>
+<td><code>file_read_diff</code></td>
+<td>读取关联文件的 diff</td>
+</tr>
+<tr>
+<td><code>code_search</code></td>
+<td>搜索代码模式</td>
+</tr>
+</tbody></table>
+<p><code>code_comment</code> 工具的执行流程（异步化设计）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// executeToolCall 中 code_comment 处理</span></span><br><span class="line"><span class="keyword">if</span> t == tool.CodeComment &#123;</span><br><span class="line">    <span class="comment">// Step 1: 解析评论</span></span><br><span class="line">    comments, errMsg := tool.ParseComments(args)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 2: 异步执行：解析 → 定位行号 → Re-location → 收集</span></span><br><span class="line">    <span class="keyword">if</span> a.args.CommentWorkerPool != <span class="literal">nil</span> &#123;</span><br><span class="line">        pool.Submit(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">            resolveAndCollect(asyncCtx)</span><br><span class="line">            <span class="keyword">return</span> []model.LlmComment&#123;&#125;, <span class="literal">nil</span></span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">return</span> tool.Of(tool.CommentSucceed) <span class="comment">// 非阻塞返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    resolveAndCollect(ctx) <span class="comment">// 同步路径</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="评论定位（Re-location）机制"><a href="#评论定位（Re-location）机制" class="headerlink" title="评论定位（Re-location）机制"></a>评论定位（Re-location）机制</h3><p>这是解决”位置漂移”问题的关键。当评论行号与实际 diff 不匹配时：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// diff/resolver.go — ReLocateComment</span></span><br><span class="line"><span class="comment">// 独立 LLM 调用重新定位评论到正确的代码位置</span></span><br><span class="line">_, resp, msgs := diff.ReLocateComment(rctx, cm, d, a.args.LLMClient,</span><br><span class="line">    a.args.Template.ReLocationTask, a.args.Model, a.args.Template.MaxTokens)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Review-Filter（评审过滤器）"><a href="#Review-Filter（评审过滤器）" class="headerlink" title="Review Filter（评审过滤器）"></a>Review Filter（评审过滤器）</h3><p>主循环结束后，还有一个 REVIEW_FILTER_TASK 阶段，用一个专门的 LLM 调用移除”明显错误”的评论：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// executeReviewFilter — 用额外 LLM 调用过滤误报评论</span></span><br><span class="line">indices := parseFilterResponse(resp.Content(), <span class="built_in">len</span>(comments))</span><br><span class="line">a.args.CommentCollector.RemoveByPathAndIndices(newPath, indices)</span><br></pre></td></tr></table></figure>
+
+<h3 id="内存压缩（Memory-Compression）"><a href="#内存压缩（Memory-Compression）" class="headerlink" title="内存压缩（Memory Compression）"></a>内存压缩（Memory Compression）</h3><p>当对话历史超过 token 阈值时，Agent 会自动压缩历史消息（类比 Claude 的 Memory 功能）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 双阈值压缩策略</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    tokenSoftThreshold    = <span class="number">0.60</span>  <span class="comment">// 60%: 触发异步背景压缩</span></span><br><span class="line">    tokenWarningThreshold = <span class="number">0.80</span>  <span class="comment">// 80%: 同步压缩</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>压缩策略将消息分为三层：</p>
+<ul>
+<li><strong>Frozen zone</strong> — 始终保留的前 2 条消息</li>
+<li><strong>Compress zone</strong> — 被压缩的中间轮次，由 LLM 总结</li>
+<li><strong>Active zone</strong> — 最近 K 轮完整保留</li>
+</ul>
+<h3 id="Diff-解析（三模式）"><a href="#Diff-解析（三模式）" class="headerlink" title="Diff 解析（三模式）"></a>Diff 解析（三模式）</h3><p><code>internal/diff/git.go</code> 支持三种 Diff 获取方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Mode <span class="type">int</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    ModeWorkspace Mode = <span class="literal">iota</span>  <span class="comment">// 当前工作区（staged + unstaged + untracked）</span></span><br><span class="line">    ModeCommit                  <span class="comment">// 单个 commit vs 其 parent</span></span><br><span class="line">    ModeRange                   <span class="comment">// merge-base(from)..to</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>未跟踪文件（untracked）的处理：读取文件内容，构造人工 diff 格式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sb.WriteString(fmt.Sprintf(<span class="string">&quot;diff --git a/%s b/%s\n&quot;</span>, f, f))</span><br><span class="line">sb.WriteString(<span class="string">&quot;--- /dev/null\n&quot;</span>)</span><br><span class="line">sb.WriteString(fmt.Sprintf(<span class="string">&quot;+++ b/%s\n&quot;</span>, f))</span><br><span class="line">sb.WriteString(fmt.Sprintf(<span class="string">&quot;@@ -0,0 +1,%d @@\n&quot;</span>, lineCount))</span><br></pre></td></tr></table></figure>
+
+<h2 id="内置规则集"><a href="#内置规则集" class="headerlink" title="内置规则集"></a>内置规则集</h2><p><code>internal/config/rules/system_rules.go</code> 包含阿里巴巴积累的代码规范规则，覆盖：</p>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>适用语言</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NPE（空指针）</td>
+<td>Java, Kotlin</td>
+</tr>
+<tr>
+<td>线程安全</td>
+<td>Java, C++</td>
+</tr>
+<tr>
+<td>XSS 防护</td>
+<td>JavaScript, TypeScript</td>
+</tr>
+<tr>
+<td>SQL 注入</td>
+<td>Java, Python</td>
+</tr>
+<tr>
+<td>安全配置</td>
+<td>properties, yaml</td>
+</tr>
+<tr>
+<td>构建配置</td>
+<td>pom.xml, build.gradle</td>
+</tr>
+</tbody></table>
+<p>规则以模板形式嵌入 Prompt，通过 <code>&#123;&#123;system_rule&#125;&#125;</code> 占位符注入。</p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><h3 id="CLI-快速上手"><a href="#CLI-快速上手" class="headerlink" title="CLI 快速上手"></a>CLI 快速上手</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">npm install -g @alibaba-group/open-code-review</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 LLM（Anthropic 为例）</span></span><br><span class="line">ocr config <span class="built_in">set</span> llm.url https://api.anthropic.com/v1/messages</span><br><span class="line">ocr config <span class="built_in">set</span> llm.auth_token sk-ant-xxxx</span><br><span class="line">ocr config <span class="built_in">set</span> llm.model claude-opus-4-6</span><br><span class="line">ocr config <span class="built_in">set</span> llm.use_anthropic <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试连接</span></span><br><span class="line">ocr llm <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 评审（工作区模式）</span></span><br><span class="line"><span class="built_in">cd</span> your-project &amp;&amp; ocr review</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分支对比模式</span></span><br><span class="line">ocr review --from main --to feature-branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 单 commit 模式</span></span><br><span class="line">ocr review --commit abc123</span><br></pre></td></tr></table></figure>
+
+<h3 id="与-Coding-Agent-集成"><a href="#与-Coding-Agent-集成" class="headerlink" title="与 Coding Agent 集成"></a>与 Coding Agent 集成</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 作为 Claude Code Skill 安装</span></span><br><span class="line">npx skills add alibaba/open-code-review --skill open-code-review</span><br></pre></td></tr></table></figure>
+
+<h2 id="架构亮点总结"><a href="#架构亮点总结" class="headerlink" title="架构亮点总结"></a>架构亮点总结</h2><ol>
+<li><p><strong>混合架构思想</strong>：不是把所有事情都交给 LLM，而是用确定性工程保证”不能出错的事情一定不会出错”，用 Agent 处理”需要灵活判断的事情”。这是对”全 AI 方案”的一种理性反思。</p>
+</li>
+<li><p><strong>文件打包策略（Smart Bundling）</strong>：将关联文件打包评审，避免大 changeset 下的覆盖不全问题，同时天然支持并发。</p>
+</li>
+<li><p><strong>评论定位独立模块</strong>：Re-location 是一个独立模块，不是让主 Agent 顺手解决，而是专门用一次 LLM 调用处理位置修正——这体现了对”单一职责”的坚持。</p>
+</li>
+<li><p><strong>异步 Comment Worker Pool</strong>：<code>code_comment</code> 工具的执行是异步的，不阻塞主循环，让 Agent 可以继续进行下一轮 LLM 调用，整体延迟更低。</p>
+</li>
+<li><p><strong>双阈值内存压缩</strong>：60% soft &#x2F; 80% warning，既避免频繁压缩，又保证不会超限。</p>
+</li>
+<li><p><strong>生产级验证</strong>：不是纸上谈兵，而是服务了阿里内部数万开发者、发现数百万代码缺陷后开源的，质量有保证。</p>
+</li>
+</ol>
+<hr>
+<p><em>项目链接：<a target="_blank" rel="noopener" href="https://github.com/alibaba/open-code-review">https://github.com/alibaba/open-code-review</a> | 许可证：Apache-2.0</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io">jolly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jollyfly.github.io/2026/06/14/daily-project-055-open-code-review/">https://jollyfly.github.io/2026/06/14/daily-project-055-open-code-review/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jollyfly.github.io" target="_blank">jolly的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/AI-Agent/">AI Agent</a><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">代码评审</a><a class="post-meta__tags" href="/tags/%E9%98%BF%E9%87%8C/">阿里</a><a class="post-meta__tags" href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>请虾球喝杯咖啡吧</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/images/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/images/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/15/algorithm-062-dp/" title="算法剖析⑩ | 搜索回溯与动态规划"><img class="cover" src="/images/covers/algo-062.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">算法剖析⑩ | 搜索回溯与动态规划</div></div><div class="info-2"><div class="info-item-1">本章解决的问题   # 题号 题目 难度 分类    1 LC22 括号生成 🟡 中等 回溯   2 LC39 组合总和 🟡 中等 回溯   3 LC62 不同路径 🟡 中等 DP   4 LC78 子集 🟡 中等 回溯   5 LC322 零钱兑换 🟡 中等 DP   DP解题框架 LC22 括号生成难度： 🟡 中等　分类： 回溯　复杂度： — 暴力解回溯剪枝 O(C₂ₙ)：左&#x2F;右括号数量不超过n，右括号数不超过左括号。 关键点：递归树深度为2n，每条路径代表一种括号组合。 优化解关键点： 递归树深度为2n，每条路径代表一种括号组合。  LC39 组合总和难度： 🟡 中等　分类： 回溯　复杂度： — 暴力解回溯+排序剪枝 O(n²)：可重复选取，排序后剪枝。 关键点：排序后 nums[i]&gt;remain 可直接break，避免无效搜索。 优化解关键点： 排序后 nums[i]&gt;remain 可直接break，避免无效搜索。  LC62 不同路径难度： 🟡 中等　分类： DP　复杂度： — 暴力解一维DP O(mn)：dp[j] 表示当前行第...</div></div></div></a><a class="pagination-related" href="/2026/06/14/algorithm-061-%E9%93%BE%E8%A1%A8/" title="算法剖析⑩ | 链表与双指针"><img class="cover" src="/images/covers/algo-061.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">算法剖析⑩ | 链表与双指针</div></div><div class="info-2"><div class="info-item-1">本章解决的问题   # 题号 题目 难度 分类    1 LC2 两数相加 🟡 中等 链表   2 LC19 删除链表的倒数第N个结点 🟡 中等 双指针   3 LC21 合并两个有序链表 🟢 简单 链表   4 LC141 环形链表 🟢 简单 双指针   5 LC234 回文链表 🟡 中等 双指针   链表解题框架 LC2 两数相加难度： 🟡 中等　分类： 链表　复杂度： — 暴力解逐位相加 O(max(n,m))：新建dummy头节点，处理进位。 关键点：dummy节点统一处理，头节点不需特殊判断。 优化解关键点： dummy节点统一处理，头节点不需特殊判断。  LC19 删除链表的倒数第N个结点难度： 🟡 中等　分类： 双指针　复杂度： — 暴力解快慢指针 O(n)：让快指针先走N步，再同步前进。 关键点：dummy解决删除头节点的边界问题，快指针多走n+1步保持间距。 优化解关键点： dummy解决删除头节点的边界问题，快指针多走n+1步保持间距。  LC21 合并两个有序链表难度： 🟢 简单　分类： 链表　复杂度： — 暴力解双指针合并 O(n+m)：新...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/daily-project-053-larksuite-cli/" title="每日一项目 053 | larksuite&#x2F;cli：飞书官方 CLI 工具，200+ 命令支持 AI Agent 全套操作"><img class="cover" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">每日一项目 053 | larksuite&#x2F;cli：飞书官方 CLI 工具，200+ 命令支持 AI Agent 全套操作</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 larksuite&#x2F;cli   地址 github.com&#x2F;larksuite&#x2F;cli   语言 Go   Stars 7,436   Forks 460   创建时间 2026-03-25（距今仅 18 天）   许可证 MIT   维护方 larksuite 官方团队   项目描述： The official Lark&#x2F;Feishu CLI tool — 覆盖飞书&#x2F; Lark 13 个业务域、200+ 命令、21 个 AI Agent Skills，支持 AI Agent 零配置接入飞书全部能力。  为什么值得关注飞书（Lark）是字节跳动旗下的企业协作平台，在国内很多公司广泛使用。但此前飞书官方一直没有提供完整的 CLI 工具，开发者只能通过 REST API 手撸调用链路。 larksuite/cli 是飞书官方团队在 2026 年 3 月底开源的 CLI 项目，上线 18 天即斩获 7.4k stars，增长迅猛。它的核心亮点：  AI Agent 原生设计：21 个结构化 Skil...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-016-tradingagents-cn/" title="TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架"><img class="cover" src="/images/covers/photo-1611974789855-9c2a0a7236a3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">TradingAgents-CN：基于多智能体 LLM 的中文金融交易框架</div></div><div class="info-2"><div class="info-item-1">项目概览TradingAgents-CN（hsliuping&#x2F;TradingAgents-CN）是 TradingAgents 项目的中文增强分支，基于多智能体 LLM 架构，专门针对中文金融市场进行深度优化。该项目利用大语言模型的推理与规划能力，构建了一套从市场分析、信号生成到交易执行的全链路自动化交易系统。 核心特性：  🌐 原生中文支持：数据源、Prompt、报告输出全面中文适配 🤖 多智能体协作：Researcher、Analyst、Trader 多角色分工明确 📊 多市场覆盖：A 股、港股、美股数据源均有对应接入方案 🔧 模块化设计：各组件解耦，便于二次开发和策略替换 🛡️ 风控层内置：内置止损、仓位管理、风险预算模块   与原版 TradingAgents 对比   维度 原版 TradingAgents TradingAgents-CN    数据源 Yahoo Finance &#x2F; Alpha Vantage（美股为主） Tushare &#x2F; AKShare &#x2F; 聚宽（A股&#x2F;港股）   Prompt 语言 英...</div></div></div></a><a class="pagination-related" href="/2026/03/25/daily-project-030-autoresearch/" title="daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM"><img class="cover" src="/images/covers/picsum-neural-deeplearning.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="info-item-2">daily project | AutoResearch 让 AI Agent 在单 GPU 上自主跑实验调优 LLM</div></div><div class="info-2"><div class="info-item-1">项目概览AutoResearch（karpathy&#x2F;autoresearch）是深度学习泰斗 Andrej Karpathy 开源的一个极简 autonomous AI research 实验框架。核心思想简单而有力：给 AI Agent 一个真实可运行的单 GPU LLM 训练环境，让它在夜里自主调参、训练、评估，早上你来收实验报告。 ⭐ 54,584 GitHub Stars | 单文件 agent 修改 | 5 分钟固定时间预算 | 纯 PyTorch 实现 Karpathy 本人在 2026 年 3 月的访谈中坦言自己”大概从 12 月开始就没手动写过一行代码了”，AutoResearch 正是他展示这一范式的技术载体——把科研人员从调参炼丹的体力活中彻底解放出来。  核心特性1. 极简双文件架构整个 repo 只包含三个真正重要的文件，设计上刻意保持最小化：    文件 职责 谁修改    prepare.py 数据下载、BPE Tokenizer 训练、DataLoader、评估工具 固定不变   train.py GPT 模型定义 + Muon+AdamW...</div></div></div></a><a class="pagination-related" href="/2026/03/30/daily-project-040-vibevoice/" title="daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）"><img class="cover" src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-30</div><div class="info-item-2">daily project | Microsoft VibeVoice：开源前沿语音AI全家桶（ASR+TTS+实时语音）</div></div><div class="info-2"><div class="info-item-1">项目概览VibeVoice（microsoft&#x2F;VibeVoice）是微软开源的前沿语音AI全家桶，包含了三大核心模型：    模型 参数量 功能 特点    VibeVoice-ASR-7B 7B 语音识别 60分钟长音频单遍处理、50+语言、说话人分离、时间戳   VibeVoice-TTS-1.5B 1.5B 语音合成 90分钟长文本合成、4人对话、情感表达（已下架）   VibeVoice-Realtime-0.5B 0.5B 实时TTS 流式输入、~300ms首音频延迟、部署友好   ⭐ 28,529 GitHub Stars | 今日 2,509 stars | 2026-03-30 GitHub Trending #1 核心技术亮点： 采用连续语音分词器（Acoustic&#x2F;Semantic Tokenizer）工作于超低帧率 7.5 Hz，结合 Next-Token Diffusion 框架和 LLM（如 Qwen2.5），在显著提升计算效率的同时保持高保真音频输出。  ⚠️ 注意： VibeVoice-TTS 代码已于 2025年9月从仓库移除...</div></div></div></a><a class="pagination-related" href="/2026/03/23/daily-project-015-lightrag/" title="LightRAG：简单高效的检索增强生成系统"><img class="cover" src="/images/covers/photo-1633356122102-3fe601e05bd2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="info-item-2">LightRAG：简单高效的检索增强生成系统</div></div><div class="info-2"><div class="info-item-1">LightRAG：简单高效的检索增强生成系统📌 项目概览   属性 信息    项目名称 LightRAG   仓库地址 HKUDS&#x2F;LightRAG   论文 EMNLP2025   语言 Python   Stars 趋势上升中   机构 香港大学 (HKU)   LightRAG 是香港大学研究团队在 EMNLP 2025 发表的一种轻量级检索增强生成（Retrieval-Augmented Generation）框架。其核心主张：简单 + 快速——通过简化传统 RAG  pipeline 的多个环节，在保证答案质量的同时显著提升推理效率。 传统 RAG 系统往往需要复杂的向量数据库、多次检索轮次、冗长的上下文窗口管理。LightRAG 另辟蹊径，用更少的计算资源交出更好的答卷。  🔄 RAG vs LightRAG：核心差异传统 RAG 的痛点12345用户问题 → 向量检索 → Top-K 文档 → 拼接上下文 → LLM 生成                                      ↑                          ...</div></div></div></a><a class="pagination-related" href="/2026/05/01/daily-project-openmythos/" title="OpenMythos：Claude Mythos 架构的开源理论复现"><img class="cover" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-01</div><div class="info-item-2">OpenMythos：Claude Mythos 架构的开源理论复现</div></div><div class="info-2"><div class="info-item-1">项目概览   项目 信息    名称 OpenMythos   地址 kyegomez&#x2F;OpenMythos   语言 Python   Stars 11,277   Forks 2,535   License MIT   项目描述： A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature. 基于公开研究与推测，对 Claude Mythos 模型架构的理论复现实现。 核心特性Recurrent-Depth Transformer（RDT）架构OpenMythos 假设 Claude Mythos 采用的是循环深度 Transformer（Recurrent-Depth Transformer），即 Looped Transformer。核心思想是：并非堆叠数百个独立层，而是让一部分层在单次前向传播中循环使用多次。相同权重，更多循环，更深思考。 三阶段架构12345...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/22720039?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jolly</div><div class="author-info-description">真正的大师永远怀着一颗学徒的心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">112</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">174</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">项目概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98%EF%BC%9A%E9%80%9A%E7%94%A8-Agent-%E5%81%9A%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1%E7%9A%84%E4%B8%89%E5%A4%A7%E7%97%9B%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">核心问题：通用 Agent 做代码评审的三大痛点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84%EF%BC%9ADeterministic-%C3%97-Agent-%E6%B7%B7%E5%90%88"><span class="toc-number">3.</span> <span class="toc-text">核心架构：Deterministic × Agent 混合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E6%80%A7%E5%B7%A5%E7%A8%8B-%E2%80%94-%E7%A1%AC%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.1.</span> <span class="toc-text">确定性工程 — 硬约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Agent-%E2%80%94-%E5%8A%A8%E6%80%81%E5%86%B3%E7%AD%96"><span class="toc-number">3.2.</span> <span class="toc-text">Agent — 动态决策</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">技术架构详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Agent-%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%88%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">Agent 执行流程（源码解析）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E9%98%B6%E6%AE%B5%E8%AF%84%E5%AE%A1%EF%BC%9APlan-Phase-Main-Loop"><span class="toc-number">4.3.</span> <span class="toc-text">双阶段评审：Plan Phase + Main Loop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Phase-1-Plan%EF%BC%88%E8%AE%A1%E5%88%92%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="toc-number">4.3.1.</span> <span class="toc-text">Phase 1: Plan（计划阶段）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Phase-2-Main-Loop%EF%BC%88%E4%B8%BB%E5%BE%AA%E7%8E%AF%EF%BC%89"><span class="toc-number">4.3.2.</span> <span class="toc-text">Phase 2: Main Loop（主循环）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E9%9B%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.4.</span> <span class="toc-text">工具集设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E8%AE%BA%E5%AE%9A%E4%BD%8D%EF%BC%88Re-location%EF%BC%89%E6%9C%BA%E5%88%B6"><span class="toc-number">4.5.</span> <span class="toc-text">评论定位（Re-location）机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Review-Filter%EF%BC%88%E8%AF%84%E5%AE%A1%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%89"><span class="toc-number">4.6.</span> <span class="toc-text">Review Filter（评审过滤器）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8E%8B%E7%BC%A9%EF%BC%88Memory-Compression%EF%BC%89"><span class="toc-number">4.7.</span> <span class="toc-text">内存压缩（Memory Compression）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Diff-%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%89%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="toc-number">4.8.</span> <span class="toc-text">Diff 解析（三模式）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E8%A7%84%E5%88%99%E9%9B%86"><span class="toc-number">5.</span> <span class="toc-text">内置规则集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">使用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CLI-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-number">6.1.</span> <span class="toc-text">CLI 快速上手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E-Coding-Agent-%E9%9B%86%E6%88%90"><span class="toc-number">6.2.</span> <span class="toc-text">与 Coding Agent 集成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E4%BA%AE%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">架构亮点总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/15/algorithm-062-dp/" title="算法剖析⑩ | 搜索回溯与动态规划"><img src="/images/covers/algo-062.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑩ | 搜索回溯与动态规划"/></a><div class="content"><a class="title" href="/2026/06/15/algorithm-062-dp/" title="算法剖析⑩ | 搜索回溯与动态规划">算法剖析⑩ | 搜索回溯与动态规划</a><time datetime="2026-06-15T04:00:00.000Z" title="发表于 2026-06-15 12:00:00">2026-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/14/daily-project-055-open-code-review/" title="open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践"/></a><div class="content"><a class="title" href="/2026/06/14/daily-project-055-open-code-review/" title="open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践">open-code-review：阿里开源 AI 代码评审 Agent — 混合架构设计与确定性工程实践</a><time datetime="2026-06-14T12:00:00.000Z" title="发表于 2026-06-14 20:00:00">2026-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/14/algorithm-061-%E9%93%BE%E8%A1%A8/" title="算法剖析⑩ | 链表与双指针"><img src="/images/covers/algo-061.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑩ | 链表与双指针"/></a><div class="content"><a class="title" href="/2026/06/14/algorithm-061-%E9%93%BE%E8%A1%A8/" title="算法剖析⑩ | 链表与双指针">算法剖析⑩ | 链表与双指针</a><time datetime="2026-06-14T04:00:00.000Z" title="发表于 2026-06-14 12:00:00">2026-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/13/algorithm-060-dp/" title="算法剖析⑩ | 搜索回溯与动态规划"><img src="/images/covers/algo-060.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑩ | 搜索回溯与动态规划"/></a><div class="content"><a class="title" href="/2026/06/13/algorithm-060-dp/" title="算法剖析⑩ | 搜索回溯与动态规划">算法剖析⑩ | 搜索回溯与动态规划</a><time datetime="2026-06-13T04:00:00.000Z" title="发表于 2026-06-13 12:00:00">2026-06-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/12/algorithm-059-dp/" title="算法剖析⑩ | 搜索回溯与动态规划"><img src="/images/covers/algo-059.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法剖析⑩ | 搜索回溯与动态规划"/></a><div class="content"><a class="title" href="/2026/06/12/algorithm-059-dp/" title="算法剖析⑩ | 搜索回溯与动态规划">算法剖析⑩ | 搜索回溯与动态规划</a><time datetime="2026-06-12T04:00:00.000Z" title="发表于 2026-06-12 12:00:00">2026-06-12</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By jolly</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"distraction_free_mode":true}
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23libzMYtaTqyJdXyR',
+      clientSecret: '3b5f54f895291cff7c5d7de39e761b6f7869d437',
+      repo: 'jollyfly.github.io',
+      owner: 'jollyfly',
+      admin: ['jollyfly'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '677ed9be873dce8cc011c3977e3f3e4c'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,139" opacity="0.8" zIndex="-1" count="80" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
